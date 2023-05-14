@@ -14,9 +14,8 @@ import * as Yup from 'yup'
 import useAuth from 'utils/hooks/useAuth'
 
 const validationSchema = Yup.object().shape({
-    userName: Yup.string().required('Please enter your user name'),
-    password: Yup.string().required('Please enter your password'),
-    rememberMe: Yup.bool(),
+    email: Yup.string().required('email'),
+    password: Yup.string().required('password'),
 })
 
 const SignInForm = (props) => {
@@ -32,12 +31,12 @@ const SignInForm = (props) => {
     const { signIn } = useAuth()
 
     const onSignIn = async (values, setSubmitting) => {
-        const { userName, password } = values
+        const { email, password } = values
         setSubmitting(true)
 
-        const result = await signIn({ userName, password })
+        const result = await signIn({ email, password })
 
-        if (result.status === 'failed') {
+        if (!result?.user?.userID) {
             setMessage(result.message)
         }
 
@@ -53,9 +52,8 @@ const SignInForm = (props) => {
             )}
             <Formik
                 initialValues={{
-                    userName: 'admin',
-                    password: '123Qwe',
-                    rememberMe: true,
+                    email: 'g.b@gmail.com',
+                    password: '11111',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -70,20 +68,20 @@ const SignInForm = (props) => {
                     <Form>
                         <FormContainer>
                             <FormItem
-                                label="User Name"
-                                invalid={errors.userName && touched.userName}
-                                errorMessage={errors.userName}
+                                label="ელ-ფოსტა"
+                                invalid={errors.email && touched.email}
+                                errorMessage={errors.email}
                             >
                                 <Field
-                                    type="text"
+                                    type="email"
                                     autoComplete="off"
-                                    name="userName"
-                                    placeholder="User Name"
+                                    name="email"
+                                    placeholder="email"
                                     component={Input}
                                 />
                             </FormItem>
                             <FormItem
-                                label="Password"
+                                label="პაროლი"
                                 invalid={errors.password && touched.password}
                                 errorMessage={errors.password}
                             >

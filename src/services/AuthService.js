@@ -1,11 +1,34 @@
 import ApiService from './ApiService'
+import jwtDecode from 'jwt-decode';
+
+//change before production 
+const API = 'http://localhost:3000';
+
+// export async function apiSignIn(data) {
+//     return ApiService.fetchData({
+//         url: '/sign-in',
+//         method: 'post',
+//         data,
+//     })
+// }
 
 export async function apiSignIn(data) {
-    return ApiService.fetchData({
-        url: '/sign-in',
-        method: 'post',
-        data,
-    })
+    const response = await fetch(`${API}/users/login/user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const jsonData = await response.json(); // Wait for the response body to be parsed as JSON
+    const decodedToken = jwtDecode(jsonData.access_token);
+    // const result = getUserById(decodedToken.userID)
+    const res = {
+        user: decodedToken,
+        token: jsonData.access_token
+    };
+    return res;
 }
 
 export async function apiSignUp(data) {

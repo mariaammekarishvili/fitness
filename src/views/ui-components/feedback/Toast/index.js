@@ -26,7 +26,7 @@ const demos = [
         mdPath: mdPath,
         title: 'Notification',
         desc: `Notification pop up with toast`,
-        component: <Notification />,
+        component: {/* <Notification /> */},
     },
     {
         mdName: 'NotificationType',

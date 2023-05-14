@@ -19,13 +19,20 @@ function useAuth() {
     const signIn = async (values) => {
         try {
             const resp = await apiSignIn(values)
-            if (resp.data) {
-                const { token } = resp.data
-                dispatch(onSignInSuccess(token))
-                if (resp.data.user) {
+            if (resp?.token) {
+                // const {token} = resp?.token
+                dispatch(onSignInSuccess(resp?.token))
+                if (resp.user.userID) {
+                    console.log('i am here');
                     dispatch(
                         setUser(
-                            resp.data.user || {
+                            {
+                                avatar: '',
+                                userName: resp.user.firstname,
+                                //change
+                                authority: resp.user.role,
+                                email: resp.user.email,
+                            } || {
                                 avatar: '',
                                 userName: 'Anonymous',
                                 authority: ['USER'],
@@ -35,6 +42,7 @@ function useAuth() {
                     )
                 }
                 const redirectUrl = query.get(REDIRECT_URL_KEY)
+                console.log('qry:', redirectUrl)
                 navigate(
                     redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath
                 )
