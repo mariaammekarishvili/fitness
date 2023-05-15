@@ -15,9 +15,17 @@ export async function apiGetCrmCalendar() {
     })
 }
 
-export async function apiGetCrmCustomers(data) {
+export async function apiGetCrmCustomers() {
     return ApiService.fetchData({
         url: '/crm/customers',
+        method: 'post',
+        // data,
+    })
+}
+
+export async function createNewCostumer({data,userId}) {
+    return ApiService.fetchData({
+        url: `/customers/register/${userId}`,
         method: 'post',
         data,
     })

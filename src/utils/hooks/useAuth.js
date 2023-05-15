@@ -20,7 +20,6 @@ function useAuth() {
         try {
             const resp = await apiSignIn(values)
             if (resp?.token) {
-                // const {token} = resp?.token
                 dispatch(onSignInSuccess(resp?.token))
                 if (resp.user.userID) {
                     console.log('i am here');
@@ -30,8 +29,9 @@ function useAuth() {
                                 avatar: '',
                                 userName: resp.user.firstname,
                                 //change
-                                authority: resp.user.role,
+                                authority: [resp.user.role],
                                 email: resp.user.email,
+                                userId: resp?.user?.userID,
                             } || {
                                 avatar: '',
                                 userName: 'Anonymous',

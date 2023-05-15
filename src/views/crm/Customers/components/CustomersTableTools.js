@@ -1,10 +1,11 @@
-import React, { useRef } from 'react'
-import { Button } from 'components/ui'
+import React, { useRef, useState } from 'react'
+import { Button, Dialog } from 'components/ui'
 import { getCustomers, setTableData, setFilterData } from '../store/dataSlice'
 import CustomerTableSearch from './CustomerTableSearch'
 import CustomerTableFilter from './CustomerTableFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
+import CreateForm from './CreateForm'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -39,6 +40,22 @@ const CustomersTableTools = () => {
         fetchData(newTableData)
     }
 
+    const [dialogIsOpen, setIsOpen] = useState(false)
+
+    const openDialog = () => {
+        setIsOpen(true)
+    }
+
+    const onDialogClose = (e) => {
+        console.log('onDialogClose', e)
+        setIsOpen(false)
+    }
+
+    const onDialogOk = (e) => {
+        console.log('onDialogOk', e)
+        setIsOpen(false)
+    }
+
     return (
         <div className="md:flex items-center justify-between">
             <div className="md:flex items-center gap-4">
@@ -52,6 +69,19 @@ const CustomersTableTools = () => {
                 <Button size="sm" onClick={onClearAll}>
                     Clear All
                 </Button>
+                <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
+                    + დამატება
+                </Button>
+                <Dialog
+                    isOpen={dialogIsOpen}
+                    onClose={onDialogClose}
+                    onRequestClose={onDialogClose}
+                >
+                    <div className='add-form-div'>
+                        <CreateForm />
+                    </div>
+
+                </Dialog>
             </div>
         </div>
     )

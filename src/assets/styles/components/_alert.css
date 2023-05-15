@@ -1,2 +1,9 @@
-.alert {
+.alert {}
+
+.add-form-div {
+    max-height: 90%;
+    height: 700px;
+    overflow-y: auto;
+    margin-right: -22px;
+
 }

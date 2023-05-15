@@ -43,15 +43,6 @@ const appsRoute = [
         authority: [ADMIN, USER],
     },
     {
-        key: 'appsCrm.customers',
-        path: `${APP_PREFIX_PATH}/crm/customers`,
-        component: React.lazy(() => import('views/crm/Customers')),
-        authority: [ADMIN, USER],
-        meta: {
-            header: 'Customers',
-        },
-    },
-    {
         key: 'appsCrm.customerDetails',
         path: `${APP_PREFIX_PATH}/crm/customer-details`,
         component: React.lazy(() => import('views/crm/CustomerDetail')),
@@ -70,6 +61,53 @@ const appsRoute = [
             pageContainerType: 'gutterless',
             footer: false,
         },
+    },
+    {
+        key: 'appsCrm.customers',
+        path: `${APP_PREFIX_PATH}/crm/customers`,
+        component: React.lazy(() => import('views/crm/Customers')),
+        authority: [ADMIN, USER],
+        meta: {
+            header: 'მომხმარებლები',
+        },
+    },{
+        key: 'appsCrm.staff',
+        path: `${APP_PREFIX_PATH}/crm/staff`,
+        component: React.lazy(() => import('views/crm/Customers')),
+        authority: [ADMIN],
+        meta: {
+            header: 'თანამშრომლები',
+        },
+    },
+    {
+        key: 'appsCrm.trainer',
+        path: `${APP_PREFIX_PATH}/crm/trainer`,
+        component: React.lazy(() => import('views/crm/Customers')),
+        authority: [ADMIN, USER],
+        meta: {
+            header: 'ტრენერები',
+        },
+    },
+    {
+        key: 'appsCrm.workout',
+        path: `${APP_PREFIX_PATH}/crm/workout`,
+        component: React.lazy(() => import('views/crm/Customers')),
+        authority: [ADMIN, USER],
+        meta: {
+            header: 'სავარჯიშო ჯგუფები',
+            // headerContainer: true,
+        },
+    },
+    {
+        key: 'appsCrm.aboniments',
+        path: `${APP_PREFIX_PATH}/crm/aboniments`,
+        component: React.lazy(() => import('views/crm/Customers')),
+        authority: [ADMIN, USER],
+        meta: {
+            header: 'აბონიმენტები',
+            // headerContainer: true,
+        },
+        // <---
     },
     {
         key: 'appsCrm.mail',
