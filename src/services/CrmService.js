@@ -15,22 +15,50 @@ export async function apiGetCrmCalendar() {
     })
 }
 
-export async function apiGetCrmCustomers() {
+export async function apiGetCrmCustomers({companyId}) {
     return ApiService.fetchData({
-        url: '/crm/customers',
-        method: 'post',
+        url: `/crm/customers/list/${companyId}`,
+        method: 'get',
         // data,
     })
 }
 
-export async function createNewCostumer({data,userId}) {
-    return ApiService.fetchData({
-        url: `/customers/register/${userId}`,
-        method: 'post',
-        data,
-    })
-}
+// export async function createNewCustomer({data,companyId}) {
+//     return ApiService.fetchData({
+//         url: `/customers/register/${companyId}`,
+//         method: 'post',
+//         data,
+//     })
+// }
+const API = 'http://localhost:3000';
 
+export async function createNewCustomer({ data, companyId }, token) {
+  try {
+    const response = await fetch(`${API}/customers/register/${companyId}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response.status);
+      if (response.status) {
+        throw new Error('იუზერი უკვე არსებობს');
+      } else {
+        throw new Error('შექმნისას წარმოიქმნა პრობლემა');
+      }
+    }
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    throw error;
+  }
+}
 export async function apiGetCrmCustomersStatistic(params) {
     return ApiService.fetchData({
         url: '/crm/customers-statistic',
