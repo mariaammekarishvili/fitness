@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { Button, Dialog } from 'components/ui'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Dialog, Alert } from 'components/ui'
 import { getCustomers, setTableData, setFilterData } from '../store/dataSlice'
 import CustomerTableSearch from './CustomerTableSearch'
 import CustomerTableFilter from './CustomerTableFilter'
@@ -55,6 +55,18 @@ const CustomersTableTools = () => {
         console.log('onDialogOk', e)
         setIsOpen(false)
     }
+    const [message, setMessage] = useState('')
+
+    useEffect(() => {
+        if (message) {
+            const timeout = setTimeout(() => {
+                setMessage('');
+                setIsOpen(false)
+            }, 5000);
+            // Clean up the timeout when the component unmounts or when the effect is re-triggered
+            return () => clearTimeout(timeout);
+        }
+    }, [message])
 
     return (
         <div className="md:flex items-center justify-between">
@@ -65,23 +77,31 @@ const CustomersTableTools = () => {
                 />
                 <CustomerTableFilter />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 flex">
                 <Button size="sm" onClick={onClearAll}>
                     Clear All
                 </Button>
-                <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
-                    + დამატება
-                </Button>
+                <div style={{ marginLeft: '10px' }}>
+                    <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
+                        + დამატება
+                    </Button>
+                </div>
                 <Dialog
                     isOpen={dialogIsOpen}
                     onClose={onDialogClose}
                     onRequestClose={onDialogClose}
                 >
                     <div className='add-form-div'>
-                        <CreateForm />
+                        <CreateForm setMessage={setMessage} message={message} />
                     </div>
-
+                    {message && (
+                        <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
+                            {message === "success" ? 'მომხმარებელი წარმატებით დაემატა' : message}
+                        </Alert>
+                    )}
                 </Dialog>
+                <div style={{ position: 'absolute' }}>
+                </div>
             </div>
         </div>
     )

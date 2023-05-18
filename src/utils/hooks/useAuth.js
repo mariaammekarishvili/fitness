@@ -22,16 +22,15 @@ function useAuth() {
             if (resp?.token) {
                 dispatch(onSignInSuccess(resp?.token))
                 if (resp.user.userID) {
-                    console.log('i am here');
                     dispatch(
                         setUser(
                             {
                                 avatar: '',
                                 userName: resp.user.firstname,
-                                //change
                                 authority: [resp.user.role],
                                 email: resp.user.email,
                                 userId: resp?.user?.userID,
+                                companyId: resp?.user?.companyID,
                             } || {
                                 avatar: '',
                                 userName: 'Anonymous',

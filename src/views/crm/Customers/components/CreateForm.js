@@ -5,22 +5,22 @@ import { Field, Form, Formik } from 'formik'
 import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
-import { createNewCostumer } from 'services/CrmService'
+import { createNewCustomer } from 'services/CrmService'
 
 const validationSchema = Yup.object().shape({
-    firstName: Yup.string()
+    firstname: Yup.string()
         .min(2, 'Too Short!')
         .max(12, 'Too Long!')
         .required('User Name Required'),
-    lastName: Yup.string()
+    lastname: Yup.string()
         .min(2, 'Too Short!')
         .max(20, 'Too Long!')
         .required('User Name Required'),
-    idCard: Yup.string().max(15, ('too much!'))
-        .matches(/^[0-9]{10}$/, 'ID number must be exactly 10 digits'),
-    email: Yup.string().email('Invalid email').required('Email Required'),
+    idCard: Yup.string().min(9, 'Too Short!')
+        .max(16, 'Too Long!')
+        .required('address Required'), email: Yup.string().email('Invalid email').required('Email Required'),
     mobile: Yup.string().max(12, ('too much!'))
-        .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
+        .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
         .required('Mobile number is required'),
     address: Yup.string()
         .min(2, 'Too Short!')
@@ -42,26 +42,16 @@ const validationSchema = Yup.object().shape({
         .required('Gender is required'),
 })
 
-const CreateForm = () => {
-
-    const userId = useSelector(state => state.auth.user.userId)
+const CreateForm = ({ setMessage, message }) => {
+    const companyId = useSelector(state => state.auth.user.companyId)
+    const token = useSelector((state) => state.auth.session.token)
 
     async function handleCreateNewCustomer(data) {
-        const myD = {
-            firstname: "amara",
-            lastname: "bareteli",
-            idCard: "69933012114",
-            email: "t.bg3aa@mmail.com",
-            mobile: 595335245,
-            address: "mkutnali 33",
-            birthday: "1988-02-12",
-            gander: "female"
-        }
         try {
-            const response = await createNewCostumer({ data, userId })
-            console.log(response)
+            const response = await createNewCustomer({ data, companyId }, token);
+            setMessage('success')
         } catch (error) {
-            console.error(error)
+            setMessage(error?.message)
         }
     }
 
@@ -69,8 +59,8 @@ const CreateForm = () => {
         <div>
             <Formik
                 initialValues={{
-                    firstName: '',
-                    lastName: '',
+                    firstname: '',
+                    lastname: '',
                     idCard: '',
                     email: '',
                     mobile: '',
@@ -86,26 +76,26 @@ const CreateForm = () => {
                         <FormContainer>
                             <FormItem
                                 label="სახელი"
-                                invalid={errors.firstName && touched.firstName}
-                                errorMessage={errors.firstName}
+                                invalid={errors.firstname && touched.firstname}
+                                errorMessage={errors.firstname}
                             >
                                 <Field
                                     type="text"
                                     autoComplete="off"
-                                    name="firstName"
+                                    name="firstname"
                                     placeholder="სახელი"
                                     component={Input}
                                 />
                             </FormItem>
                             <FormItem
                                 label="გვარი"
-                                invalid={errors.lastName && touched.lastName}
-                                errorMessage={errors.lastName}
+                                invalid={errors.lastname && touched.lastname}
+                                errorMessage={errors.lastname}
                             >
                                 <Field
                                     type="text"
                                     autoComplete="off"
-                                    name="lastName"
+                                    name="lastname"
                                     placeholder="გავრი"
                                     component={Input}
                                 />
@@ -202,9 +192,11 @@ const CreateForm = () => {
                             </FormItem>
 
                             <FormItem>
-                                <Button variant="solid" type="submit">
-                                    Submit
-                                </Button>
+                                {!message &&
+                                    <Button variant="solid" type="submit">
+                                        Submit
+                                    </Button>
+                                }
                             </FormItem>
                         </FormContainer>
                     </Form>
