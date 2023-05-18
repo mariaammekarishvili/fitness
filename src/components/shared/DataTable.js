@@ -222,7 +222,7 @@ const DataTable = forwardRef((props, ref) => {
                         </Tr>
                     ))}
                 </THead>
-                {loading && data.length === 0 ? (
+                {!loading && data.length === 0 ? (
                     <TableRowSkeleton
                         columns={finalColumns.length}
                         rows={pagingData.pageSize}
