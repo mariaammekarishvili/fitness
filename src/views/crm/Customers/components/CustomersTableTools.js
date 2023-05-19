@@ -21,18 +21,15 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
-        useEffect(() => {
-            const fetchData = async () => {
-                const data = await fetchCustomers({companyId}, token);
-                if (data) {
-                    dispatch(setCustomerList(data))
-                }
-            };
-
-            fetchData();
-            console.log('i am crazy');
-
-        }, [companyId, message]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchCustomers({ companyId }, token);
+            if (data) {
+                dispatch(setCustomerList(data))
+            }
+        };
+        fetchData();
+    }, [companyId, message]);
 
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)

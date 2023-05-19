@@ -1,8 +1,8 @@
-import React, { useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { Avatar, Badge } from 'components/ui'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCustomers, setTableData } from '../store/dataSlice'
+import { deleteCustomer, getCustomers, setTableData } from '../store/dataSlice'
 import {
     setSelectedCustomer,
     setDrawerOpen,
@@ -11,11 +11,10 @@ import useThemeClass from 'utils/hooks/useThemeClass'
 import CustomerEditDialog from './CustomerEditDialog'
 import { Link } from 'react-router-dom'
 import cloneDeep from 'lodash/cloneDeep'
+import { Button, Dialog } from 'components/ui'
+import { setCustomerList } from '../store/dataSlice'
+import { fetchCustomers } from 'services/CrmService'
 
-const statusColor = {
-    active: 'bg-emerald-500',
-    blocked: 'bg-red-500',
-}
 
 const ActionColumn = ({ row }) => {
     const { textTheme } = useThemeClass()
@@ -36,6 +35,72 @@ const ActionColumn = ({ row }) => {
     )
 }
 
+const DeleteColumn = ({ row }) => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const dispatch = useDispatch()
+
+    const openDialog = () => {
+        setIsOpen(true)
+    }
+
+    const token = useSelector((state) => state.auth.session.token)
+
+    const onDialogClose = (e) => {
+        console.log('onDialogClose', e)
+        setIsOpen(false)
+    }
+
+    const onDialogOk = (e) => {
+        console.log('onDialogOk', e)
+        setIsOpen(false)
+    }
+
+    const deleteAction = async () => {
+        dispatch(deleteCustomer({ data: row, customerID: row.customerID }))
+        setIsOpen(false);
+
+        setTimeout(async () => {
+            const data = await fetchCustomers({ companyId: row?.companyID }, token);
+            if (data) {
+                dispatch(setCustomerList(data));
+            }
+        }, 1000);
+    };
+
+    return (
+        <>
+            <Button
+                className="mr-2 mb-2" size={'sm'} variant="solid" color="red-600"
+                onClick={openDialog}
+            >
+                წაშლა
+            </Button>
+
+            <Dialog
+                isOpen={isOpen}
+                onClose={onDialogClose}
+                onRequestClose={onDialogClose}
+            >
+                <div className='flex-col flex items-center center column pt-[50px]'>
+                    <h5 className="mb-4">გსურთ იუზერის წაშლა?</h5>
+                    <div className="text-right mt-6">
+                        <Button
+                            className="ltr:mr-2 border rtl:ml-2"
+                            variant="plain"
+                            onClick={onDialogClose}
+                        >
+                            არა
+                        </Button>
+                        <Button color="red-600" variant="solid" onClick={deleteAction}>
+                            დიახ
+                        </Button>
+                    </div>
+                </div>
+            </Dialog>
+        </>
+    )
+}
 const NameColumn = ({ row }) => {
     const { textTheme } = useThemeClass()
 
@@ -111,6 +176,11 @@ const columns = [
                 </div>
             )
         },
+    },
+    {
+        header: '',
+        id: 'deleteAction',
+        cell: (props) => <DeleteColumn row={props.row.original} />,
     },
     {
         header: '',

@@ -16,8 +16,8 @@ export const getCustomerStatistic = createAsyncThunk(
 
 export const getCustomers = createAsyncThunk(
     'crmCustomers/data/getCustomers',
-    async (params) => {
-        const response = await apiGetCrmCustomers(params)
+    async ({companyId}) => {
+        const response = await apiGetCrmCustomers({companyId})
         return response.data
     }
 )

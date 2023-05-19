@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCustomerList, putCustomer, deleteCustomer } from '../store/dataSlice'
 import { setDrawerClose } from '../store/stateSlice'
+import { fetchCustomers } from 'services/CrmService'
 import cloneDeep from 'lodash/cloneDeep'
 import isEmpty from 'lodash/isEmpty'
 import CustomerForm from 'views/crm/CustomerForm'
@@ -55,18 +56,12 @@ const CustomerEditContent = forwardRef((_, ref) => {
         dispatch(setDrawerClose())
         dispatch(setCustomerList(newData))
     }
-
-
-    const deleteAction = () => {
-        dispatch(deleteCustomer({ data, customerID: id }))
-    }
-
+  
     return (
         <CustomerForm
             ref={ref}
             onFormSubmit={onFormSubmit}
             customer={customer}
-            deleteAction={deleteAction}
         />
     )
 })

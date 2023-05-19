@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from 'react'
-import { Tabs,Dialog, FormContainer, Button } from 'components/ui'
+import { Tabs, Dialog, FormContainer, Button } from 'components/ui'
 import { Form, Formik } from 'formik'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
@@ -46,24 +46,7 @@ const validationSchema = Yup.object().shape({
 const { TabNav, TabList, TabContent } = Tabs
 
 const CustomerForm = forwardRef((props, ref) => {
-    const { customer, onFormSubmit, deleteAction } = props
-
-    const [deleteDialog, setDeleteDialog] = useState(false)
-
-    const openDialog = () => {
-        setDeleteDialog(true)
-    }
-
-    const onDialogClose = (e) => {
-        console.log('onDialogClose', e)
-        setDeleteDialog(false)
-    }
-
-    const onDialogOk = (e) => {
-        console.log('onDialogOk', e)
-        setDeleteDialog(false)
-    }
-
+    const { customer, onFormSubmit } = props
 
     return (
         <Formik
@@ -86,34 +69,13 @@ const CustomerForm = forwardRef((props, ref) => {
         >
             {({ touched, errors, resetForm }) => (
                 <Form>
-                    <Dialog
-                        isOpen={deleteDialog}
-                        onClose={onDialogClose}
-                        onRequestClose={onDialogClose}
-                    >
-                        <h5 className="mb-4">გსურთ იუზერის წაშლა?</h5>
-                        <div className="text-right mt-6">
-                            <Button
-                                className="ltr:mr-2 rtl:ml-2"
-                                variant="plain"
-                                onClick={onDialogClose}
-                            >
-                                არა
-                            </Button>
-                            <Button variant="solid" onClick={deleteAction}>
-                                დიახ
-                            </Button>
-                        </div>
-                    </Dialog>
+
                     <FormContainer>
                         <Tabs defaultValue="personalInfo">
                             <TabList>
                                 <TabNav value="personalInfo">
                                     პიადი ინფორმაცია
                                 </TabNav>
-                                <Button size="sm" className="mr-2 mb-2 mt-[6px] ml-auto" onClick={() => openDialog()} variant="solid" color="red-600">
-                                    წაშლა
-                                </Button>
                             </TabList>
                             <div className="p-6">
                                 <TabContent value="personalInfo">
@@ -131,6 +93,7 @@ const CustomerForm = forwardRef((props, ref) => {
                             </div>
                         </Tabs>
                     </FormContainer>
+
                 </Form>
             )}
         </Formik>

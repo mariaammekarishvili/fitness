@@ -187,7 +187,7 @@ const DataTable = forwardRef((props, ref) => {
     }
 
     return (
-        <Loading loading={!data.length} type="cover">
+        <Loading loading={!data} type="cover">
             <Table>
                 <THead>
                     {table.getHeaderGroups().map((headerGroup) => (
