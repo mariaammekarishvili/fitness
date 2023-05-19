@@ -15,7 +15,7 @@ export async function apiGetCrmCalendar() {
     })
 }
 
-export async function apiGetCrmCustomers({companyId}) {
+export async function apiGetCrmCustomers({ companyId }) {
     return ApiService.fetchData({
         url: `/crm/customers/list/${companyId}`,
         method: 'get',
@@ -30,35 +30,57 @@ export async function apiGetCrmCustomers({companyId}) {
 //         data,
 //     })
 // }
+
+// change
 const API = 'http://localhost:3000';
 
 export async function createNewCustomer({ data, companyId }, token) {
-  try {
-    const response = await fetch(`${API}/customers/register/${companyId}`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+        const response = await fetch(`${API}/customers/register/${companyId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    if (!response.ok) {
-      console.log(response.status);
-      if (response.status) {
-        throw new Error('იუზერი უკვე არსებობს');
-      } else {
-        throw new Error('შექმნისას წარმოიქმნა პრობლემა');
-      }
+        if (!response.ok) {
+            console.log(response.status);
+            if (response.status) {
+                throw new Error('იუზერი უკვე არსებობს');
+            } else {
+                throw new Error('შექმნისას წარმოიქმნა პრობლემა');
+            }
+        }
+
+        const responseData = await response.json();
+
+        return responseData;
+    } catch (error) {
+        throw error;
     }
-
-    const responseData = await response.json();
-
-    return responseData;
-  } catch (error) {
-    throw error;
-  }
 }
+
+export const fetchCustomers = async ({ companyId }, token) => {
+    try {
+        const response = await fetch(`${API}/customers/list/${companyId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            throw new Error('Error retrieving customer list');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export async function apiGetCrmCustomersStatistic(params) {
     return ApiService.fetchData({
         url: '/crm/customers-statistic',
@@ -67,9 +89,10 @@ export async function apiGetCrmCustomersStatistic(params) {
     })
 }
 
-export async function apPutCrmCustomer(data) {
+export async function apPutCrmCustomer({data, customerID}) {
+    console.log('my', data)
     return ApiService.fetchData({
-        url: '/crm/customers',
+        url: `/customers/update/${customerID}`,
         method: 'put',
         data,
     })
@@ -83,9 +106,9 @@ export async function apiGetCrmCustomerDetails(params) {
     })
 }
 
-export async function apiDeleteCrmCustomer(data) {
+export async function apiDeleteCrmCustomer({data, customerID}) {
     return ApiService.fetchData({
-        url: '/crm/customer/delete',
+        url: `/customers/delete/${customerID}`,
         method: 'delete',
         data,
     })

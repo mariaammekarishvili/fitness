@@ -2,30 +2,38 @@
 import React, { useState } from 'react'
 import { Input, Button, Checkbox, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
-import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi'
+import {
+    HiUserCircle,
+    HiMail,
+    HiLocationMarker,
+    HiPhone,
+    HiOutlineUser,
+    HiCalendar,
+    HiIdentification,
+} from 'react-icons/hi'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import { createNewCustomer } from 'services/CrmService'
 
 const validationSchema = Yup.object().shape({
     firstname: Yup.string()
-        .min(2, 'Too Short!')
-        .max(12, 'Too Long!')
-        .required('User Name Required'),
+        .min(2, 'ინფორმაცია ძალიან მცირეა')
+        .max(12, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
     lastname: Yup.string()
-        .min(2, 'Too Short!')
-        .max(20, 'Too Long!')
-        .required('User Name Required'),
-    idCard: Yup.string().min(9, 'Too Short!')
-        .max(16, 'Too Long!')
-        .required('address Required'), email: Yup.string().email('Invalid email').required('Email Required'),
+        .min(2, 'ინფორმაცია ძალიან მცირეა!')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+        .max(16, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'), email: Yup.string().email('Invalid email').required('Email Required'),
     mobile: Yup.string().max(12, ('too much!'))
         .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
-        .required('Mobile number is required'),
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
-        .min(2, 'Too Short!')
-        .max(20, 'Too Long!')
-        .required('address Required'),
+        .min(2, 'ინფორმაცია ძალიან მცირეა')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
     birthday: Yup.date()
         .transform((value, originalValue) => {
             if (originalValue instanceof Date) {
@@ -35,11 +43,11 @@ const validationSchema = Yup.object().shape({
             return isNaN(date) ? undefined : date;
         })
         .typeError('Invalid date')
-        .required('Date is required')
+        .required('ინფორმაციის შეყვანა სავალდებულოა')
         .max(new Date(), 'Date cannot be in the future'),
     gander: Yup.string()
         .oneOf(['male', 'female', 'non-binary', 'other'])
-        .required('Gender is required'),
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
 const CreateForm = ({ setMessage, message }) => {
@@ -85,6 +93,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="firstname"
                                     placeholder="სახელი"
                                     component={Input}
+                                    prefix={<HiUserCircle className="text-xl" />}
                                 />
                             </FormItem>
                             <FormItem
@@ -98,6 +107,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="lastname"
                                     placeholder="გავრი"
                                     component={Input}
+
                                 />
                             </FormItem>
                             <FormItem
@@ -111,6 +121,8 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="idCard"
                                     placeholder="პირადი ნომერი"
                                     component={Input}
+                                    prefix={<HiIdentification className="text-xl" />}
+
                                 />
                             </FormItem>
 
@@ -125,6 +137,8 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="email"
                                     placeholder="Email"
                                     component={Input}
+                                    prefix={<HiMail className="text-xl" />}
+
                                 />
                             </FormItem>
                             <FormItem
@@ -138,6 +152,8 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="mobile"
                                     placeholder="ტელეფონის ნომერი"
                                     component={Input}
+                                    prefix={<HiPhone className="text-xl" />}
+
                                 />
                             </FormItem>
                             <FormItem
@@ -151,6 +167,8 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="address"
                                     placeholder="მისამართი"
                                     component={Input}
+                                    prefix={<HiLocationMarker className="text-xl" />}
+
                                 />
                             </FormItem>
                             <FormItem
@@ -163,6 +181,8 @@ const CreateForm = ({ setMessage, message }) => {
                                     autoComplete="off"
                                     name="birthday"
                                     component={Input}
+                                    prefix={<HiCalendar className="text-xl" />}
+
                                 />
                             </FormItem>
                             <FormItem

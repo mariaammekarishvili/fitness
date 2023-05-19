@@ -15,16 +15,16 @@ export const getCustomer = createAsyncThunk(
 
 export const deleteCustomer = createAsyncThunk(
     'crmCustomerDetails/data/deleteCustomer',
-    async (data) => {
-        const response = await apiDeleteCrmCustomer(data)
+    async ({data, customerID}) => {
+        const response = await apiDeleteCrmCustomer({data, customerID})
         return response.data
     }
 )
 
 export const putCustomer = createAsyncThunk(
     'crmCustomerDetails/data/putCustomer',
-    async (data) => {
-        const response = await apPutCrmCustomer(data)
+    async ({ data, customerID }) => {
+        const response = await apPutCrmCustomer({ data, customerID })
         return response.data
     }
 )
@@ -54,8 +54,8 @@ const dataSlice = createSlice({
             state.paymentHistoryData = action.payload?.orderHistory || []
             state.paymentMethodData = action.payload?.paymentMethod || []
         },
-        [deleteCustomer.fulfilled]: () => {},
-        [putCustomer.fulfilled]: () => {},
+        [deleteCustomer.fulfilled]: () => { },
+        [putCustomer.fulfilled]: () => { },
         [getCustomer.pending]: (state) => {
             state.loading = true
         },

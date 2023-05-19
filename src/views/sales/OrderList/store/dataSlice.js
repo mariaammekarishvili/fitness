@@ -17,7 +17,7 @@ export const deleteOrders = async (data) => {
 export const initialTableData = {
     total: 0,
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 150,
     query: '',
     sort: {
         order: '',

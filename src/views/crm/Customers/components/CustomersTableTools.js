@@ -6,13 +6,33 @@ import CustomerTableFilter from './CustomerTableFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
+import { setCustomerList } from '../store/dataSlice'
+import { fetchCustomers } from 'services/CrmService'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
 
     const inputRef = useRef()
 
+    const [message, setMessage] = useState('')
+
     const tableData = useSelector((state) => state.crmCustomers.data.tableData)
+
+    const token = useSelector((state) => state.auth.session.token)
+    const companyId = useSelector(state => state.auth.user.companyId)
+
+        useEffect(() => {
+            const fetchData = async () => {
+                const data = await fetchCustomers({companyId}, token);
+                if (data) {
+                    dispatch(setCustomerList(data))
+                }
+            };
+
+            fetchData();
+            console.log('i am crazy');
+
+        }, [companyId, message]);
 
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)
@@ -55,7 +75,6 @@ const CustomersTableTools = () => {
         console.log('onDialogOk', e)
         setIsOpen(false)
     }
-    const [message, setMessage] = useState('')
 
     useEffect(() => {
         if (message) {

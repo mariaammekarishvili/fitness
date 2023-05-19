@@ -47,7 +47,7 @@ const StatisticCard = (props) => {
                             </h3>
                         </div>
                     </div>
-                    <GrowShrinkTag value={growthRate} suffix="%" />
+                    {/* <GrowShrinkTag value={growthRate} suffix="%" /> */}
                 </div>
             </Loading>
         </Card>
@@ -56,6 +56,8 @@ const StatisticCard = (props) => {
 
 const CustomerStatistic = () => {
     const dispatch = useDispatch()
+
+    const data = useSelector((state) => state.crmCustomers.data.customerList)
 
     const statisticData = useSelector(
         (state) => state.crmCustomers.data.statisticData
@@ -74,12 +76,12 @@ const CustomerStatistic = () => {
             <StatisticCard
                 icon={<HiOutlineUserGroup />}
                 avatarClass="!bg-indigo-600"
-                label="Total Customers"
-                value={statisticData?.totalCustomers?.value}
+                label="მომხმარებლების რაოდენობა"
+                value={data?.length}
                 growthRate={statisticData?.totalCustomers?.growShrink}
-                loading={loading}
+                loading={!data}
             />
-            <StatisticCard
+            {/* <StatisticCard
                 icon={<HiOutlineUsers />}
                 avatarClass="!bg-blue-500"
                 label="Active Customers"
@@ -94,7 +96,7 @@ const CustomerStatistic = () => {
                 value={statisticData?.newCustomers?.value}
                 growthRate={statisticData?.newCustomers?.growShrink}
                 loading={loading}
-            />
+            /> */}
         </div>
     )
 }

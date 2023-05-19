@@ -1,11 +1,10 @@
 import React, { forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCustomerList, putCustomer } from '../store/dataSlice'
+import { setCustomerList, putCustomer, deleteCustomer } from '../store/dataSlice'
 import { setDrawerClose } from '../store/stateSlice'
 import cloneDeep from 'lodash/cloneDeep'
 import isEmpty from 'lodash/isEmpty'
 import CustomerForm from 'views/crm/CustomerForm'
-import dayjs from 'dayjs'
 
 const CustomerEditContent = forwardRef((_, ref) => {
     const dispatch = useDispatch()
@@ -14,38 +13,35 @@ const CustomerEditContent = forwardRef((_, ref) => {
         (state) => state.crmCustomers.state.selectedCustomer
     )
     const data = useSelector((state) => state.crmCustomers.data.customerList)
-    const { id } = customer
+    const id = customer.customerID
 
     const onFormSubmit = (values) => {
         const {
-            name,
-            birthday,
+            firstname,
+            lastname,
+            idCard,
             email,
-            img,
-            location,
-            title,
-            phoneNumber,
-            facebook,
-            twitter,
-            pinterest,
-            linkedIn,
+            mobile,
+            address,
+            birthday,
+            gander,
         } = values
 
-        const basicInfo = { name, email, img }
-        const personalInfo = {
-            location,
-            title,
-            birthday: dayjs(birthday).format('DD/MM/YYYY'),
-            phoneNumber,
-            facebook,
-            twitter,
-            pinterest,
-            linkedIn,
+        const basicInfo = {
+            firstname,
+            lastname,
+            idCard,
+            email,
+            mobile,
+            address,
+            birthday,
+            gander,
         }
+        const personalInfo = {}
         let newData = cloneDeep(data)
         let editedCustomer = {}
         newData = newData.map((elm) => {
-            if (elm.id === id) {
+            if (elm.customerID === id) {
                 elm = { ...elm, ...basicInfo }
                 elm.personalInfo = { ...elm.personalInfo, ...personalInfo }
                 editedCustomer = elm
@@ -54,10 +50,15 @@ const CustomerEditContent = forwardRef((_, ref) => {
         })
         if (!isEmpty(editedCustomer)) {
             console.log('editedCustomer', editedCustomer)
-            dispatch(putCustomer(editedCustomer))
+            dispatch(putCustomer({ data: editedCustomer, customerID: id }))
         }
         dispatch(setDrawerClose())
         dispatch(setCustomerList(newData))
+    }
+
+
+    const deleteAction = () => {
+        dispatch(deleteCustomer({ data, customerID: id }))
     }
 
     return (
@@ -65,6 +66,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
             ref={ref}
             onFormSubmit={onFormSubmit}
             customer={customer}
+            deleteAction={deleteAction}
         />
     )
 })

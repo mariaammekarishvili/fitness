@@ -10,7 +10,6 @@ import {
 import useThemeClass from 'utils/hooks/useThemeClass'
 import CustomerEditDialog from './CustomerEditDialog'
 import { Link } from 'react-router-dom'
-import dayjs from 'dayjs'
 import cloneDeep from 'lodash/cloneDeep'
 
 const statusColor = {
@@ -42,21 +41,40 @@ const NameColumn = ({ row }) => {
 
     return (
         <div className="flex items-center">
-            <Avatar size={28} shape="circle" src={row.img} />
+            <Avatar size={28} shape="circle" src={'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'} />
             <Link
                 className={`hover:${textTheme} ml-2 rtl:mr-2 font-semibold`}
                 to={`/app/crm/customer-details?id=${row.id}`}
             >
-                {row.name}
+                {row.firstname} {row.lastname}
             </Link>
         </div>
     )
 }
 
+const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = String(phoneNumber)?.replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{3})$/);
+    if (match) {
+        return `(${match[1]}) ${match[2]} - ${match[3]}`;
+    }
+    return phoneNumber;
+};
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    return formattedDate;
+};
+
 const columns = [
     {
-        header: 'Name',
-        accessorKey: 'name',
+        header: 'სახელი',
+        accessorKey: 'firstName',
         cell: (props) => {
             const row = props.row.original
             return <NameColumn row={row} />
@@ -67,28 +85,29 @@ const columns = [
         accessorKey: 'email',
     },
     {
-        header: 'Status',
-        accessorKey: 'status',
+        header: 'Email',
+        accessorKey: 'idCard',
+    },
+    {
+        header: 'მობილური',
+        accessorKey: 'mobile',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    <Badge className={statusColor[row.status]} />
-                    <span className="ml-2 rtl:mr-2 capitalize">
-                        {row.status}
-                    </span>
+                    {formatPhoneNumber(row.mobile)}
                 </div>
             )
         },
     },
     {
-        header: 'Last online',
-        accessorKey: 'lastOnline',
+        header: 'დაბადების თარიღი',
+        accessorKey: 'birthday',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {dayjs.unix(row.lastOnline).format('MM/DD/YYYY')}
+                    {formatDate(row.birthday)}
                 </div>
             )
         },
@@ -103,7 +122,6 @@ const columns = [
 const Customers = () => {
     const dispatch = useDispatch()
     const data = useSelector((state) => state.crmCustomers.data.customerList)
-    const loading = useSelector((state) => state.crmCustomers.data.loading)
     const filterData = useSelector(
         (state) => state.crmCustomers.data.filterData
     )
@@ -111,14 +129,6 @@ const Customers = () => {
     const { pageIndex, pageSize, sort, query, total } = useSelector(
         (state) => state.crmCustomers.data.tableData
     )
-
-    const fetchData = useCallback(() => {
-        dispatch(getCustomers({ pageIndex, pageSize, sort, query, filterData }))
-    }, [pageIndex, pageSize, sort, query, filterData, dispatch])
-
-    useEffect(() => {
-        fetchData()
-    }, [fetchData, pageIndex, pageSize, sort, filterData])
 
     const tableData = useMemo(
         () => ({ pageIndex, pageSize, sort, query, total }),
@@ -151,7 +161,7 @@ const Customers = () => {
                 data={data}
                 skeletonAvatarColumns={[0]}
                 skeletonAvatarProps={{ width: 28, height: 28 }}
-                loading={loading}
+                loading={!data}
                 pagingData={{ pageIndex, pageSize, sort, query, total }}
                 onPaginationChange={onPaginationChange}
                 onSelectChange={onSelectChange}

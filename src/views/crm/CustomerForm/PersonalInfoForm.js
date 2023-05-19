@@ -1,73 +1,64 @@
 import React from 'react'
-import { DatePicker, Input, FormItem, Avatar, Upload } from 'components/ui'
+import { Input, FormItem, Avatar, Radio, Upload } from 'components/ui'
 import {
     HiUserCircle,
     HiMail,
     HiLocationMarker,
     HiPhone,
-    HiCake,
-    HiOutlineUser,
+    HiCalendar,
+    HiIdentification,
 } from 'react-icons/hi'
 import { Field } from 'formik'
 
 const PersonalInfoForm = (props) => {
     const { touched, errors } = props
 
-    const onSetFormFile = (form, field, file) => {
-        form.setFieldValue(field.name, URL.createObjectURL(file[0]))
-    }
-
     return (
         <>
             <FormItem
-                invalid={errors.upload && touched.upload}
-                errorMessage={errors.upload}
-            >
-                <Field name="img">
-                    {({ field, form }) => {
-                        const avatarProps = field.value
-                            ? { src: field.value }
-                            : {}
-                        return (
-                            <div className="flex justify-center">
-                                <Upload
-                                    className="cursor-pointer"
-                                    onChange={(files) =>
-                                        onSetFormFile(form, field, files)
-                                    }
-                                    onFileRemove={(files) =>
-                                        onSetFormFile(form, field, files)
-                                    }
-                                    showList={false}
-                                    uploadLimit={1}
-                                >
-                                    <Avatar
-                                        className="border-2 border-white dark:border-gray-800 shadow-lg"
-                                        size={100}
-                                        shape="circle"
-                                        icon={<HiOutlineUser />}
-                                        {...avatarProps}
-                                    />
-                                </Upload>
-                            </div>
-                        )
-                    }}
-                </Field>
-            </FormItem>
-            <FormItem
-                label="Name"
-                invalid={errors.name && touched.name}
-                errorMessage={errors.name}
+                label="სახელი"
+                invalid={errors.firstname && touched.firstname}
+                errorMessage={errors.firstname}
             >
                 <Field
                     type="text"
                     autoComplete="off"
-                    name="name"
-                    placeholder="Name"
+                    name="firstname"
+                    placeholder="სახელი"
                     component={Input}
                     prefix={<HiUserCircle className="text-xl" />}
                 />
             </FormItem>
+            <FormItem
+                label="გვარი"
+                invalid={errors.lastname && touched.lastname}
+                errorMessage={errors.lastname}
+            >
+                <Field
+                    type="text"
+                    autoComplete="off"
+                    name="lastname"
+                    placeholder="გავრი"
+                    component={Input}
+
+                />
+            </FormItem>
+            <FormItem
+                label="პირადი ნომერი"
+                invalid={errors.idCard && touched.idCard}
+                errorMessage={errors.idCard}
+            >
+                <Field
+                    type="string"
+                    autoComplete="off"
+                    name="idCard"
+                    placeholder="პირადი ნომერი"
+                    component={Input}
+                    prefix={<HiIdentification className="text-xl" />}
+
+                />
+            </FormItem>
+
             <FormItem
                 label="Email"
                 invalid={errors.email && touched.email}
@@ -80,68 +71,77 @@ const PersonalInfoForm = (props) => {
                     placeholder="Email"
                     component={Input}
                     prefix={<HiMail className="text-xl" />}
+
                 />
             </FormItem>
             <FormItem
-                label="Location"
-                invalid={errors.location && touched.location}
-                errorMessage={errors.location}
+                label="ტელეფონის ნომერი"
+                invalid={errors.mobile && touched.mobile}
+                errorMessage={errors.mobile}
+            >
+                <Field
+                    type="number"
+                    autoComplete="off"
+                    name="mobile"
+                    placeholder="ტელეფონის ნომერი"
+                    component={Input}
+                    prefix={<HiPhone className="text-xl" />}
+
+                />
+            </FormItem>
+            <FormItem
+                label="მისამართი"
+                invalid={errors.address && touched.address}
+                errorMessage={errors.address}
             >
                 <Field
                     type="text"
                     autoComplete="off"
-                    name="location"
-                    placeholder="Location"
+                    name="address"
+                    placeholder="მისამართი"
                     component={Input}
                     prefix={<HiLocationMarker className="text-xl" />}
+
                 />
             </FormItem>
             <FormItem
-                label="Phone Number"
-                invalid={errors.phoneNumber && touched.phoneNumber}
-                errorMessage={errors.phoneNumber}
+                label="დაბადების თარიღი"
+                invalid={errors.date && touched.date}
+                errorMessage={errors.date}
             >
                 <Field
-                    type="text"
+                    type="date"
                     autoComplete="off"
-                    name="phoneNumber"
-                    placeholder="Phone Number"
+                    name="birthday"
                     component={Input}
-                    prefix={<HiPhone className="text-xl" />}
+                    prefix={<HiCalendar className="text-xl" />}
+
                 />
             </FormItem>
             <FormItem
-                label="Title"
-                invalid={errors.title && touched.title}
-                errorMessage={errors.title}
+                label="სქესი"
+                invalid={errors.gander && touched.gander}
+                errorMessage={errors.gander}
             >
                 <Field
-                    type="text"
-                    autoComplete="off"
-                    name="title"
-                    placeholder="Title"
-                    component={Input}
-                    prefix={<HiPhone className="text-xl" />}
+                    type="radio"
+                    name="gander"
+                    id='male'
+                    value='male'
+                    check={'true'}
+                    component={Radio}
+                    placeholder={'xe'}
                 />
-            </FormItem>
-            <FormItem
-                label="Birthday"
-                invalid={errors.birthday && touched.birthday}
-                errorMessage={errors.birthday}
-            >
-                <Field name="birthday" placeholder="Date">
-                    {({ field, form }) => (
-                        <DatePicker
-                            field={field}
-                            form={form}
-                            value={field.value}
-                            prefix={<HiCake className="text-xl" />}
-                            onChange={(date) => {
-                                form.setFieldValue(field.name, date)
-                            }}
-                        />
-                    )}
-                </Field>
+                <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
+                <Field
+                    type="radio"
+                    name="gander"
+                    id='female'
+                    value='female'
+                    component={Radio}
+                />
+                <label style={{ marginLeft: '5px' }}>ქალი</label>
+
             </FormItem>
         </>
     )

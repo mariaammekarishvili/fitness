@@ -60,7 +60,7 @@ const EditCustomerProfile = () => {
         const personalInfo = {
             location,
             title,
-            birthday: dayjs(birthday).format('DD/MM/YYYY'),
+            birthday,
             phoneNumber,
             facebook,
             twitter,

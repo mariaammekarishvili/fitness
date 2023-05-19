@@ -42,7 +42,6 @@ const DataTable = forwardRef((props, ref) => {
         skeletonAvatarColumns,
         columns: columnsProp,
         data,
-        loading,
         onCheckBoxChange,
         onIndeterminateCheckBoxChange,
         onPaginationChange,
@@ -54,6 +53,7 @@ const DataTable = forwardRef((props, ref) => {
         pagingData,
     } = props
 
+    const loading = !data.length
     const { pageSize, pageIndex, total } = pagingData
 
     const [sorting, setSorting] = useState(null)
@@ -187,7 +187,7 @@ const DataTable = forwardRef((props, ref) => {
     }
 
     return (
-        <Loading loading={loading && data.length !== 0} type="cover">
+        <Loading loading={!data.length} type="cover">
             <Table>
                 <THead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -222,7 +222,7 @@ const DataTable = forwardRef((props, ref) => {
                         </Tr>
                     ))}
                 </THead>
-                {!loading && data.length === 0 ? (
+                {!data ? (
                     <TableRowSkeleton
                         columns={finalColumns.length}
                         rows={pagingData.pageSize}
@@ -233,7 +233,8 @@ const DataTable = forwardRef((props, ref) => {
                     <TBody>
                         {table
                             .getRowModel()
-                            .rows.slice(0, pageSize)
+                            .rows
+                            // .slice(0, pageSize) for pagination
                             .map((row) => {
                                 return (
                                     <Tr key={row.id}>
@@ -253,11 +254,11 @@ const DataTable = forwardRef((props, ref) => {
                     </TBody>
                 )}
             </Table>
-            <div className="flex items-center justify-between mt-4">
+            {/* <div className="flex items-center justify-between mt-4">
                 <Pagination
                     pageSize={pageSize}
                     currentPage={pageIndex}
-                    total={total}
+                    total={data.length}
                     onChange={handlePaginationChange}
                 />
                 <div style={{ minWidth: 130 }}>
@@ -272,7 +273,7 @@ const DataTable = forwardRef((props, ref) => {
                         onChange={(option) => handleSelectChange(option.value)}
                     />
                 </div>
-            </div>
+            </div> */}
         </Loading>
     )
 })
@@ -302,7 +303,7 @@ DataTable.defaultProps = {
     pagingData: {
         total: 0,
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 25,
     },
     data: [],
     columns: [],
