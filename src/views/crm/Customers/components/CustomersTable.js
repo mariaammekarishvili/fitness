@@ -1,4 +1,4 @@
-import React, {  useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Avatar } from 'components/ui'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'

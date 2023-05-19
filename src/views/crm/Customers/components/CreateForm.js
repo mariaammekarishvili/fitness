@@ -1,19 +1,19 @@
 
-import React, { useState } from 'react'
-import { Input, Button, Checkbox, FormItem, FormContainer, Radio } from 'components/ui'
+import React from 'react'
+import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
+import * as Yup from 'yup'
+import { useSelector } from 'react-redux'
+import { createNewCustomer } from 'services/CrmService'
+
 import {
     HiUserCircle,
     HiMail,
     HiLocationMarker,
     HiPhone,
-    HiOutlineUser,
     HiCalendar,
     HiIdentification,
 } from 'react-icons/hi'
-import * as Yup from 'yup'
-import { useSelector } from 'react-redux'
-import { createNewCustomer } from 'services/CrmService'
 
 const validationSchema = Yup.object().shape({
     firstname: Yup.string()
@@ -57,7 +57,6 @@ const CreateForm = ({ setMessage, message }) => {
     async function handleCreateNewCustomer(data) {
         try {
             const response = await createNewCustomer({ data, companyId }, token);
-            setMessage('success')
         } catch (error) {
             setMessage(error?.message)
         }

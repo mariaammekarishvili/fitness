@@ -30,6 +30,8 @@ export async function apiGetCrmCustomers({ companyId }) {
 //     })
 // }
 
+// ---> usable
+
 // change
 const API = 'http://localhost:3000';
 
@@ -80,20 +82,29 @@ export const fetchCustomers = async ({ companyId }, token) => {
     }
 };
 
-export async function apiGetCrmCustomersStatistic(params) {
-    return ApiService.fetchData({
-        url: '/crm/customers-statistic',
-        method: 'get',
-        params,
-    })
-}
-
 export async function apPutCrmCustomer({data, customerID}) {
     console.log('my', data)
     return ApiService.fetchData({
         url: `/customers/update/${customerID}`,
         method: 'put',
         data,
+    })
+}
+
+export async function apiDeleteCrmCustomer({data, customerID}) {
+    return ApiService.fetchData({
+        url: `/customers/delete/${customerID}`,
+        method: 'delete',
+        data,
+    })
+}
+//  <---
+
+export async function apiGetCrmCustomersStatistic(params) {
+    return ApiService.fetchData({
+        url: '/crm/customers-statistic',
+        method: 'get',
+        params,
     })
 }
 
@@ -105,13 +116,6 @@ export async function apiGetCrmCustomerDetails(params) {
     })
 }
 
-export async function apiDeleteCrmCustomer({data, customerID}) {
-    return ApiService.fetchData({
-        url: `/customers/delete/${customerID}`,
-        method: 'delete',
-        data,
-    })
-}
 
 export async function apiGetCrmMails(params) {
     return ApiService.fetchData({

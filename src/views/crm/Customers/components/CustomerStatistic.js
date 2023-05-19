@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import { Card, Avatar } from 'components/ui'
-import { GrowShrinkTag, MediaSkeleton, Loading } from 'components/shared'
+import { MediaSkeleton, Loading } from 'components/shared'
 import { getCustomerStatistic } from '../store/dataSlice'
 import {
     HiOutlineUserGroup,
-    HiOutlineUserAdd,
-    HiOutlineUsers,
 } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import NumberFormat from 'react-number-format'
