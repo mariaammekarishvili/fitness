@@ -1,11 +1,11 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useEffect } from 'react'
 import { Tabs, Dialog, FormContainer, Button } from 'components/ui'
 import { Form, Formik } from 'formik'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as Yup from 'yup'
 import PersonalInfoForm from './PersonalInfoForm'
-
+import { ValidationSchemaCustomer, ValidationSchemaTrainer } from './ValidationSchema'
 dayjs.extend(customParseFormat)
 
 const validationSchema = Yup.object().shape({
@@ -41,26 +41,55 @@ const validationSchema = Yup.object().shape({
     gander: Yup.string()
         .oneOf(['male', 'female', 'non-binary', 'other'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+        .max(8, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
 const { TabNav, TabList, TabContent } = Tabs
 
 const CustomerForm = forwardRef((props, ref) => {
-    const { customer, onFormSubmit } = props
+    const { customer, onFormSubmit, type } = props
+
+    const valuesForCustomers = {
+        firstname: customer.firstname || '',
+        lastname: customer.lastname || '',
+        idCard: customer.idCard || '',
+        email: customer.email || '',
+        mobile: customer.mobile || '',
+        address: customer.address || '',
+        birthday: customer.birthday || '',
+        gander: customer.gander || '',
+    }
+
+    const valuesForTrainer = {
+        firstname: customer.firstname || '',
+        lastname: customer.lastname || '',
+        idCard: customer.idCard || '',
+        mobile: customer.mobile || '',
+        address: customer.address || '',
+        birthday: customer.birthday || '',
+        gander: customer.gander || '',
+        price: customer.price || '',
+        email: customer.email || '',
+
+    }
+
+    const [validationSchema, setValidationSchema] = useState()
+
+    useEffect(() => {
+        if (type === 'customer') {
+            setValidationSchema(ValidationSchemaCustomer)
+        } else if (type === 'trainer') {
+            setValidationSchema(ValidationSchemaTrainer)
+        }
+    }, [])
+
 
     return (
         <Formik
             innerRef={ref}
-            initialValues={{
-                firstname: customer.firstname || '',
-                lastname: customer.lastname || '',
-                idCard: customer.idCard || '',
-                email: customer.email || '',
-                mobile: customer.mobile || '',
-                address: customer.address || '',
-                birthday: customer.birthday || '',
-                gander: customer.gander || '',
-            }}
+            initialValues={valuesForTrainer}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
                 onFormSubmit?.(values)
@@ -74,7 +103,7 @@ const CustomerForm = forwardRef((props, ref) => {
                         <Tabs defaultValue="personalInfo">
                             <TabList>
                                 <TabNav value="personalInfo">
-                                    პიადი ინფორმაცია
+                                    პრიადი ინფორმაცია
                                 </TabNav>
                             </TabList>
                             <div className="p-6">
@@ -82,6 +111,7 @@ const CustomerForm = forwardRef((props, ref) => {
                                     <PersonalInfoForm
                                         touched={touched}
                                         errors={errors}
+                                        type={type}
                                     />
                                 </TabContent>
                                 {/* <TabContent value="social">

@@ -82,7 +82,7 @@ const appsRoute = [
     {
         key: 'appsCrm.trainer',
         path: `${APP_PREFIX_PATH}/crm/trainer`,
-        component: React.lazy(() => import('views/crm/Customers')),
+        component: React.lazy(() => import('views/crm/Trainers')),
         authority: [ADMIN, USER],
         meta: {
             header: 'ტრენერები',

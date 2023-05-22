@@ -4,7 +4,7 @@ import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
-import { createNewCustomer } from 'services/CrmService'
+import { createNewTrainer } from 'services/TrainerService'
 
 import {
     HiUserCircle,
@@ -13,6 +13,7 @@ import {
     HiPhone,
     HiCalendar,
     HiIdentification,
+    HiCash,
 } from 'react-icons/hi'
 
 const validationSchema = Yup.object().shape({
@@ -26,9 +27,12 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'), email: Yup.string().email('Invalid email').required('Email Required'),
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
     mobile: Yup.string().max(12, ('too much!'))
         .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+        .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
         .min(2, 'ინფორმაცია ძალიან მცირეა')
@@ -56,7 +60,7 @@ const CreateForm = ({ setMessage, message }) => {
 
     async function handleCreateNewCustomer(data) {
         try {
-            const response = await createNewCustomer({ data, companyId }, token);
+            const response = await createNewTrainer({ data, companyId }, token);
             setMessage('success')
         } catch (error) {
             setMessage(error?.message)
@@ -70,11 +74,11 @@ const CreateForm = ({ setMessage, message }) => {
                     firstname: '',
                     lastname: '',
                     idCard: '',
-                    email: '',
                     mobile: '',
                     address: '',
                     birthday: '',
                     gander: 'male',
+                    price: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -125,22 +129,6 @@ const CreateForm = ({ setMessage, message }) => {
 
                                 />
                             </FormItem>
-
-                            <FormItem
-                                label="Email"
-                                invalid={errors.email && touched.email}
-                                errorMessage={errors.email}
-                            >
-                                <Field
-                                    type="email"
-                                    autoComplete="off"
-                                    name="email"
-                                    placeholder="Email"
-                                    component={Input}
-                                    prefix={<HiMail className="text-xl" />}
-
-                                />
-                            </FormItem>
                             <FormItem
                                 label="ტელეფონის ნომერი"
                                 invalid={errors.mobile && touched.mobile}
@@ -153,6 +141,21 @@ const CreateForm = ({ setMessage, message }) => {
                                     placeholder="ტელეფონის ნომერი"
                                     component={Input}
                                     prefix={<HiPhone className="text-xl" />}
+
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="ანაზღაურება"
+                                invalid={errors.price && touched.price}
+                                errorMessage={errors.price}
+                            >
+                                <Field
+                                    type="number"
+                                    autoComplete="off"
+                                    name="price"
+                                    placeholder="შეიყვანეთ თანხა"
+                                    component={Input}
+                                    prefix={<HiCash className="text-xl" />}
 
                                 />
                             </FormItem>

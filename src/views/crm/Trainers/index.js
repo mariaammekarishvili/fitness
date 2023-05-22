@@ -1,14 +1,14 @@
 import React from 'react'
 import { AdaptableCard } from 'components/shared'
-import CustomersTable from './components/CustomersTable'
-import CustomersTableTools from './components/CustomersTableTools'
-import CustomerStatistic from './components/CustomerStatistic'
+import CustomersTable from './components/TrainersTable'
+import CustomersTableTools from './components/TrainerTableTools'
+import CustomerStatistic from './components/TrainerStatistic'
 import { injectReducer } from 'store/index'
 import reducer from './store'
 
 injectReducer('crmCustomers', reducer)
-// const type = 'customer' || 'user' || 'trainer'
-const Customers = ({type}) => {
+
+const Customers = () => {
     return (
         <>
             <CustomerStatistic type />

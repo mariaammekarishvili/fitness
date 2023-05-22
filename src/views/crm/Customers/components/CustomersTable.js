@@ -81,7 +81,7 @@ const columns = [
         accessorKey: 'email',
     },
     {
-        header: 'Email',
+        header: 'ID',
         accessorKey: 'idCard',
     },
     {

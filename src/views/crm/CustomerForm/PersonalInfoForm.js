@@ -7,11 +7,12 @@ import {
     HiPhone,
     HiCalendar,
     HiIdentification,
+    HiCash
 } from 'react-icons/hi'
 import { Field } from 'formik'
 
 const PersonalInfoForm = (props) => {
-    const { touched, errors } = props
+    const { touched, errors, type } = props
 
     return (
         <>
@@ -58,22 +59,23 @@ const PersonalInfoForm = (props) => {
 
                 />
             </FormItem>
+            {!(type === 'trainer') &&
+                <FormItem
+                    label="Email"
+                    invalid={errors.email && touched.email}
+                    errorMessage={errors.email}
+                >
+                    <Field
+                        type="email"
+                        autoComplete="off"
+                        name="email"
+                        placeholder="Email"
+                        component={Input}
+                        prefix={<HiMail className="text-xl" />}
 
-            <FormItem
-                label="Email"
-                invalid={errors.email && touched.email}
-                errorMessage={errors.email}
-            >
-                <Field
-                    type="email"
-                    autoComplete="off"
-                    name="email"
-                    placeholder="Email"
-                    component={Input}
-                    prefix={<HiMail className="text-xl" />}
-
-                />
-            </FormItem>
+                    />
+                </FormItem>
+            }
             <FormItem
                 label="ტელეფონის ნომერი"
                 invalid={errors.mobile && touched.mobile}
@@ -89,6 +91,23 @@ const PersonalInfoForm = (props) => {
 
                 />
             </FormItem>
+            {type === 'trainer' && (
+                <FormItem
+                    label="ფასი"
+                    invalid={errors.price && touched.price}
+                    errorMessage={errors.price}
+                >
+                    <Field
+                        type="number"
+                        autoComplete="off"
+                        name="price"
+                        placeholder="შეიყვანეთ თანხა"
+                        component={Input}
+                        prefix={<HiCash className="text-xl" />}
+
+                    />
+                </FormItem>
+            )}
             <FormItem
                 label="მისამართი"
                 invalid={errors.address && touched.address}

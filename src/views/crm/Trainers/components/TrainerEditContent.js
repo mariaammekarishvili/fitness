@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCustomerList, putCustomer } from '../store/dataSlice'
 import { setDrawerClose } from '../store/stateSlice'
 import cloneDeep from 'lodash/cloneDeep'
-import isEmpty from 'lodash/isEmpty'
 import CustomerForm from 'views/crm/CustomerForm'
 
 const CustomerEditContent = forwardRef((_, ref) => {
@@ -13,8 +12,8 @@ const CustomerEditContent = forwardRef((_, ref) => {
         (state) => state.crmCustomers.state.selectedCustomer
     )
     const data = useSelector((state) => state.crmCustomers.data.customerList)
-    const id = customer.customerID
-
+    const id = customer.trainerID
+    console.log('customer' , id)
     const onFormSubmit = (values) => {
         const {
             firstname,
@@ -48,10 +47,10 @@ const CustomerEditContent = forwardRef((_, ref) => {
             }
             return elm
         })
-        if (!isEmpty(editedCustomer)) {
+        // if (!isEmpty(editedCustomer)) {
             console.log('editedCustomer', editedCustomer)
             dispatch(putCustomer({ data: editedCustomer, customerID: id }))
-        }
+        // }/
         dispatch(setDrawerClose())
         dispatch(setCustomerList(newData))
     }
@@ -61,7 +60,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
             ref={ref}
             onFormSubmit={onFormSubmit}
             customer={customer}
-            type={'customer'}
+            type={'trainer'}
         />
     )
 })
