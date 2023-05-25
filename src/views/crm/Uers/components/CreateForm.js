@@ -4,7 +4,7 @@ import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
-import { createNewCustomer } from 'services/CrmService'
+import { createNewTrainer } from 'services/TrainerService'
 
 import {
     HiUserCircle,
@@ -13,6 +13,7 @@ import {
     HiPhone,
     HiCalendar,
     HiIdentification,
+    HiCash,
 } from 'react-icons/hi'
 
 const validationSchema = Yup.object().shape({
@@ -27,10 +28,10 @@ const validationSchema = Yup.object().shape({
     idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    email: Yup.string().email('Invalid email').required('Email Required'),
     mobile: Yup.string().max(12, ('too much!'))
         .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    email: Yup.string().email('Invalid email').required('Email Required'),
     address: Yup.string()
         .min(2, 'ინფორმაცია ძალიან მცირეა')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
@@ -47,8 +48,12 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა')
         .max(new Date(), 'Date cannot be in the future'),
     gander: Yup.string()
-        .oneOf(['male', 'female', 'non-binary', 'other'])
+        .oneOf(['user', 'admin'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    role: Yup.string()
+        .oneOf(['user', 'admin'])
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    password: Yup.password().required('პაროლის დაყენება სავალდებულოა')
 })
 
 const CreateForm = ({ setMessage, message }) => {
@@ -57,7 +62,7 @@ const CreateForm = ({ setMessage, message }) => {
 
     async function handleCreateNewCustomer(data) {
         try {
-            const response = await createNewCustomer({ data, companyId }, token);
+            const response = await createNewTrainer({ data, companyId }, token);
             setMessage('success')
         } catch (error) {
             setMessage(error?.message)
@@ -71,11 +76,12 @@ const CreateForm = ({ setMessage, message }) => {
                     firstname: '',
                     lastname: '',
                     idCard: '',
-                    email: '',
                     mobile: '',
                     address: '',
                     birthday: '',
                     gander: 'male',
+                    email: '',
+                    role: 'user'
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -126,7 +132,21 @@ const CreateForm = ({ setMessage, message }) => {
 
                                 />
                             </FormItem>
+                            <FormItem
+                                label="ტელეფონის ნომერი"
+                                invalid={errors.mobile && touched.mobile}
+                                errorMessage={errors.mobile}
+                            >
+                                <Field
+                                    type="number"
+                                    autoComplete="off"
+                                    name="mobile"
+                                    placeholder="ტელეფონის ნომერი"
+                                    component={Input}
+                                    prefix={<HiPhone className="text-xl" />}
 
+                                />
+                            </FormItem>
                             <FormItem
                                 label="Email"
                                 invalid={errors.email && touched.email}
@@ -143,20 +163,20 @@ const CreateForm = ({ setMessage, message }) => {
                                 />
                             </FormItem>
                             <FormItem
-                                label="ტელეფონის ნომერი"
-                                invalid={errors.mobile && touched.mobile}
-                                errorMessage={errors.mobile}
+                                label="პაროლი"
+                                invalid={errors.email && touched.email}
+                                errorMessage={errors.email}
                             >
                                 <Field
-                                    type="number"
+                                    type="text"
                                     autoComplete="off"
-                                    name="mobile"
-                                    placeholder="ტელეფონის ნომერი"
+                                    name="passwprd"
+                                    placeholder="შეიყვანეთ პაროლი"
                                     component={Input}
-                                    prefix={<HiPhone className="text-xl" />}
+                                    prefix={<HiMail className="text-xl" />}
 
                                 />
-                            </FormItem>
+                            </FormItem>        
                             <FormItem
                                 label="მისამართი"
                                 invalid={errors.address && touched.address}
