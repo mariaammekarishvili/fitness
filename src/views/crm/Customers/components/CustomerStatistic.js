@@ -75,7 +75,7 @@ const CustomerStatistic = ({type}) => {
             <StatisticCard
                 icon={<HiOutlineUserGroup />}
                 avatarClass="!bg-indigo-600"
-                label="მომხმარებლების რაოდენობა"
+                label="რაოდენობა"
                 value={data?.length}
                 growthRate={statisticData?.totalCustomers?.growShrink}
                 loading={!data}

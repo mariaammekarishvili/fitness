@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
-import { fetchTrainerList } from 'services/TrainerService'
+import { fetchList } from 'services/UserService'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ const CustomersTableTools = () => {
     useEffect(() => {// const type = 'customer' || 'user' || 'trainer'
 
         const fetchData = async () => {
-            const data = await fetchTrainerList({ companyId }, token);
+            const data = await fetchList({ companyId }, token);
             if (data) {
                 dispatch(setCustomerList(data))
             }
@@ -95,9 +95,9 @@ const CustomersTableTools = () => {
                 <CustomerTableFilter />
             </div>
             <div className="mb-4 flex">
-                <Button size="sm" onClick={onClearAll}>
+                {/* <Button size="sm" onClick={onClearAll}>
                     Clear All
-                </Button>
+                </Button> */}
                 <div style={{ marginLeft: '10px' }}>
                     <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
                         + დამატება

@@ -25,7 +25,6 @@ export const getCustomers = createAsyncThunk(
 export const putCustomer = createAsyncThunk(
     'crmCustomers/data/putCustomer',
     async ({ data, customerID }) => {
-        console.log('me', customerID);
         const response = await apiEditInfo({ data, customerID })
         return response.data
     }

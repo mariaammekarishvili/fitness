@@ -215,7 +215,7 @@ const CreateForm = ({ setMessage, message }) => {
                             <FormItem>
                                 {!message &&
                                     <Button variant="solid" type="submit">
-                                        Submit
+                                        დამატება
                                     </Button>
                                 }
                             </FormItem>

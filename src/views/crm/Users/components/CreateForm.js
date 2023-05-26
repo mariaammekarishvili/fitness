@@ -1,10 +1,10 @@
 
-import React from 'react'
+import React, {useState} from 'react'
 import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
-import { createNewTrainer } from 'services/TrainerService'
+import { createNewUser } from 'services/UserService'
 
 import {
     HiUserCircle,
@@ -13,7 +13,9 @@ import {
     HiPhone,
     HiCalendar,
     HiIdentification,
-    HiCash,
+    HiEye,
+    HiEyeOff,
+    HiKey
 } from 'react-icons/hi'
 
 const validationSchema = Yup.object().shape({
@@ -48,21 +50,25 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა')
         .max(new Date(), 'Date cannot be in the future'),
     gander: Yup.string()
-        .oneOf(['user', 'admin'])
+        .oneOf(['male', 'female'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     role: Yup.string()
-        .oneOf(['user', 'admin'])
+        .oneOf(['basic', 'admin'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    password: Yup.password().required('პაროლის დაყენება სავალდებულოა')
+    password: Yup.string().min(6, 'ინფორმაცია ძალიან მცირეა')
+        .required('პაროლის დაყენება სავალდებულოა')
 })
 
 const CreateForm = ({ setMessage, message }) => {
     const companyId = useSelector(state => state.auth.user.companyId)
     const token = useSelector((state) => state.auth.session.token)
 
+    const [showPassword, setShowPassword] = useState(false);
+
+
     async function handleCreateNewCustomer(data) {
         try {
-            const response = await createNewTrainer({ data, companyId }, token);
+            const response = await createNewUser({ data, companyId }, token);
             setMessage('success')
         } catch (error) {
             setMessage(error?.message)
@@ -81,7 +87,8 @@ const CreateForm = ({ setMessage, message }) => {
                     birthday: '',
                     gander: 'male',
                     email: '',
-                    role: 'user'
+                    role: 'user',
+                    password: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -89,6 +96,31 @@ const CreateForm = ({ setMessage, message }) => {
                 {({ touched, errors, resetForm }) => (
                     <Form>
                         <FormContainer>
+                        <FormItem
+                                label="როლი"
+                                invalid={errors.role && touched.role}
+                                errorMessage={errors.role}
+                            >
+                                <Field
+                                    type="radio"
+                                    name="role"
+                                    id='role'
+                                    value='basic'
+                                    check={'true'}
+                                    component={Radio}
+                                    placeholder={'xe'}
+                                />
+                                <label style={{ margin: '5px 20px 5px 5px' }} >თანამშრომელი</label>
+                                <Field
+                                    type="radio"
+                                    name="role"
+                                    id='role'
+                                    value='admin'
+                                    component={Radio}
+                                />
+                                <label style={{ marginLeft: '5px' }}>ადმინი</label>
+
+                            </FormItem>
                             <FormItem
                                 label="სახელი"
                                 invalid={errors.firstname && touched.firstname}
@@ -167,16 +199,24 @@ const CreateForm = ({ setMessage, message }) => {
                                 invalid={errors.email && touched.email}
                                 errorMessage={errors.email}
                             >
-                                <Field
-                                    type="text"
-                                    autoComplete="off"
-                                    name="passwprd"
-                                    placeholder="შეიყვანეთ პაროლი"
-                                    component={Input}
-                                    prefix={<HiMail className="text-xl" />}
-
-                                />
-                            </FormItem>        
+                                <div className="flex items-center relative">
+                                    <Field
+                                        type={showPassword ? 'text' : 'password'}
+                                        autoComplete="off"
+                                        name="password"
+                                        placeholder="შეიყვანეთ პაროლი"
+                                        component={Input}
+                                        prefix={<HiKey className="text-xl" />}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="ml-2 focus:outline-none absolute right-3"
+                                    >
+                                        {showPassword ? <HiEyeOff className="text-xl" /> : <HiEye className="text-xl" />}
+                                    </button>
+                                </div>
+                            </FormItem>
                             <FormItem
                                 label="მისამართი"
                                 invalid={errors.address && touched.address}
@@ -235,7 +275,7 @@ const CreateForm = ({ setMessage, message }) => {
                             <FormItem>
                                 {!message &&
                                     <Button variant="solid" type="submit">
-                                        Submit
+                                        დამატება
                                     </Button>
                                 }
                             </FormItem>

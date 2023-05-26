@@ -208,7 +208,7 @@ const EventDialog = ({ submit }) => {
                                 </FormItem>
                                 <FormItem className="mb-0 text-right rtl:text-left">
                                     <Button variant="solid" type="submit">
-                                        Submit
+                                        დამატება
                                     </Button>
                                 </FormItem>
                             </FormContainer>
