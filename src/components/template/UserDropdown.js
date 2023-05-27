@@ -10,20 +10,20 @@ import { FiActivity } from 'react-icons/fi'
 
 const dropdownItemList = [
     {
-        label: 'Profile',
+        label: 'პირადი ინფორმაცია',
         path: '/app/account/settings/profile',
         icon: <HiOutlineUser />,
     },
-    {
-        label: 'Account Setting',
-        path: '/app/account/settings/profile',
-        icon: <HiOutlineCog />,
-    },
-    {
-        label: 'Activity Log',
-        path: '/app/account/activity-log',
-        icon: <FiActivity />,
-    },
+    // {
+    //     label: 'Account Setting',
+    //     path: '/app/account/settings/profile',
+    //     icon: <HiOutlineCog />,
+    // },
+    // {
+    //     label: 'Activity Log',
+    //     path: '/app/account/activity-log',
+    //     icon: <FiActivity />,
+    // },
 ]
 
 export const UserDropdown = ({ className }) => {
@@ -35,7 +35,7 @@ export const UserDropdown = ({ className }) => {
 
     const UserAvatar = (
         <div className={classNames(className, 'flex items-center gap-2')}>
-            <Avatar size={32} shape="circle" src={avatar} />
+            <Avatar size={32} shape="circle" src={'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX25634105.jpg'} />
             <div className="hidden md:block">
                 <div className="text-xs capitalize">
                     {authority[0] || 'guest'}
@@ -54,7 +54,7 @@ export const UserDropdown = ({ className }) => {
             >
                 <Dropdown.Item variant="header">
                     <div className="py-2 px-3 flex items-center gap-2">
-                        <Avatar shape="circle" src={avatar} />
+                        <Avatar shape="circle" src={'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX25634105.jpg'} />
                         <div>
                             <div className="font-bold text-gray-900 dark:text-gray-100">
                                 {userName}
@@ -90,7 +90,7 @@ export const UserDropdown = ({ className }) => {
                     <span className="text-xl opacity-50">
                         <HiOutlineLogout />
                     </span>
-                    <span>Sign Out</span>
+                    <span>გასვლა</span>
                 </Dropdown.Item>
             </Dropdown>
         </div>

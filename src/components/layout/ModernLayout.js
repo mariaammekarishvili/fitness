@@ -10,12 +10,14 @@ import Search from 'components/template/Search'
 import SideNav from 'components/template/SideNav'
 import View from 'views'
 
+//use it for changes
+
 const HeaderActionsStart = () => {
     return (
         <>
             <MobileNav />
             <SideNavToggle />
-            <Search />
+            {/* <Search /> */}
         </>
     )
 }
@@ -23,9 +25,9 @@ const HeaderActionsStart = () => {
 const HeaderActionsEnd = () => {
     return (
         <>
-            <LanguageSelector />
+            {/* <LanguageSelector /> */}
             {/* <Notification /> */}
-            <SidePanel />
+            {/* <SidePanel /> */}
             <UserDropdown hoverable={false} />
         </>
     )

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { deleteCustomer } from '../store/dataSlice'
 import { Button, Dialog } from 'components/ui'
 import { setCustomerList } from '../store/dataSlice'
-import { fetchTrainerList } from 'services/TrainerService'
+import { fetchList } from 'services/UserService'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const DeleteColumn = ({ row }) => {
@@ -21,14 +21,12 @@ export const DeleteColumn = ({ row }) => {
         setIsOpen(false)
     }
 
-    console.log('log', row)
-
     const deleteAction = async () => {
-        dispatch(deleteCustomer({ data: row, customerID: row.trainerID }))
+        dispatch(deleteCustomer({ data: row, customerID: row.userID }))
         setIsOpen(false);
 
         setTimeout(async () => {
-            const data = await fetchTrainerList({ companyId: row?.companyID }, token);
+            const data = await fetchList({ companyId: row?.companyID }, token);
             if (data) {
                 dispatch(setCustomerList(data));
             }

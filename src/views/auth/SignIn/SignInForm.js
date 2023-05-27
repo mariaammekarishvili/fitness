@@ -97,11 +97,11 @@ const SignInForm = (props) => {
                                     className="mb-0"
                                     name="rememberMe"
                                     component={Checkbox}
-                                    children="Remember Me"
+                                    children="ინფორმაციის დამახსოვრება"
                                 />
-                                <ActionLink to={forgotPasswordUrl}>
+                                {/* <ActionLink to={forgotPasswordUrl}>
                                     Forgot Password?
-                                </ActionLink>
+                                </ActionLink> */}
                             </div>
                             <Button
                                 block
@@ -111,10 +111,10 @@ const SignInForm = (props) => {
                             >
                                 {isSubmitting ? 'Signing in...' : 'Sign In'}
                             </Button>
-                            <div className="mt-4 text-center">
+                            {/* <div className="mt-4 text-center">
                                 <span>Don't have an account yet? </span>
                                 <ActionLink to={signUpUrl}>Sign up</ActionLink>
-                            </div>
+                            </div> */}
                         </FormContainer>
                     </Form>
                 )}

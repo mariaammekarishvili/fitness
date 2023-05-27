@@ -7,12 +7,17 @@ import {
     HiPhone,
     HiCalendar,
     HiIdentification,
-    HiCash
+    HiCash,
+    HiKey,
+    HiEye,
+    HiEyeOff
 } from 'react-icons/hi'
 import { Field } from 'formik'
 
 const PersonalInfoForm = (props) => {
     const { touched, errors, type } = props
+
+    const [showPassword, setShowPassword] = React.useState(false);
 
     return (
         <>
@@ -76,6 +81,29 @@ const PersonalInfoForm = (props) => {
                     />
                 </FormItem>
             }
+            {type === 'user' && <FormItem
+                label="პაროლი"
+                invalid={errors.email && touched.email}
+                errorMessage={errors.email}
+            >
+                <div className="flex items-center relative">
+                    <Field
+                        type={showPassword ? 'text' : 'password'}
+                        autoComplete="off"
+                        name="password"
+                        placeholder="შეიყვანეთ პაროლი"
+                        component={Input}
+                        prefix={<HiKey className="text-xl" />}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="ml-2 focus:outline-none absolute right-3"
+                    >
+                        {showPassword ? <HiEyeOff className="text-xl" /> : <HiEye className="text-xl" />}
+                    </button>
+                </div>
+            </FormItem>}
             <FormItem
                 label="ტელეფონის ნომერი"
                 invalid={errors.mobile && touched.mobile}

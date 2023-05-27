@@ -13,7 +13,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
     )
     const data = useSelector((state) => state.crmCustomers.data.customerList)
     const id = customer.trainerID
-    console.log('customer' , id)
+
     const onFormSubmit = (values) => {
         const {
             firstname,
@@ -60,7 +60,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
             ref={ref}
             onFormSubmit={onFormSubmit}
             customer={customer}
-            type={'trainer'}
+            type={'user'}
         />
     )
 })

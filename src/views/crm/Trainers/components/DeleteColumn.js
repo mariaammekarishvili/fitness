@@ -21,8 +21,6 @@ export const DeleteColumn = ({ row }) => {
         setIsOpen(false)
     }
 
-    console.log('log', row)
-
     const deleteAction = async () => {
         dispatch(deleteCustomer({ data: row, customerID: row.trainerID }))
         setIsOpen(false);

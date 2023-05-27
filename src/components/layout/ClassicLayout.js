@@ -14,8 +14,8 @@ const HeaderActionsStart = () => {
     return (
         <>
             <MobileNav />
-            <SideNavToggle />
-            <Search />
+            {/* <SideNavToggle /> */}
+            {/* <Search /> */}
         </>
     )
 }
@@ -23,7 +23,7 @@ const HeaderActionsStart = () => {
 const HeaderActionsEnd = () => {
     return (
         <>
-            <LanguageSelector />
+            {/* <LanguageSelector /> */}
             {/* {/* <Notification /> */} 
             <SidePanel />
             <UserDropdown hoverable={false} />

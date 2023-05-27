@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -65,7 +65,6 @@ const CreateForm = ({ setMessage, message }) => {
 
     const [showPassword, setShowPassword] = useState(false);
 
-
     async function handleCreateNewCustomer(data) {
         try {
             const response = await createNewUser({ data, companyId }, token);
@@ -87,7 +86,7 @@ const CreateForm = ({ setMessage, message }) => {
                     birthday: '',
                     gander: 'male',
                     email: '',
-                    role: 'user',
+                    role: 'basic',
                     password: '',
                 }}
                 validationSchema={validationSchema}
@@ -96,31 +95,6 @@ const CreateForm = ({ setMessage, message }) => {
                 {({ touched, errors, resetForm }) => (
                     <Form>
                         <FormContainer>
-                        <FormItem
-                                label="როლი"
-                                invalid={errors.role && touched.role}
-                                errorMessage={errors.role}
-                            >
-                                <Field
-                                    type="radio"
-                                    name="role"
-                                    id='role'
-                                    value='basic'
-                                    check={'true'}
-                                    component={Radio}
-                                    placeholder={'xe'}
-                                />
-                                <label style={{ margin: '5px 20px 5px 5px' }} >თანამშრომელი</label>
-                                <Field
-                                    type="radio"
-                                    name="role"
-                                    id='role'
-                                    value='admin'
-                                    component={Radio}
-                                />
-                                <label style={{ marginLeft: '5px' }}>ადმინი</label>
-
-                            </FormItem>
                             <FormItem
                                 label="სახელი"
                                 invalid={errors.firstname && touched.firstname}

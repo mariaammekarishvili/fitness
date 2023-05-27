@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import {
-    fetchTrainerList,
+    fetchList,
     apiEditInfo,
     apiGetCrmCustomersStatistic,
     apiDelete,
-} from 'services/TrainerService'
+} from 'services/UserService'
 
 export const getCustomerStatistic = createAsyncThunk(
     'crmCustomers/data/getCustomerStatistic',
@@ -17,7 +17,7 @@ export const getCustomerStatistic = createAsyncThunk(
 export const getCustomers = createAsyncThunk(
     'crmCustomers/data/getCustomers',
     async ({ companyId }) => {
-        const response = await fetchTrainerList({ companyId })
+        const response = await fetchList({ companyId })
         return response.data
     }
 )
