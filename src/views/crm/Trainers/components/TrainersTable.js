@@ -94,7 +94,7 @@ const columns = [
     },
     {
         header: 'ფასი',
-        accessorKey: 'mobile',
+        accessorKey: 'price',
         cell: (props) => {
             const row = props.row.original
             return (

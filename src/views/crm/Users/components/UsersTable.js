@@ -93,13 +93,13 @@ const columns = [
         },
     },
     {
-        header: 'ფასი',
-        accessorKey: 'mobile',
+        header: 'email',
+        accessorKey: 'email',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row.price}₾ 
+                    {row.email}
                 </div>
             )
         },

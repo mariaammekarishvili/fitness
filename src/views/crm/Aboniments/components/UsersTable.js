@@ -89,13 +89,25 @@ const columns = [
         },
     },
     {
-        header: 'მაქსიმალური რაოდენობა',
+        header: 'ვიზიტების რაოდენობა',
         accessorKey: 'maxEntries',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
                     {formatDate(row.maxEntries)}
+                </div>
+            )
+        },
+    },
+    {
+        header: 'საშეღავათო პერიოდი',
+        accessorKey: 'countStartsDays',
+        cell: (props) => {
+            const row = props.row.original
+            return (
+                <div className="flex items-center">
+                    {formatDate(row.countStartsDays)} დღე
                 </div>
             )
         },

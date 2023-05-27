@@ -21,7 +21,7 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
-    useEffect(() => {// const type = 'customer' || 'user' || 'trainer'
+    useEffect(() => { 
 
         const fetchData = async () => {
             const data = await fetchList({ companyId }, token);
@@ -108,7 +108,7 @@ const CustomersTableTools = () => {
                     onClose={onDialogClose}
                     onRequestClose={onDialogClose}
                 >
-                    <div className='add-form-div'>
+                    <div>
                         <CreateForm setMessage={setMessage} message={message} />
                     </div>
                     {message && (

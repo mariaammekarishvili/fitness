@@ -21,7 +21,7 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
-    useEffect(() => {// const type = 'customer' || 'user' || 'trainer'
+    useEffect(() => { 
 
         const fetchData = async () => {
             const data = await fetchTrainerList({ companyId }, token);

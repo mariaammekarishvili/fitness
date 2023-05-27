@@ -7,7 +7,7 @@ import { injectReducer } from 'store/index'
 import reducer from './store'
 
 injectReducer('crmCustomers', reducer)
-// const type = 'customer' || 'user' || 'trainer'
+ 
 const Customers = ({type}) => {
     return (
         <>
