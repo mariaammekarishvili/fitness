@@ -101,7 +101,7 @@ const appsRoute = [
     {
         key: 'appsCrm.aboniments',
         path: `${APP_PREFIX_PATH}/crm/aboniments`,
-        component: React.lazy(() => import('views/crm/Customers')),
+        component: React.lazy(() => import('views/crm/Aboniments')),
         authority: [ADMIN, USER],
         meta: {
             header: 'აბონიმენტები',

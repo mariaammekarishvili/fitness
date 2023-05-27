@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Dialog, Alert } from 'components/ui'
 import { getCustomers, setTableData, setFilterData } from '../store/dataSlice'
-import CustomerTableSearch from './CustomerTableSearch'
-import CustomerTableFilter from './CustomerTableFilter'
+import CustomerTableSearch from './UserTableSearch'
+import CustomerTableFilter from './UserTableFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
-import { fetchCustomers } from 'services/CrmService'
+import { fetchList } from 'services/AbonimentService'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -21,9 +21,10 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
-    useEffect(() => {
+    useEffect(() => {// const type = 'customer' || 'user' || 'trainer'
+
         const fetchData = async () => {
-            const data = await fetchCustomers({ companyId }, token);
+            const data = await fetchList({ companyId }, token);
             if (data) {
                 dispatch(setCustomerList(data))
             }

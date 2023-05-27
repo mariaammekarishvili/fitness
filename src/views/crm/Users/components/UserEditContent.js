@@ -12,7 +12,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
         (state) => state.crmCustomers.state.selectedCustomer
     )
     const data = useSelector((state) => state.crmCustomers.data.customerList)
-    const id = customer.trainerID
+    const id = customer.userID
 
     const onFormSubmit = (values) => {
         const {
@@ -24,6 +24,8 @@ const CustomerEditContent = forwardRef((_, ref) => {
             address,
             birthday,
             gander,
+            role,
+            password,
         } = values
 
         const basicInfo = {
@@ -35,12 +37,14 @@ const CustomerEditContent = forwardRef((_, ref) => {
             address,
             birthday,
             gander,
+            role,
+            password,
         }
         const personalInfo = {}
         let newData = cloneDeep(data)
         let editedCustomer = {}
         newData = newData.map((elm) => {
-            if (elm.customerID === id) {
+            if (elm.userID === id) {
                 elm = { ...elm, ...basicInfo }
                 elm.personalInfo = { ...elm.personalInfo, ...personalInfo }
                 editedCustomer = elm

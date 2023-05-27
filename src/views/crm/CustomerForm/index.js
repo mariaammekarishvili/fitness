@@ -20,10 +20,11 @@ const CustomerForm = forwardRef((props, ref) => {
         mobile: customer.mobile || '',
         address: customer.address || '',
         birthday: customer.birthday || '',
-        gander: customer.gander || '',
-        price: customer.price || '',
+        gander: customer.gander || 'male',
+        price: customer.price || 0,
         email: customer.email || '',
         password: '',
+        role: customer.role || '',
     }
 
     const [validationSchema, setValidationSchema] = useState()
@@ -32,6 +33,7 @@ const CustomerForm = forwardRef((props, ref) => {
         if (type === 'customer') {
             setValidationSchema(ValidationSchemaCustomer)
         } else if (type === 'trainer') {
+            console.log('i am trener')
             setValidationSchema(ValidationSchemaTrainer)
         } else if (type === 'user') {
             setValidationSchema(ValidationSchemaUser)

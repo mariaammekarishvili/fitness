@@ -121,7 +121,7 @@ const PersonalInfoForm = (props) => {
             </FormItem>
             {type === 'trainer' && (
                 <FormItem
-                    label="ფასი"
+                    label="ანაზღაურება"
                     invalid={errors.price && touched.price}
                     errorMessage={errors.price}
                 >

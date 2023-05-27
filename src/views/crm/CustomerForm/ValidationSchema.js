@@ -11,8 +11,8 @@ export const ValidationSchemaCustomer = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'), 
-        email: Yup.string().email('Invalid email').required('Email Required'),
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    email: Yup.string().email('Invalid email').required('Email Required'),
     mobile: Yup.string().max(12, ('too much!'))
         .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
@@ -70,7 +70,7 @@ export const ValidationSchemaTrainer = Yup.object().shape({
     gander: Yup.string()
         .oneOf(['male', 'female'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    price: Yup.number().min(1, 'ინფორმაცია ძალიან მცირეა')
+    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })

@@ -1,43 +1,10 @@
 import ApiService from './ApiService'
-
-export async function apiGetCrmDashboardData(data) {
-    return ApiService.fetchData({
-        url: '/crm/dashboard',
-        method: 'get',
-        data,
-    })
-}
-
-export async function apiGetCrmCalendar() {
-    return ApiService.fetchData({
-        url: '/crm/calendar',
-        method: 'get',
-    })
-}
-
-export async function apiGetCrmCustomers({ companyId }) {
-    return ApiService.fetchData({
-        url: `/customers/list/${companyId}`,
-        method: 'get',
-    })
-}
-
-// export async function createNewCustomer({data,companyId}) {
-//     return ApiService.fetchData({
-//         url: `/customers/register/${companyId}`,
-//         method: 'post',
-//         data,
-//     })
-// }
-
-// ---> usable
-
-// change
+//change
 const API = 'http://localhost:3000';
 
-export async function createNewCustomer({ data, companyId }, token) {
+export async function createNewUser({ data, companyId }, token) {
     try {
-        const response = await fetch(`${API}/customers/register/${companyId}`, {
+        const response = await fetch(`${API}/aboniments/register/${companyId}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -47,8 +14,7 @@ export async function createNewCustomer({ data, companyId }, token) {
         });
 
         if (!response.ok) {
-            console.log(response.status);
-             if (response.status == 409) {
+            if (response.status == 409) {
                 throw new Error('იუზერი უკვე არსებობს');
             } else {
                 throw new Error('შექმნისას წარმოიქმნა პრობლემა');
@@ -63,9 +29,9 @@ export async function createNewCustomer({ data, companyId }, token) {
     }
 }
 
-export const fetchCustomers = async ({ companyId }, token) => {
+export const fetchList = async ({ companyId }, token) => {
     try {
-        const response = await fetch(`${API}/customers/list/${companyId}`, {
+        const response = await fetch(`${API}/aboniments/list/${companyId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -82,23 +48,23 @@ export const fetchCustomers = async ({ companyId }, token) => {
     }
 };
 
-export async function apPutCrmCustomer({data, customerID}) {
-    console.log('my', data)
+export async function apiEditInfo({data, customerID}) {
     return ApiService.fetchData({
-        url: `/customers/update/${customerID}`,
+        url: `/aboniments/update/${customerID}`,
         method: 'put',
         data,
     })
 }
 
-export async function apiDeleteCrmCustomer({data, customerID}) {
+export async function apiDelete({data, customerID}) {
     return ApiService.fetchData({
-        url: `/customers/delete/${customerID}`,
+        url: `/aboniments/delete/${customerID}`,
         method: 'delete',
         data,
     })
 }
-//  <---
+
+// --------------------
 
 export async function apiGetCrmCustomersStatistic(params) {
     return ApiService.fetchData({
@@ -132,3 +98,5 @@ export async function apiGetCrmMail(params) {
         params,
     })
 }
+
+

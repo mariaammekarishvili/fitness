@@ -14,7 +14,7 @@ export async function createNewTrainer({ data, companyId }, token) {
         });
 
         if (!response.ok) {
-            if (response.status) {
+             if (response.status == 409) {
                 throw new Error('იუზერი უკვე არსებობს');
             } else {
                 throw new Error('შექმნისას წარმოიქმნა პრობლემა');

@@ -33,6 +33,11 @@ export const UserDropdown = ({ className }) => {
 
     const { signOut } = useAuth()
 
+    const signOutAc = () => {
+        localStorage.removeItem('admin');
+        window.location.reload();
+    }
+
     const UserAvatar = (
         <div className={classNames(className, 'flex items-center gap-2')}>
             <Avatar size={32} shape="circle" src={'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX25634105.jpg'} />
@@ -83,7 +88,7 @@ export const UserDropdown = ({ className }) => {
                 ))}
                 <Dropdown.Item variant="divider" />
                 <Dropdown.Item
-                    onClick={signOut}
+                    onClick={signOutAc}
                     eventKey="Sign Out"
                     className="gap-2"
                 >

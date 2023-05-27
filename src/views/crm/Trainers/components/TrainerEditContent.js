@@ -16,32 +16,33 @@ const CustomerEditContent = forwardRef((_, ref) => {
     const id = customer.trainerID
 
     const onFormSubmit = (values) => {
+        console.log('i am submit')
         const {
             firstname,
             lastname,
             idCard,
-            email,
             mobile,
             address,
             birthday,
             gander,
+            price
         } = values
 
         const basicInfo = {
             firstname,
             lastname,
             idCard,
-            email,
             mobile,
             address,
             birthday,
             gander,
+            price
         }
         const personalInfo = {}
         let newData = cloneDeep(data)
         let editedCustomer = {}
         newData = newData.map((elm) => {
-            if (elm.customerID === id) {
+            if (elm.trainerID === id) {
                 elm = { ...elm, ...basicInfo }
                 elm.personalInfo = { ...elm.personalInfo, ...personalInfo }
                 editedCustomer = elm
