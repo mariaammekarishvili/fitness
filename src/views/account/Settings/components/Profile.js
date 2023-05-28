@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
         .min(3, 'Too Short!')
         .max(12, 'Too Long!')
         .required('User Name Required'),
-    email: Yup.string().email('Invalid email').required('Email Required'),
+    email: Yup.string().email('Invalid email') ,
     title: Yup.string(),
     avatar: Yup.string(),
     lang: Yup.string(),

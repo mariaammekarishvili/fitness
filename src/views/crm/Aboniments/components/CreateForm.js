@@ -4,7 +4,7 @@ import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
-import { createNewUser } from 'services/UserService'
+import { createNewUser } from 'services/AbonimentService'
 
 import {
     HiUserCircle,
@@ -14,10 +14,6 @@ import {
 } from 'react-icons/hi'
 
 const validationSchema = Yup.object().shape({
-    abonentID: Yup.string()
-        .min(2, 'ინფორმაცია ძალიან მცირეა')
-        .max(12, 'ინფორმაცია ზედმეტად დიდია')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'),
     name: Yup.string()
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
@@ -50,7 +46,6 @@ const CreateForm = ({ setMessage, message }) => {
         <div>
             <Formik
                 initialValues={{
-                   abonentID: '',
                    name: '',
                    price: 0,
                    maxEntries: 0,

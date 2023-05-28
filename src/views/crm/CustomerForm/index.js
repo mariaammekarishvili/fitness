@@ -25,6 +25,7 @@ const CustomerForm = forwardRef((props, ref) => {
         email: customer.email || '',
         password: '',
         role: customer.role || '',
+        status: customer.status || ''
     }
 
     const [validationSchema, setValidationSchema] = useState()
@@ -33,7 +34,6 @@ const CustomerForm = forwardRef((props, ref) => {
         if (type === 'customer') {
             setValidationSchema(ValidationSchemaCustomer)
         } else if (type === 'trainer') {
-            console.log('i am trener')
             setValidationSchema(ValidationSchemaTrainer)
         } else if (type === 'user') {
             setValidationSchema(ValidationSchemaUser)
@@ -58,7 +58,7 @@ const CustomerForm = forwardRef((props, ref) => {
                         <Tabs defaultValue="personalInfo">
                             <TabList>
                                 <TabNav value="personalInfo">
-                                    პრიადი ინფორმაცია
+                                    პირადი ინფორმაცია
                                 </TabNav>
                             </TabList>
                             <div className="p-6">

@@ -135,7 +135,7 @@ const CreateForm = ({ setMessage, message }) => {
                                 errorMessage={errors.mobile}
                             >
                                 <Field
-                                    type="number"
+                                    type="string"
                                     autoComplete="off"
                                     name="mobile"
                                     placeholder="ტელეფონის ნომერი"

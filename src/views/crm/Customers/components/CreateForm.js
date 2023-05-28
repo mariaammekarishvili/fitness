@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
     idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    email: Yup.string().email('Invalid email').required('Email Required'),
+    email: Yup.string().email('Invalid email') ,
     mobile: Yup.string().max(12, ('too much!'))
         .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
@@ -148,7 +148,7 @@ const CreateForm = ({ setMessage, message }) => {
                                 errorMessage={errors.mobile}
                             >
                                 <Field
-                                    type="number"
+                                    type="string"
                                     autoComplete="off"
                                     name="mobile"
                                     placeholder="ტელეფონის ნომერი"

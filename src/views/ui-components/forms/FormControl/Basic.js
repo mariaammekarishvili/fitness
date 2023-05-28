@@ -5,7 +5,7 @@ import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi'
 import * as Yup from 'yup'
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email Required'),
+    email: Yup.string().email('Invalid email') ,
     userName: Yup.string()
         .min(3, 'Too Short!')
         .max(12, 'Too Long!')

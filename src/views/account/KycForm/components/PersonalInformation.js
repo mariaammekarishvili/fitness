@@ -69,7 +69,7 @@ const PhoneControl = ({ children, ...props }) => {
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First Name Required'),
     lastName: Yup.string().required('Last Name Required'),
-    email: Yup.string().email('Invalid email').required('Email Required'),
+    email: Yup.string().email('Invalid email') ,
     nationality: Yup.string().required('Please select your nationality'),
     phoneNumber: Yup.string().required('Please enter your phone number'),
     dob: Yup.string().required('Please enter your date of birth'),
