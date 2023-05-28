@@ -1,11 +1,11 @@
 import React, { useState, forwardRef, useEffect } from 'react'
-import { Tabs, Dialog, FormContainer, Button } from 'components/ui'
+import { Tabs, FormContainer } from 'components/ui'
 import { Form, Formik } from 'formik'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import * as Yup from 'yup'
 import PersonalInfoForm from './PersonalInfoForm'
-import { ValidationSchemaCustomer, ValidationSchemaUser, ValidationSchemaTrainer } from './ValidationSchema'
+import AbonimentInfoForm from './AbonimentInfoForm'
+import { ValidationSchemaCustomer, ValidationSchemaAboniment, ValidationSchemaUser, ValidationSchemaTrainer } from './ValidationSchema'
 dayjs.extend(customParseFormat)
 
 const { TabNav, TabList, TabContent } = Tabs
@@ -25,7 +25,10 @@ const CustomerForm = forwardRef((props, ref) => {
         email: customer.email || '',
         password: '',
         role: customer.role || '',
-        status: customer.status || ''
+        status: customer.status || '',
+        name: customer.name || '',
+        maxEntries: customer.maxEntries || 0,
+        countStartsDays: customer.countStartsDays || 0,
     }
 
     const [validationSchema, setValidationSchema] = useState()
@@ -37,6 +40,8 @@ const CustomerForm = forwardRef((props, ref) => {
             setValidationSchema(ValidationSchemaTrainer)
         } else if (type === 'user') {
             setValidationSchema(ValidationSchemaUser)
+        } else if (type === 'aboniment') {
+            setValidationSchema(ValidationSchemaAboniment)
         }
     }, [])
 
@@ -63,11 +68,17 @@ const CustomerForm = forwardRef((props, ref) => {
                             </TabList>
                             <div className="p-6">
                                 <TabContent value="personalInfo">
-                                    <PersonalInfoForm
-                                        touched={touched}
+                                    {(!type === 'aboniment') &&
+                                        <PersonalInfoForm
+                                            touched={touched}
+                                            errors={errors}
+                                            type={type}
+                                        />}
+                                    {type === 'aboniment' &&
+                                     <AbonimentInfoForm touched={touched}
                                         errors={errors}
-                                        type={type}
-                                    />
+                                        type={type} 
+                                    />}
                                 </TabContent>
                                 {/* <TabContent value="social">
                                     <SocialLinkForm

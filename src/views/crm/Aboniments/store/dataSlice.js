@@ -4,7 +4,7 @@ import {
     apiEditInfo,
     apiGetCrmCustomersStatistic,
     apiDelete,
-} from 'services/UserService'
+} from 'services/AbonimentService'
 
 export const getCustomerStatistic = createAsyncThunk(
     'crmCustomers/data/getCustomerStatistic',

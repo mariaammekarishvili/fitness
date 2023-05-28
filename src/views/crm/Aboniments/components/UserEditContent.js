@@ -12,35 +12,27 @@ const CustomerEditContent = forwardRef((_, ref) => {
         (state) => state.crmCustomers.state.selectedCustomer
     )
     const data = useSelector((state) => state.crmCustomers.data.customerList)
-    const id = customer.trainerID
+    const id = customer.abonimentID
 
     const onFormSubmit = (values) => {
         const {
-            firstname,
-            lastname,
-            idCard,
-            email,
-            mobile,
-            address,
-            birthday,
-            gander,
+            name,
+            price,
+            maxEntries,
+            countStartsDays
         } = values
 
         const basicInfo = {
-            firstname,
-            lastname,
-            idCard,
-            email,
-            mobile,
-            address,
-            birthday,
-            gander,
+            name,
+            price,
+            maxEntries,
+            countStartsDays
         }
         const personalInfo = {}
         let newData = cloneDeep(data)
         let editedCustomer = {}
         newData = newData.map((elm) => {
-            if (elm.customerID === id) {
+            if (elm.abonimentID === id) {
                 elm = { ...elm, ...basicInfo }
                 elm.personalInfo = { ...elm.personalInfo, ...personalInfo }
                 editedCustomer = elm
@@ -48,7 +40,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
             return elm
         })
         // if (!isEmpty(editedCustomer)) {
-            console.log('editedCustomer', editedCustomer)
+            console.log('edited', editedCustomer)
             dispatch(putCustomer({ data: editedCustomer, customerID: id }))
         // }/
         dispatch(setDrawerClose())
@@ -60,7 +52,7 @@ const CustomerEditContent = forwardRef((_, ref) => {
             ref={ref}
             onFormSubmit={onFormSubmit}
             customer={customer}
-            type={'user'}
+            type={'aboniment'}
         />
     )
 })

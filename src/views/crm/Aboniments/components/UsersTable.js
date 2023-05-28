@@ -107,7 +107,7 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {formatDate(row.countStartsDays)} დღე
+                    {row.countStartsDays} დღე
                 </div>
             )
         },

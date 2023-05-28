@@ -118,3 +118,19 @@ export const ValidationSchemaUser = Yup.object().shape({
     password: Yup.string().min(6, 'ინფორმაცია ძალიან მცირეა')
         .required('პაროლის დაყენება სავალდებულოა')
 })
+
+export const ValidationSchemaAboniment = Yup.object().shape({
+    name: Yup.string()
+        .min(2, 'ინფორმაცია ძალიან მცირეა!')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+        .max(8, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    maxEntries: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+        .max(8, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    countStartsDays: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+        .max(8, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+})
