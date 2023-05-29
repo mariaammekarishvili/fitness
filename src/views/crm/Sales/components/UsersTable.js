@@ -31,25 +31,7 @@ const ActionColumn = ({ row }) => {
         </div>
     )
 }
-const WeekDays = ({ row }) => {
-    const daysOfWeek = {
-        sunday: 'კვირა',
-        monday: 'ორშაბათი',
-        tuesday: 'სამშაბათი',
-        wednesday: 'ოთხშაბათი',
-        thursday: 'ხუთშაბათი',
-        friday: 'პარასკევი',
-        saturday: 'შაბათი',
-    };
-    console.log('list', row.weekDays);
-    return (
-        <>
-            {row.weekDays.map((item, key) => (
-                <div key={item}>{daysOfWeek[item]}</div>
-            ))}
-        </>
-    )
-}
+
 const NameColumn = ({ row }) => {
     const { textTheme } = useThemeClass()
 
@@ -65,6 +47,25 @@ const NameColumn = ({ row }) => {
         </div>
     )
 }
+
+const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = String(phoneNumber)?.replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{3})$/);
+    if (match) {
+        return `(${match[1]}) ${match[2]} - ${match[3]}`;
+    }
+    return phoneNumber;
+};
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    return formattedDate;
+};
 
 const columns = [
     {
@@ -82,39 +83,34 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row.price}₾
+                    {row.price}₾ 
                 </div>
             )
         },
     },
     {
-        header: 'წევრების მაქსიმალური რაოდენობა',
-        accessorKey: 'capacity',
+        header: 'ვიზიტების რაოდენობა',
+        accessorKey: 'maxEntries',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row.capacity}
+                    {formatDate(row.maxEntries)}
                 </div>
             )
         },
     },
     {
-        header: 'დაწყების დრო',
-        accessorKey: 'timeOfTheDay',
+        header: 'საშეღავათო პერიოდი',
+        accessorKey: 'countStartsDays',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row.timeOfTheDay} სთ
+                    {row.countStartsDays} დღე
                 </div>
             )
         },
-    },
-    {
-        header: 'სავარჯიშო დღეები',
-        accessorKey: 'weekDays',
-        cell: (props) => <WeekDays row={props.row.original} />
     },
     {
         header: '',

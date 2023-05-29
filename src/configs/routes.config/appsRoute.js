@@ -107,8 +107,21 @@ const appsRoute = [
             header: 'აბონიმენტები',
             // headerContainer: true,
         },
-        // <---
+       
     },
+    {
+        key: 'appsCrm.aboniments',
+        path: `${APP_PREFIX_PATH}/crm/sales`,
+        component: React.lazy(() => import('views/crm/Aboniments')),
+        authority: [ADMIN, USER],
+        meta: {
+            header: 'გაყიდვები',
+            // headerContainer: true,
+        },
+       
+    },
+
+     // <---
     {
         key: 'appsCrm.mail',
         path: `${APP_PREFIX_PATH}/crm/mail/:category`,
