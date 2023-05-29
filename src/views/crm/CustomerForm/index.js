@@ -5,7 +5,8 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import PersonalInfoForm from './PersonalInfoForm'
 import AbonimentInfoForm from './AbonimentInfoForm'
-import { ValidationSchemaCustomer, ValidationSchemaAboniment, ValidationSchemaUser, ValidationSchemaTrainer } from './ValidationSchema'
+import WorkoutInfoForm from './WorkoutInfoForm'
+import { ValidationSchemaCustomer, ValidationSchemaWorkout, ValidationSchemaAboniment, ValidationSchemaUser, ValidationSchemaTrainer } from './ValidationSchema'
 dayjs.extend(customParseFormat)
 
 const { TabNav, TabList, TabContent } = Tabs
@@ -29,6 +30,9 @@ const CustomerForm = forwardRef((props, ref) => {
         name: customer.name || '',
         maxEntries: customer.maxEntries || 0,
         countStartsDays: customer.countStartsDays || 0,
+        weekDays: customer.weekDays || '',
+        timeOfTheDay: customer.timeOfTheDay || '',
+        capacity: customer.capacity || ''
     }
 
     const [validationSchema, setValidationSchema] = useState()
@@ -42,6 +46,8 @@ const CustomerForm = forwardRef((props, ref) => {
             setValidationSchema(ValidationSchemaUser)
         } else if (type === 'aboniment') {
             setValidationSchema(ValidationSchemaAboniment)
+        } else if (type === 'workout') {
+            setValidationSchema(ValidationSchemaWorkout)
         }
     }, [])
 
@@ -68,17 +74,21 @@ const CustomerForm = forwardRef((props, ref) => {
                             </TabList>
                             <div className="p-6">
                                 <TabContent value="personalInfo">
-                                    {(!type === 'aboniment') &&
+                                    {(!(type === 'aboniment') && !(type === 'workout')) &&
                                         <PersonalInfoForm
                                             touched={touched}
                                             errors={errors}
                                             type={type}
                                         />}
                                     {type === 'aboniment' &&
-                                     <AbonimentInfoForm touched={touched}
+                                        <AbonimentInfoForm touched={touched}
+                                            errors={errors}
+                                            type={type}
+                                        />}
+                                    {type === 'workout' && 
+                                    <WorkoutInfoForm
                                         errors={errors}
-                                        type={type} 
-                                    />}
+                                        type={type} />}
                                 </TabContent>
                                 {/* <TabContent value="social">
                                     <SocialLinkForm

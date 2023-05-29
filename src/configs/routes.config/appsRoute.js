@@ -91,7 +91,7 @@ const appsRoute = [
     {
         key: 'appsCrm.workout',
         path: `${APP_PREFIX_PATH}/crm/workout`,
-        component: React.lazy(() => import('views/crm/Customers')),
+        component: React.lazy(() => import('views/crm/Workout')),
         authority: [ADMIN, USER],
         meta: {
             header: 'სავარჯიშო ჯგუფები',
