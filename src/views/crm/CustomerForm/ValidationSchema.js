@@ -35,7 +35,7 @@ export const ValidationSchemaCustomer = Yup.object().shape({
         .oneOf(['male', 'female', 'non-binary', 'other'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     status: Yup.string()
-        .oneOf(['silver', 'gold', 'platinum'])
+        .oneOf(['silver', 'gold', 'platinium'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 

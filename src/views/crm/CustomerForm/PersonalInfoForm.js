@@ -64,38 +64,38 @@ const PersonalInfoForm = (props) => {
 
                 />
             </FormItem>
-            {type === 'customer' && <FormItem
-                label="სტატუსი"
-                invalid={errors.status && touched.status}
-                errorMessage={errors.status}
-            >
-                <Field
-                    type="radio"
-                    name="status"
-                    id='silver'
-                    value='silver'
-                    component={Radio}
-                    placeholder={'xe'}
-                />
-                <label style={{ margin: '5px 20px 5px 5px' }} >ვერცხლი</label>
-                <Field
-                    type="radio"
-                    name="status"
-                    id='gold'
-                    value='gold'
-                    component={Radio}
-                />
-                <label style={{ margin: '5px 20px 5px 5px' }}>ოქრო</label>
-                <Field
-                    type="radio"
-                    name="status"
-                    id='platinum'
-                    value='platinum'
-                    component={Radio}
-                />
-                <label style={{ marginLeft: '5px' }}>პლატინა</label>
-
-            </FormItem>
+            {type === 'customer' &&
+                <FormItem
+                    label="სტატუსი"
+                    invalid={errors.status && touched.status}
+                    errorMessage={errors.status}
+                >
+                    <Field
+                        type="radio"
+                        name="status"
+                        id='silver'
+                        value='silver'
+                        component={Radio}
+                        check={'true'}
+                    />
+                    <label style={{ margin: '5px 20px 5px 5px' }} >ვერცხლი</label>
+                    <Field
+                        type="radio"
+                        name="status"
+                        id='gold'
+                        value='gold'
+                        component={Radio}
+                    />
+                    <label style={{ margin: '5px 20px 5px 5px' }}>ოქრო</label>
+                    <Field
+                        type="radio"
+                        name="status"
+                        id='platinium'
+                        value='platinium'
+                        component={Radio}
+                    />
+                    <label style={{ marginLeft: '5px' }}>პლატინა</label>
+                </FormItem>
             }
             {!(type === 'trainer') &&
                 <FormItem
@@ -143,7 +143,7 @@ const PersonalInfoForm = (props) => {
                 errorMessage={errors.mobile}
             >
                 <Field
-                    type="number"
+                    type="string"
                     autoComplete="off"
                     name="mobile"
                     placeholder="ტელეფონის ნომერი"
@@ -210,7 +210,6 @@ const PersonalInfoForm = (props) => {
                     value='male'
                     check={'true'}
                     component={Radio}
-                    placeholder={'xe'}
                 />
                 <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
                 <Field

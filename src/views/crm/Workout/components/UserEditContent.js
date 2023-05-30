@@ -18,15 +18,17 @@ const CustomerEditContent = forwardRef((_, ref) => {
         const {
             name,
             price,
-            maxEntries,
-            countStartsDays
+            capacity,
+            weekDays,
+            timeOfTheDay
         } = values
 
         const basicInfo = {
             name,
             price,
-            maxEntries,
-            countStartsDays
+            capacity,
+            timeOfTheDay,
+            weekDays
         }
         const personalInfo = {}
         let newData = cloneDeep(data)

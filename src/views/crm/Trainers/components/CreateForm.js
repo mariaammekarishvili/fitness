@@ -200,8 +200,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     value='male'
                                     check={'true'}
                                     component={Radio}
-                                    placeholder={'xe'}
-                                />
+                                                 />
                                 <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
                                 <Field
                                     type="radio"

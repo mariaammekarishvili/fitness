@@ -30,7 +30,7 @@ const CustomerForm = forwardRef((props, ref) => {
         name: customer.name || '',
         maxEntries: customer.maxEntries || 0,
         countStartsDays: customer.countStartsDays || 0,
-        weekDays: customer.weekDays || '',
+        weekDays: customer.weekDays || [],
         timeOfTheDay: customer.timeOfTheDay || '',
         capacity: customer.capacity || ''
     }
@@ -68,7 +68,7 @@ const CustomerForm = forwardRef((props, ref) => {
                     <FormContainer>
                         <Tabs defaultValue="personalInfo">
                             <TabList>
-                                <TabNav value="personalInfo">
+                                <TabNav vvaluesForFormalue="personalInfo">
                                     პირადი ინფორმაცია
                                 </TabNav>
                             </TabList>

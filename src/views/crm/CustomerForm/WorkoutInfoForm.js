@@ -94,7 +94,10 @@ const PersonalInfoForm = (props) => {
                 />
             </FormItem>
 
-            <FormItem label='სავარჯიშო დღეები'>
+            {/* <FormItem label='სავარჯიშო დღეები'
+             invalid={errors.weekDays && touched.weekDays}
+             errorMessage={errors.weekDays}
+            >
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {Object.entries(daysOfWeek).map(([day, label]) => (
                         <label key={day}>
@@ -110,7 +113,7 @@ const PersonalInfoForm = (props) => {
                         </label>
                     ))}
                 </div>
-            </FormItem>
+            </FormItem> */}
         </>
     )
 }

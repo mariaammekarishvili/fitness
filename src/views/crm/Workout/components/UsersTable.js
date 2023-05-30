@@ -41,7 +41,7 @@ const WeekDays = ({ row }) => {
         friday: 'პარასკევი',
         saturday: 'შაბათი',
     };
-    console.log('list', row.weekDays);
+
     return (
         <>
             {row.weekDays.map((item, key) => (
