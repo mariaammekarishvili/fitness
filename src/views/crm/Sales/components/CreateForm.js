@@ -5,7 +5,7 @@ import { Field, Form, Formik, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import { createNewUser } from 'services/WorkoutService'
-import { fetchTrainerList } from 'services/Sales'
+import { fetchList } from 'services/Sales'
 
 import {
     HiUserCircle,
@@ -16,21 +16,23 @@ import {
     HiClock,
 } from 'react-icons/hi'
 
+// 7 input carieli
+// abonimentCount: 6 
 const validationSchema = Yup.object().shape({
-    name: Yup.string()
-        .min(2, 'ინფორმაცია ძალიან მცირეა!')
-        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+    turniketCode: Yup.string()
+        .min(7, 'ინფორმაცია ძალიან მცირეა!')
+        .max(10, 'ინფორმაცია ზედმეტად დიდია'),
+    customerID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
-        .max(8, 'ინფორმაცია ზედმეტად დიდია')
+        trainerID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    capacity: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
-        .max(8, 'ინფორმაცია ზედმეტად დიდია')
+        abonimentID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    timeOfTheDay: Yup.string().required('Time is required').matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'ფორმატი არასწორია, (მაგალითად: 22:00)'),
-
-    weekDays: Yup.array()
+        
+        workoutID: Yup.array()
         .min(1, 'Select at least one week day'),
+        abonimentCount: Yup.string()
+        .max(5, 'ინფორმაცია ზედმეტად დიდია'),
     // .required('ერთი დღე მაინც უნდა იყოს მონიშნული'),
 })
 
@@ -47,7 +49,7 @@ const CreateForm = ({ setMessage, message }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchTrainerList({ companyId }, token);
+            const data = await fetchList({ companyId }, token);
             if (data) {
                 setTrenerList(data)
             }

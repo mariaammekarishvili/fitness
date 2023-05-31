@@ -29,7 +29,7 @@ export async function createNewTrainer({ data, companyId }, token) {
     }
 }
 
-export const fetchTrainerList = async ({ companyId }, token) => {
+export const fetchList = async ({ companyId }, token) => {
     try {
         const response = await fetch(`${API}/sales/list/${companyId}`, {
             headers: {

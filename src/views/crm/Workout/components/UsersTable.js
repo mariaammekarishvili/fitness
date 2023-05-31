@@ -44,9 +44,12 @@ const WeekDays = ({ row }) => {
 
     return (
         <>
-            {row.weekDays.map((item, key) => (
-                <div key={item}>{daysOfWeek[item]}</div>
-            ))}
+            {row.wednesday &&
+                <>
+                    {row.weekDays.map((item, key) => (
+                        <div key={item}>{daysOfWeek[item]}</div>
+                    ))}
+                </>}
         </>
     )
 }
