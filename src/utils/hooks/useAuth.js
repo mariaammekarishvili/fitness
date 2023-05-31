@@ -6,6 +6,7 @@ import appConfig from 'configs/app.config'
 import { REDIRECT_URL_KEY } from 'constants/app.constant'
 import { useNavigate } from 'react-router-dom'
 import useQuery from './useQuery'
+import { ADMIN, USER } from 'constants/roles.constant'
 
 function useAuth() {
     const dispatch = useDispatch()
@@ -27,7 +28,7 @@ function useAuth() {
                             {
                                 avatar: '',
                                 userName: resp.user.firstname,
-                                authority: [resp.user.role],
+                                authority: resp.user.role === "basic" ? [USER] : [ADMIN],
                                 email: resp.user.email,
                                 userId: resp?.user?.userID,
                                 companyId: resp?.user?.companyID,
@@ -40,7 +41,7 @@ function useAuth() {
                         )
                     )
                 }
-                const redirectUrl = query.get(REDIRECT_URL_KEY)
+                const redirectUrl = query.get('/app/crm/customers')
                 console.log('qry:', redirectUrl)
                 navigate(
                     redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath
