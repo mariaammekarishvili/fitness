@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import {
     Input,
     Button,
@@ -8,33 +7,12 @@ import {
     toast,
     FormContainer,
 } from 'components/ui'
-import FormDesription from './FormDesription'
 import { useDispatch } from 'react-redux'
 import FormRow from './FormRow'
 import { Field, Form, Formik } from 'formik'
-import isLastChild from 'utils/isLastChild'
 import { putCustomer } from '../../../crm/CustomerDetail/store/dataSlice'
 
-import {
-    HiOutlineDesktopComputer,
-    HiOutlineDeviceMobile,
-    HiOutlineDeviceTablet,
-} from 'react-icons/hi'
-import dayjs from 'dayjs'
 import * as Yup from 'yup'
-
-const LoginHistoryIcon = ({ type }) => {
-    switch (type) {
-        case 'Desktop':
-            return <HiOutlineDesktopComputer />
-        case 'Mobile':
-            return <HiOutlineDeviceMobile />
-        case 'Tablet':
-            return <HiOutlineDeviceTablet />
-        default:
-            return <HiOutlineDesktopComputer />
-    }
-}
 
 const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -63,7 +41,7 @@ const Password = ({ data, userId }) => {
     return (
         <>
             <Formik
-                initialValues={{password :'', confirmNewPassword: ''}}
+                initialValues={{ password: '', confirmNewPassword: '' }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true)

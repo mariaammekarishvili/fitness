@@ -27,7 +27,7 @@ const dropdownItemList = [
 ]
 
 export const UserDropdown = ({ className }) => {
-    const { avatar, userName, authority, email } = useSelector(
+    const { avatar, authority, email } = useSelector(
         (state) => state.auth.user
     )
 
@@ -45,7 +45,7 @@ export const UserDropdown = ({ className }) => {
                 <div className="text-xs capitalize">
                     {authority[0] || 'guest'}
                 </div>
-                <div className="font-bold">{userName}</div>
+                <div className="font-bold">{email}</div>
             </div>
         </div>
     )
@@ -62,7 +62,7 @@ export const UserDropdown = ({ className }) => {
                         <Avatar shape="circle" src={'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX25634105.jpg'} />
                         <div>
                             <div className="font-bold text-gray-900 dark:text-gray-100">
-                                {userName}
+                                {email}
                             </div>
                             <div className="text-xs">{email}</div>
                         </div>
