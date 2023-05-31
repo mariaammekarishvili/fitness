@@ -40,10 +40,10 @@
             "editArticle": "Edit Article"
         },
         "appsAccount": {
-            "account": "Account",
-            "settings": "Settings",
+            "account": "პირადი კაბინეტი",
+            "settings": "პარამეტრები",
             "invoice": "Invoice",
-            "activityLog": "Activity Log",
+            "activityLog": "ჩემი გაყიდვები",
             "kycForm": "KYC Form"
         },
         "uiComponents": "UI Components",

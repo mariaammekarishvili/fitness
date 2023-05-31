@@ -1,11 +1,27 @@
 import ApiService from './ApiService'
 
-export async function apiGetAccountSettingData() {
-    return ApiService.fetchData({
-        url: '/account/setting',
-        method: 'get',
-    })
-}
+
+//chaneg
+const API = 'http://localhost:3000';
+
+export async function apiGetAccountSettingData({ userId }, token) {
+    try {
+        const response = await fetch(`${API}/users/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            throw new Error('Error retrieving customer list');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+  }
 
 export async function apiGetAccountSettingIntegrationData() {
     return ApiService.fetchData({

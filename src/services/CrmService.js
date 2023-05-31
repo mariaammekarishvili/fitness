@@ -47,7 +47,6 @@ export async function createNewCustomer({ data, companyId }, token) {
         });
 
         if (!response.ok) {
-            console.log(response.status);
              if (response.status == 409) {
                 throw new Error('იუზერი უკვე არსებობს');
             } else {
@@ -83,7 +82,6 @@ export const fetchCustomers = async ({ companyId }, token) => {
 };
 
 export async function apPutCrmCustomer({data, customerID}) {
-    console.log('my', data)
     return ApiService.fetchData({
         url: `/customers/update/${customerID}`,
         method: 'put',

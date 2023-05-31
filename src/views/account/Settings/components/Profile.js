@@ -1,101 +1,77 @@
 import React from 'react'
 import {
     Input,
-    Avatar,
-    Upload,
     Button,
-    Select,
-    Switcher,
     Notification,
     toast,
     FormContainer,
+    Radio
 } from 'components/ui'
 import FormDesription from './FormDesription'
 import FormRow from './FormRow'
+import { useDispatch } from 'react-redux'
 import { Field, Form, Formik } from 'formik'
 import { components } from 'react-select'
+import { putCustomer } from '../../../crm/CustomerDetail/store/dataSlice'
 import {
-    HiOutlineUserCircle,
     HiOutlineMail,
-    HiOutlineBriefcase,
-    HiOutlineUser,
-    HiCheck,
-    HiOutlineGlobeAlt,
+    HiUserCircle,
+    HiLocationMarker,
+    HiPhone,
+    HiCalendar,
+    HiIdentification,
 } from 'react-icons/hi'
 import * as Yup from 'yup'
 
 const { Control } = components
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string()
-        .min(3, 'Too Short!')
-        .max(12, 'Too Long!')
-        .required('User Name Required'),
-    email: Yup.string().email('Invalid email') ,
-    title: Yup.string(),
-    avatar: Yup.string(),
-    lang: Yup.string(),
-    timeZone: Yup.string(),
-    syncData: Yup.bool(),
+    firstname: Yup.string()
+        .min(2, 'ინფორმაცია ძალიან მცირეა')
+        .max(12, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    lastname: Yup.string()
+        .min(2, 'ინფორმაცია ძალიან მცირეა!')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+        .max(16, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    email: Yup.string().email('Invalid email'),
+    mobile: Yup.string().max(12, ('too much!'))
+        .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    address: Yup.string()
+        .min(2, 'ინფორმაცია ძალიან მცირეა')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    birthday: Yup.date()
+        .transform((value, originalValue) => {
+            if (originalValue instanceof Date) {
+                return originalValue;
+            }
+            const date = new Date(originalValue);
+            return isNaN(date) ? undefined : date;
+        })
+        .typeError('Invalid date')
+        .required('ინფორმაციის შეყვანა სავალდებულოა')
+        .max(new Date(), 'Date cannot be in the future'),
+    gander: Yup.string()
+        .oneOf(['male', 'female', 'non-binary', 'other'])
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
-const langOptions = [
-    { value: 'en', label: 'English (US)', imgPath: '/img/countries/us.png' },
-    { value: 'ch', label: '中文', imgPath: '/img/countries/cn.png' },
-    { value: 'jp', label: '日本语', imgPath: '/img/countries/jp.png' },
-    { value: 'fr', label: 'French', imgPath: '/img/countries/fr.png' },
-]
-
-const CustomSelectOption = ({ innerProps, label, data, isSelected }) => {
-    return (
-        <div
-            className={`flex items-center justify-between p-2 ${
-                isSelected
-                    ? 'bg-gray-100 dark:bg-gray-500'
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-600'
-            }`}
-            {...innerProps}
-        >
-            <div className="flex items-center">
-                <Avatar shape="circle" size={20} src={data.imgPath} />
-                <span className="ml-2 rtl:mr-2">{label}</span>
-            </div>
-            {isSelected && <HiCheck className="text-emerald-500 text-xl" />}
-        </div>
-    )
-}
-
-const CustomControl = ({ children, ...props }) => {
-    const selected = props.getValue()[0]
-    return (
-        <Control {...props}>
-            {selected && (
-                <Avatar
-                    className="ltr:ml-4 rtl:mr-4"
-                    shape="circle"
-                    size={18}
-                    src={selected.imgPath}
-                />
-            )}
-            {children}
-        </Control>
-    )
-}
-
-const Profile = ({ data }) => {
-    const onSetFormFile = (form, field, file) => {
-        form.setFieldValue(field.name, URL.createObjectURL(file[0]))
-    }
+const Profile = ({ data, userId }) => {
+    const dispatch = useDispatch()
 
     const onFormSubmit = (values, setSubmitting) => {
+        dispatch(putCustomer({ data: values, customerID: userId }))
 
-        console.log('val', values)
-        toast.push(<Notification title={'Profile updated'} type="success" />, {
+        toast.push(<Notification title={'მონაცემები განახლდა'} type="success" />, {
             placement: 'top-center',
         })
         setSubmitting(false)
     }
-
     return (
         <Formik
             initialValues={data}
@@ -114,23 +90,50 @@ const Profile = ({ data }) => {
                     <Form>
                         <FormContainer>
                             <FormDesription
-                                title="General"
-                                desc="Basic info, like your name and address that will displayed in public"
+                                title="თანამშრომლის ინფორმაცია"
+                                desc="განაახლე საკუთარი ინფორმაცია, ქვემოთ მითითებული ველების მიხედვით"
                             />
                             <FormRow
-                                name="name"
-                                label="Name"
+                                name="firstname"
+                                label="სახელი"
                                 {...validatorProps}
                             >
                                 <Field
                                     type="text"
                                     autoComplete="off"
-                                    name="name"
-                                    placeholder="Name"
+                                    name="firstname"
+                                    placeholder="სახელი"
                                     component={Input}
-                                    prefix={
-                                        <HiOutlineUserCircle className="text-xl" />
-                                    }
+                                    prefix={<HiUserCircle className="text-xl" />}
+                                />
+
+                            </FormRow> <FormRow
+                                name="lastname"
+                                label="გავრი"
+                                {...validatorProps}
+                            >
+                                <Field
+                                    type="text"
+                                    autoComplete="off"
+                                    name="lastname"
+                                    placeholder="გავრი"
+                                    component={Input}
+
+                                />
+                            </FormRow>
+                            <FormRow
+                                name="idCard"
+                                label="idCard"
+                                {...validatorProps}
+                            >
+                                <Field
+                                    type="string"
+                                    autoComplete="off"
+                                    name="idCard"
+                                    placeholder="პირადი ნომერი"
+                                    component={Input}
+                                    prefix={<HiIdentification className="text-xl" />}
+
                                 />
                             </FormRow>
                             <FormRow
@@ -150,124 +153,76 @@ const Profile = ({ data }) => {
                                 />
                             </FormRow>
                             <FormRow
-                                name="avatar"
-                                label="Avatar"
+                                name="mobile"
+                                label="ტელეფონის ნომერი"
                                 {...validatorProps}
                             >
-                                <Field name="avatar">
-                                    {({ field, form }) => {
-                                        const avatarProps = field.value
-                                            ? { src: field.value }
-                                            : {}
-                                        return (
-                                            <Upload
-                                                className="cursor-pointer"
-                                                onChange={(files) =>
-                                                    onSetFormFile(
-                                                        form,
-                                                        field,
-                                                        files
-                                                    )
-                                                }
-                                                onFileRemove={(files) =>
-                                                    onSetFormFile(
-                                                        form,
-                                                        field,
-                                                        files
-                                                    )
-                                                }
-                                                showList={false}
-                                                uploadLimit={1}
-                                            >
-                                                <Avatar
-                                                    className="border-2 border-white dark:border-gray-800 shadow-lg"
-                                                    size={60}
-                                                    shape="circle"
-                                                    icon={<HiOutlineUser />}
-                                                    {...avatarProps}
-                                                />
-                                            </Upload>
-                                        )
-                                    }}
-                                </Field>
+                                <Field
+                                    type="string"
+                                    autoComplete="off"
+                                    name="mobile"
+                                    placeholder="ტელეფონის ნომერი"
+                                    component={Input}
+                                    prefix={<HiPhone className="text-xl" />}
+
+                                />
                             </FormRow>
                             <FormRow
-                                name="title"
-                                label="Title"
+                                name="address"
+                                label="მისამართი"
                                 {...validatorProps}
                                 border={false}
                             >
                                 <Field
                                     type="text"
                                     autoComplete="off"
-                                    name="title"
-                                    placeholder="Title"
+                                    name="address"
+                                    placeholder="მისამართი"
                                     component={Input}
-                                    prefix={
-                                        <HiOutlineBriefcase className="text-xl" />
-                                    }
-                                />
-                            </FormRow>
-                            <FormDesription
-                                className="mt-8"
-                                title="Preferences"
-                                desc="Your personalized preference displayed in your account"
-                            />
-                            <FormRow
-                                name="lang"
-                                label="Language"
-                                {...validatorProps}
-                            >
-                                <Field name="lang">
-                                    {({ field, form }) => (
-                                        <Select
-                                            field={field}
-                                            form={form}
-                                            options={langOptions}
-                                            components={{
-                                                Option: CustomSelectOption,
-                                                Control: CustomControl,
-                                            }}
-                                            value={langOptions.filter(
-                                                (option) =>
-                                                    option.value ===
-                                                    values?.lang
-                                            )}
-                                            onChange={(option) =>
-                                                form.setFieldValue(
-                                                    field.name,
-                                                    option.value
-                                                )
-                                            }
-                                        />
-                                    )}
-                                </Field>
-                            </FormRow>
-                            <FormRow
-                                name="timeZone"
-                                label="Time Zone"
-                                {...validatorProps}
-                            >
-                                <Field
-                                    type="text"
-                                    readOnly
-                                    autoComplete="off"
-                                    name="timeZone"
-                                    placeholder="Time Zone"
-                                    component={Input}
-                                    prefix={
-                                        <HiOutlineGlobeAlt className="text-xl" />
-                                    }
+                                    prefix={<HiLocationMarker className="text-xl" />}
+
                                 />
                             </FormRow>
                             <FormRow
-                                name="syncData"
-                                label="Sync Data"
+                                name="date"
+                                label="დაბადების თარიღი"
                                 {...validatorProps}
                                 border={false}
                             >
-                                <Field name="syncData" component={Switcher} />
+                                <Field
+                                    type="date"
+                                    autoComplete="off"
+                                    name="birthday"
+                                    component={Input}
+                                    prefix={<HiCalendar className="text-xl" />}
+
+                                />
                             </FormRow>
+                            <FormRow
+                                name="gander"
+                                label="სქესი"
+                                {...validatorProps}
+                                border={false}
+                            >
+                                <Field
+                                    type="radio"
+                                    name="gander"
+                                    id='male'
+                                    value='male'
+                                    check={'true'}
+                                    component={Radio}
+                                />
+                                <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
+                                <Field
+                                    type="radio"
+                                    name="gander"
+                                    id='female'
+                                    value='female'
+                                    component={Radio}
+                                />
+                                <label style={{ marginLeft: '5px' }}>ქალი</label>
+                            </FormRow>
+
                             <div className="mt-4 ltr:text-right">
                                 <Button
                                     className="ltr:mr-2 rtl:ml-2"
@@ -281,7 +236,7 @@ const Profile = ({ data }) => {
                                     loading={isSubmitting}
                                     type="submit"
                                 >
-                                    {isSubmitting ? 'Updating' : 'Update'}
+                                    {isSubmitting ? 'მიმდინარეობს განახლება' : 'შენახვა'}
                                 </Button>
                             </div>
                         </FormContainer>

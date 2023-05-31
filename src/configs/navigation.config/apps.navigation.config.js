@@ -349,7 +349,7 @@ const appsNavigationConfig = [
             {
                 key: 'apps.account',
                 path: '',
-                title: 'Account',
+                title: 'პირადი კაბინეტი',
                 translateKey: 'nav.appsAccount.account',
                 icon: 'account',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -358,7 +358,7 @@ const appsNavigationConfig = [
                     {
                         key: 'appsAccount.settings',
                         path: `${APP_PREFIX_PATH}/account/settings/profile`,
-                        title: 'Settings',
+                        title: 'პარამეტრები',
                         translateKey: 'nav.appsAccount.settings',
                         icon: '',
                         type: NAV_ITEM_TYPE_ITEM,

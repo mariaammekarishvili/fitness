@@ -251,7 +251,7 @@ const appsRoute = [
         component: React.lazy(() => import('views/account/Settings')),
         authority: [ADMIN, USER],
         meta: {
-            header: 'Settings',
+            header: 'პარამეტრები',
             headerContainer: true,
         },
     },

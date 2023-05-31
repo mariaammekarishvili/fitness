@@ -9,9 +9,12 @@ import {
     FormContainer,
 } from 'components/ui'
 import FormDesription from './FormDesription'
+import { useDispatch } from 'react-redux'
 import FormRow from './FormRow'
 import { Field, Form, Formik } from 'formik'
 import isLastChild from 'utils/isLastChild'
+import { putCustomer } from '../../../crm/CustomerDetail/store/dataSlice'
+
 import {
     HiOutlineDesktopComputer,
     HiOutlineDeviceMobile,
@@ -34,19 +37,22 @@ const LoginHistoryIcon = ({ type }) => {
 }
 
 const validationSchema = Yup.object().shape({
-    password: Yup.string().required('Password Required'),
-    newPassword: Yup.string()
+    password: Yup.string()
         .required('Enter your new password')
-        .min(8, 'Too Short!')
+        .min(6, 'სიმბოლოების რაოდენობა უნდა აღემატებოდეს 6ს')
         .matches(/^[A-Za-z0-9_-]*$/, 'Only Letters & Numbers Allowed'),
     confirmNewPassword: Yup.string().oneOf(
-        [Yup.ref('newPassword'), null],
-        'Password not match'
+        [Yup.ref('password'), null],
+        'პაროლი არ ემთხვევა'
     ),
 })
 
-const Password = ({ data }) => {
+const Password = ({ data, userId }) => {
+    const dispatch = useDispatch()
+
     const onFormSubmit = (values, setSubmitting) => {
+        dispatch(putCustomer({ data: values, customerID: userId }))
+
         toast.push(<Notification title={'Password updated'} type="success" />, {
             placement: 'top-center',
         })
@@ -56,11 +62,7 @@ const Password = ({ data }) => {
     return (
         <>
             <Formik
-                initialValues={{
-                    password: '',
-                    newPassword: '',
-                    confirmNewPassword: '',
-                }}
+                initialValues={data}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true)
@@ -74,46 +76,29 @@ const Password = ({ data }) => {
                     return (
                         <Form>
                             <FormContainer>
-                                <FormDesription
-                                    title="Password"
-                                    desc="Enter your current & new password to reset your password"
-                                />
                                 <FormRow
                                     name="password"
-                                    label="Current Password"
+                                    label="ახალი პაროლი"
                                     {...validatorProps}
                                 >
                                     <Field
                                         type="password"
                                         autoComplete="off"
                                         name="password"
-                                        placeholder="Current Password"
-                                        component={Input}
-                                    />
-                                </FormRow>
-                                <FormRow
-                                    name="newPassword"
-                                    label="New Password"
-                                    {...validatorProps}
-                                >
-                                    <Field
-                                        type="password"
-                                        autoComplete="off"
-                                        name="newPassword"
-                                        placeholder="New Password"
+                                        placeholder="ახალი პაროლი"
                                         component={Input}
                                     />
                                 </FormRow>
                                 <FormRow
                                     name="confirmNewPassword"
-                                    label="Confirm Password"
+                                    label="დაადასტურე პაროლი"
                                     {...validatorProps}
                                 >
                                     <Field
                                         type="password"
                                         autoComplete="off"
                                         name="confirmNewPassword"
-                                        placeholder="Confirm Password"
+                                        placeholder="პაროლი"
                                         component={Input}
                                     />
                                 </FormRow>
@@ -123,7 +108,7 @@ const Password = ({ data }) => {
                                         type="button"
                                         onClick={resetForm}
                                     >
-                                        Reset
+                                        გაუქმება
                                     </Button>
                                     <Button
                                         variant="solid"
@@ -131,8 +116,8 @@ const Password = ({ data }) => {
                                         type="submit"
                                     >
                                         {isSubmitting
-                                            ? 'Updating'
-                                            : 'Update Password'}
+                                            ? 'მიმდინარეობს განახლება'
+                                            : 'პაროლის შეცვა'}
                                     </Button>
                                 </div>
                             </FormContainer>
@@ -140,53 +125,6 @@ const Password = ({ data }) => {
                     )
                 }}
             </Formik>
-            <div className="mt-6">
-                <FormDesription
-                    title="Where you're signed in"
-                    desc="You're signed in to your account on these devices."
-                />
-                {data && (
-                    <div className="rounded-lg border border-gray-200 dark:border-gray-600 mt-6">
-                        {data.map((log, index) => (
-                            <div
-                                key={log.deviceName}
-                                className={classNames(
-                                    'flex items-center px-4 py-6',
-                                    !isLastChild(data, index) &&
-                                        'border-b border-gray-200 dark:border-gray-600'
-                                )}
-                            >
-                                <div className="flex items-center">
-                                    <div className="text-3xl">
-                                        <LoginHistoryIcon type={log.type} />
-                                    </div>
-                                    <div className="ml-3 rtl:mr-3">
-                                        <div className="flex items-center">
-                                            <div className="text-gray-900 dark:text-gray-100 font-semibold">
-                                                {log.deviceName}
-                                            </div>
-                                            {index === 0 && (
-                                                <Tag className="bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-100 rounded-md border-0 mx-2">
-                                                    <span className="capitalize">
-                                                        {' '}
-                                                        Current{' '}
-                                                    </span>
-                                                </Tag>
-                                            )}
-                                        </div>
-                                        <span>
-                                            {log.location} •{' '}
-                                            {dayjs
-                                                .unix(log.time)
-                                                .format('DD-MMM-YYYY, hh:mm A')}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
         </>
     )
 }

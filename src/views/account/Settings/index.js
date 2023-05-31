@@ -4,23 +4,16 @@ import { AdaptableCard, Container } from 'components/shared'
 import { useNavigate, useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import { apiGetAccountSettingData } from 'services/AccountServices'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Profile = lazy(() => import('./components/Profile'))
 const Password = lazy(() => import('./components/Password'))
-const NotificationSetting = lazy(() =>
-    import('./components/NotificationSetting')
-)
-const Integration = lazy(() => import('./components/Integration'))
-const Billing = lazy(() => import('./components/Billing'))
 
 const { TabNav, TabList } = Tabs
 
 const settingsMenu = {
-    profile: { label: 'Profile', path: 'profile' },
-    password: { label: 'Password', path: 'password' },
-    notification: { label: 'Notification', path: 'notification' },
-    integration: { label: 'Integration', path: 'integration' },
-    billing: { label: 'Billing', path: 'billing' },
+    profile: { label: 'პირადი ინფორმაცია', path: 'profile' },
+    password: { label: 'პაროლი', path: 'password'}
 }
 
 const Settings = () => {
@@ -40,9 +33,12 @@ const Settings = () => {
         navigate(`/app/account/settings/${val}`)
     }
 
+    const userId = useSelector(state => state.auth.user.userId)
+    const token = useSelector((state) => state.auth.session.token)
+
     const fetchData = async () => {
-        const response = await apiGetAccountSettingData()
-        setData(response.data)
+        const response = await apiGetAccountSettingData({userId}, token)
+        setData(response)
     }
 
     useEffect(() => {
@@ -68,16 +64,17 @@ const Settings = () => {
                 <div className="px-4 py-6">
                     <Suspense fallback={<></>}>
                         {currentTab === 'profile' && (
-                            <Profile data={data.profile} />
+                            <Profile data={data} userId={userId} />
                         )}
-                        {currentTab === 'password' && (
-                            <Password data={data.loginHistory} />
+                         {currentTab === 'password' && (
+                            <Password data={data} userId={userId}/>
                         )}
+                        {/*
                         {currentTab === 'notification' && (
                             <NotificationSetting data={data.notification} />
                         )}
                         {currentTab === 'integration' && <Integration />}
-                        {currentTab === 'billing' && <Billing />}
+                        {currentTab === 'billing' && <Billing />} */}
                     </Suspense>
                 </div>
             </AdaptableCard>
