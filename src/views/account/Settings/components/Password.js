@@ -51,6 +51,7 @@ const Password = ({ data, userId }) => {
     const dispatch = useDispatch()
 
     const onFormSubmit = (values, setSubmitting) => {
+        data.password = values.password;
         dispatch(putCustomer({ data: values, customerID: userId }))
 
         toast.push(<Notification title={'Password updated'} type="success" />, {
@@ -62,7 +63,7 @@ const Password = ({ data, userId }) => {
     return (
         <>
             <Formik
-                initialValues={data}
+                initialValues={{password :'', confirmNewPassword: ''}}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true)
@@ -86,6 +87,7 @@ const Password = ({ data, userId }) => {
                                         autoComplete="off"
                                         name="password"
                                         placeholder="ახალი პაროლი"
+                                        d=''
                                         component={Input}
                                     />
                                 </FormRow>
