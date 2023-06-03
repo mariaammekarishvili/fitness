@@ -108,7 +108,7 @@ const CustomersTableTools = () => {
                     onClose={onDialogClose}
                     onRequestClose={onDialogClose}
                 >
-                    <div>
+                    <div className='add-form-div'>
                         <CreateForm setMessage={setMessage} message={message} />
                     </div>
                     {message && (

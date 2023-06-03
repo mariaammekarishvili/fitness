@@ -2,7 +2,7 @@ import ApiService from './ApiService'
 //need change
 const API = 'http://localhost:3000';
 
-export async function createNewTrainer({ data, companyId }, token) {
+export async function createNewSale ({ data, companyId }, token) {
     try {
         const response = await fetch(`${API}/sales/register/${companyId}`, {
             method: 'POST',

@@ -40,74 +40,30 @@ const NameColumn = ({ row }) => {
             <Avatar size={28} shape="circle" src={'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'} />
             <Link
                 className={`hover:${textTheme} ml-2 rtl:mr-2 font-semibold`}
-                to={`/app/crm/customer-details?id=${row.id}`}
+                to={`/app/crm/customer-details?id=${row?.id}`}
             >
-                {row.name}
+                {row?.name}
             </Link>
         </div>
     )
 }
 
-const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = String(phoneNumber)?.replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{3})$/);
-    if (match) {
-        return `(${match[1]}) ${match[2]} - ${match[3]}`;
-    }
-    return phoneNumber;
-};
-
-const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const formattedDate = date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-    return formattedDate;
-};
-
 const columns = [
     {
-        header: 'სახელი',
+        header: 'customerID',
         accessorKey: 'firstName',
         cell: (props) => {
-            const row = props.row.original
-            return <NameColumn row={row} />
+            return <div>info</div>
         },
     },
     {
-        header: 'ფასი',
-        accessorKey: 'price',
+        header: 'სრული ღირებულება',
+        accessorKey: 'totalPrice',
         cell: (props) => {
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row.price}₾ 
-                </div>
-            )
-        },
-    },
-    {
-        header: 'ვიზიტების რაოდენობა',
-        accessorKey: 'maxEntries',
-        cell: (props) => {
-            const row = props.row.original
-            return (
-                <div className="flex items-center">
-                    {formatDate(row.maxEntries)}
-                </div>
-            )
-        },
-    },
-    {
-        header: 'საშეღავათო პერიოდი',
-        accessorKey: 'countStartsDays',
-        cell: (props) => {
-            const row = props.row.original
-            return (
-                <div className="flex items-center">
-                    {row.countStartsDays} დღე
+                    {row.totalPrice}ლ
                 </div>
             )
         },
@@ -115,12 +71,12 @@ const columns = [
     {
         header: '',
         id: 'deleteAction',
-        cell: (props) => <DeleteColumn row={props.row.original} />,
+        cell: (props) => <DeleteColumn row={props.row?.original} />,
     },
     {
         header: '',
         id: 'action',
-        cell: (props) => <ActionColumn row={props.row.original} />,
+        cell: (props) => <ActionColumn row={props.row?.original} />,
     },
 ]
 
