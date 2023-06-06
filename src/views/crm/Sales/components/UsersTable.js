@@ -119,7 +119,7 @@ const Customers = () => {
         <>
             <DataTable
                 columns={columns}
-                data={data}
+                data={filterData}
                 skeletonAvatarColumns={[0]}
                 skeletonAvatarProps={{ width: 28, height: 28 }}
                 loading={!data}

@@ -47,10 +47,9 @@ export const fetchList = async (token) => {
         console.error(error);
     }
 };
-export const filterSaleList = async ({ data, companyId }, token) => {
+export const filterSaleList = async (token) => {
     try {
-        const response = await fetch(`${API}/sales/filter`, {
-            body: JSON.stringify(data),
+        const response = await fetch(`${API}/sales/filter?userID=&customerID=5a4b11e0-532e-4c3f-bacb-a96e2a780937`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

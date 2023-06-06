@@ -26,7 +26,7 @@ const CustomersTableTools = () => {
             const data = await fetchCustomers({ companyId }, token);
             if (data) {
                 dispatch(setCustomerList(data))
-            }
+                dispatch(setFilterData(data))            }
         };
         fetchData();
     }, [companyId, message]);
@@ -91,7 +91,7 @@ const CustomersTableTools = () => {
                     ref={inputRef}
                     onInputChange={handleInputChange}
                 />
-                <CustomerTableFilter />
+                {/*<CustomerTableFilter /> */}
             </div>
             <div className="mb-4 flex">
                 {/* <Button size="sm" onClick={onClearAll}>

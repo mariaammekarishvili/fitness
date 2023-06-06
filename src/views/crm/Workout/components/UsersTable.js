@@ -134,6 +134,7 @@ const columns = [
 const Customers = () => {
     const dispatch = useDispatch()
     const data = useSelector((state) => state.crmCustomers.data.customerList)
+
     const filterData = useSelector(
         (state) => state.crmCustomers.data.filterData
     )
@@ -170,7 +171,7 @@ const Customers = () => {
         <>
             <DataTable
                 columns={columns}
-                data={data}
+                data={filterData}
                 skeletonAvatarColumns={[0]}
                 skeletonAvatarProps={{ width: 28, height: 28 }}
                 loading={!data}

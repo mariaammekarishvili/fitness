@@ -21,12 +21,13 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
-    useEffect(() => { 
+    useEffect(() => {
 
         const fetchData = async () => {
             const data = await fetchList({ companyId }, token);
             if (data) {
                 dispatch(setCustomerList(data))
+                dispatch(setFilterData(data))
             }
         };
         fetchData();
@@ -92,7 +93,7 @@ const CustomersTableTools = () => {
                     ref={inputRef}
                     onInputChange={handleInputChange}
                 />
-                <CustomerTableFilter />
+                {/* <CustomerTableFilter /> */}
             </div>
             <div className="mb-4 flex">
                 {/* <Button size="sm" onClick={onClearAll}>
