@@ -31,7 +31,8 @@ export async function createNewSale({ data, companyId }, token) {
 
 export const fetchList = async (token) => {
     try {
-        const response = await fetch(`${API}/sales/list`, {
+        //რადგან არგევღირსა ლისტის გეთზე სრული ინფო გვიწევს ცარიელი ფილტრის გამოყენება.
+        const response = await fetch(`${API}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -49,7 +50,7 @@ export const fetchList = async (token) => {
 };
 export const filterSaleList = async (token) => {
     try {
-        const response = await fetch(`${API}/sales/filter?userID=&customerID=5a4b11e0-532e-4c3f-bacb-a96e2a780937`, {
+        const response = await fetch(`${API}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

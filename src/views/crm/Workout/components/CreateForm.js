@@ -8,8 +8,6 @@ import { createNewUser } from 'services/WorkoutService'
 import { fetchTrainerList } from 'services/TrainerService'
 
 import {
-    HiUserCircle,
-    HiCollection,
     HiCash,
     HiPencil,
     HiUserGroup,

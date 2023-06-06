@@ -50,33 +50,89 @@ const NameColumn = ({ row }) => {
 
 const columns = [
     {
-        header: 'customerID',
-        accessorKey: 'firstName',
-        cell: (props) => {
-            return <div>info</div>
-        },
-    },
-    {
         header: 'სრული ღირებულება',
         accessorKey: 'totalPrice',
         cell: (props) => {
             const row = props.row.original
             return (
-                <div className="flex items-center">
+                <div style={{color: 'green'}} className="flex items-center">
                     {row.totalPrice}ლ
                 </div>
             )
         },
     },
     {
+        header: 'მომხმარებელი',
+        accessorKey: 'customer',
+        cell: (props) => {
+            const row = props.row.original
+            return (
+                <div className="flex items-center">
+                    {row?.customer?.firstname}  {row?.customer?.lastname} / პ.ნ:  {row?.customer?.idCard}
+                </div>
+            )
+        },
+    },
+    {
+        header: 'ტრენერი',
+        accessorKey: 'trainer',
+        cell: (props) => {
+            const row = props.row.original
+            return (
+                <div className="flex items-center">
+                    {row?.trainer?.firstname}  {row?.trainer?.lastname} / პ.ნ:  {row?.trainer?.idCard}
+                </div>
+            )
+        },
+    },
+    {
+        header: 'ტრენერს ფასი',
+        accessorKey: 'id',
+        cell: (props) => {
+            const row = props.row.original
+            return (
+                <div className="flex items-center">
+                    {row?.trainerPrice} ლ
+                </div>
+            )
+        },
+    },
+    {
+        header: 'სავარჯიშო ჯგუფები',
+        accessorKey: 'workouts',
+        cell: (props) => {
+            const row = props.row.original
+            if(!row?.workouts) return
+            return (
+                <div className="flex items-center">
+                    {row?.workouts.map((workout, index) => (
+                        <div key={index}>{workout}</div>
+                    ))}
+                </div>
+            )
+        },
+    },
+    {
+        header: 'თვეების რაოდენობა',
+        accessorKey: 'abonimentCount'
+    },
+    {
+        header: 'ასმინისტრატორი (გამყიდველი)',
+        accessorKey: 'user',
+        cell: (props) => {
+            const row = props.row.original
+            return (
+                <div className="flex items-center">
+                    {row?.user?.firstname}  {row?.user?.lastname} / პ.ნ:  {row?.user?.idCard}
+                </div>
+            )
+        },
+    },
+
+    {
         header: '',
         id: 'deleteAction',
         cell: (props) => <DeleteColumn row={props.row?.original} />,
-    },
-    {
-        header: '',
-        id: 'action',
-        cell: (props) => <ActionColumn row={props.row?.original} />,
     },
 ]
 

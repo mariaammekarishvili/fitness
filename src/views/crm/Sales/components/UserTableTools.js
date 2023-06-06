@@ -25,9 +25,10 @@ const CustomersTableTools = () => {
     useEffect(() => {
         const fetchData = async () => {
             const data = { salesID: '' }
-            const incomeData = await filterSaleList(token);
+            const incomeData = await fetchList(token);
             if (incomeData) {
                 dispatch(setCustomerList(incomeData))
+                dispatch(setFilterData(incomeData))
             }
         };
         fetchData();

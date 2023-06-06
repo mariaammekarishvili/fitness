@@ -179,7 +179,7 @@ const CreateForm = ({ setMessage, message }) => {
                                 </Field>
                             </FormItem>
                             <FormItem
-                                label="workoutID Checkbox"
+                                label="სავარჯიშო ჯგუფი"
                                 invalid={Boolean(
                                     errors.workoutID &&
                                     touched.workoutID
