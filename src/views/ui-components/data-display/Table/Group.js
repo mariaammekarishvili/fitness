@@ -31,7 +31,7 @@ const Group = () => {
                 header: 'Info',
                 columns: [
                     {
-                        header: 'Email',
+                        header: 'ელ. ფოსტა',
                         accessorKey: 'email',
                         width: 50,
                     },

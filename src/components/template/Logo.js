@@ -18,8 +18,9 @@ const Logo = (props) => {
         >
             <img
                 className={imgClass}
-                src={`${LOGO_SRC_PATH}logo-${mode}-${type}.png`}
+                src={`${LOGO_SRC_PATH}ATHLETIC_logo.png`}
                 alt={`${APP_NAME} logo`}
+                style={{height: '80px', marginTop: '20px'}}
             />
         </div>
     )

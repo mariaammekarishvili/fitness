@@ -48,7 +48,7 @@ export const DeleteColumn = ({ row }) => {
                 onRequestClose={onDialogClose}
             >
                 <div className='flex-col flex items-center center column pt-[15px]'>
-                    <h5 className="mb-4">გსურთ იუზერის წაშლა?</h5>
+                    <h5 className="mb-4">ნამდვილად გსურთ წაშლა?</h5>
                     <div className="text-right mt-6">
                         <Button
                             className="ltr:mr-2 border rtl:ml-2"

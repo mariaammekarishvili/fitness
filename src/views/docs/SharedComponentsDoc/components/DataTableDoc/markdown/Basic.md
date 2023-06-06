@@ -29,7 +29,7 @@ const Basic = () => {
                 accessorKey: 'name',
             },
             {
-                header: 'Email',
+                header: 'ელ. ფოსტა',
                 accessorKey: 'email',
             },
             {

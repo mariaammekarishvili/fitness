@@ -27,7 +27,7 @@ const ActionColumn = ({ row }) => {
             className={`${textTheme} cursor-pointer select-none font-semibold`}
             onClick={onEdit}
         >
-            Edit
+            რედაქტირება
         </div>
     )
 }
@@ -77,7 +77,7 @@ const columns = [
         },
     },
     {
-        header: 'ID',
+        header: 'პირადი  ნომერი',
         accessorKey: 'idCard',
     },
     {
@@ -93,7 +93,7 @@ const columns = [
         },
     },
     {
-        header: 'email',
+        header: 'ელ. ფოსტა',
         accessorKey: 'email',
         cell: (props) => {
             const row = props.row.original

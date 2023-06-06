@@ -147,7 +147,6 @@ export const ValidationSchemaWorkout = Yup.object().shape({
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     timeOfTheDay: Yup.string().required('Time is required').matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'ფორმატი არასწორია, (მაგალითად: 22:00)'),
-
     weekDays: Yup.array()
         .min(1, 'Select at least one week day'),
     // .required('ერთი დღე მაინც უნდა იყოს მონიშნული'),

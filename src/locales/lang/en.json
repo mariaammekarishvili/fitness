@@ -9,7 +9,8 @@
             "issue": "Issue"
         },
         "appsCrm": {
-            "crm": "მართვის პანელი",
+            "crm": "სამომხმარებლო პანელი",
+            "stuf": "თანამშრომლები",
             "dashboard": "Dashboard",
             "calendar": "Calendar",
             "customers": "Customers",

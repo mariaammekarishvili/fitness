@@ -33,7 +33,7 @@ const Checkable = () => {
                 accessorKey: 'name',
             },
             {
-                header: 'Email',
+                header: 'ელ. ფოსტა',
                 accessorKey: 'email',
             },
             {

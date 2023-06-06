@@ -85,10 +85,12 @@ const CustomerForm = forwardRef((props, ref) => {
                                             errors={errors}
                                             type={type}
                                         />}
-                                    {type === 'workout' && 
-                                    <WorkoutInfoForm
-                                        errors={errors}
-                                        type={type} />}
+                                    {type === 'workout' &&
+                                        <WorkoutInfoForm
+                                            touched={touched}
+                                            errors={errors}
+                                            type={type}
+                                        />}
                                 </TabContent>
                                 {/* <TabContent value="social">
                                     <SocialLinkForm

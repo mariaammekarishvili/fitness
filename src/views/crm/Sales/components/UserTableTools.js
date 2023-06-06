@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
-import { fetchList } from 'services/Sales'
+import { filterSaleList, fetchList } from 'services/Sales'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -21,12 +21,15 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
-    useEffect(() => { 
+    console.log('compID', companyId)
+
+    useEffect(() => {
 
         const fetchData = async () => {
-            const data = await fetchList({ companyId }, token);
-            if (data) {
-                dispatch(setCustomerList(data))
+            const data = { salesID: '' }
+            const incomeData = await fetchList(token);
+            if (incomeData) {
+                dispatch(setCustomerList(incomeData))
             }
         };
         fetchData();
@@ -113,7 +116,7 @@ const CustomersTableTools = () => {
                     </div>
                     {message && (
                         <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
-                            {message === "success" ? 'მომხმარებელი წარმატებით დაემატა' : message}
+                            {message === "success" ? 'გაყიდვა წარმატებით დაემატა' : message}
                         </Alert>
                     )}
                 </Dialog>

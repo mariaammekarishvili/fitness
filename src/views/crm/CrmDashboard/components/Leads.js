@@ -68,7 +68,7 @@ const Leads = ({ data = [], className }) => {
                 },
             },
             {
-                header: 'Email',
+                header: 'ელ. ფოსტა',
                 accessorKey: 'email',
             },
             {

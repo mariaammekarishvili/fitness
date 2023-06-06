@@ -74,9 +74,9 @@ const appsRoute = [
         key: 'appsCrm.staff',
         path: `${APP_PREFIX_PATH}/crm/staff`,
         component: React.lazy(() => import('views/crm/Users')),
-        authority: [ADMIN],
+        authority: [ADMIN,USER],
         meta: {
-            header: 'თანამშრომლები',
+            header: 'ადმინისტრატორები',
         },
     },
     {

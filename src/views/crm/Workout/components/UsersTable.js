@@ -27,7 +27,7 @@ const ActionColumn = ({ row }) => {
             className={`${textTheme} cursor-pointer select-none font-semibold`}
             onClick={onEdit}
         >
-            Edit
+            რედაქტირება
         </div>
     )
 }
@@ -44,10 +44,10 @@ const WeekDays = ({ row }) => {
 
     return (
         <>
-            {row.wednesday &&
+            {row.weekDays &&
                 <>
                     {row.weekDays.map((item, key) => (
-                        <div key={item}>{daysOfWeek[item]}</div>
+                        <div key={key}>{daysOfWeek[item]}</div>
                     ))}
                 </>}
         </>

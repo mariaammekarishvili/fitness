@@ -2,7 +2,7 @@ import ApiService from './ApiService'
 //need change
 const API = 'http://localhost:3000';
 
-export async function createNewSale ({ data, companyId }, token) {
+export async function createNewSale({ data, companyId }, token) {
     try {
         const response = await fetch(`${API}/sales/register/${companyId}`, {
             method: 'POST',
@@ -14,7 +14,7 @@ export async function createNewSale ({ data, companyId }, token) {
         });
 
         if (!response.ok) {
-             if (response.status == 409) {
+            if (response.status == 409) {
                 throw new Error('იუზერი უკვე არსებობს');
             } else {
                 throw new Error('შექმნისას წარმოიქმნა პრობლემა');
@@ -29,9 +29,29 @@ export async function createNewSale ({ data, companyId }, token) {
     }
 }
 
-export const fetchList = async ({ companyId }, token) => {
+export const fetchList = async (token) => {
     try {
-        const response = await fetch(`${API}/sales/list/${companyId}`, {
+        const response = await fetch(`${API}/sales/list`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            throw new Error('Error retrieving customer list');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+export const filterSaleList = async ({ data, companyId }, token) => {
+    try {
+        const response = await fetch(`${API}/sales/filter`, {
+            body: JSON.stringify(data),
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -48,7 +68,7 @@ export const fetchList = async ({ companyId }, token) => {
     }
 };
 
-export async function apiEditInfo({data, customerID}) {
+export async function apiEditInfo({ data, customerID }) {
     return ApiService.fetchData({
         url: `/sales/update/${customerID}`,
         method: 'put',
@@ -56,7 +76,7 @@ export async function apiEditInfo({data, customerID}) {
     })
 }
 
-export async function apiDelete({data, customerID}) {
+export async function apiDelete({ data, customerID }) {
     return ApiService.fetchData({
         url: `/sales/delete/${customerID}`,
         method: 'delete',

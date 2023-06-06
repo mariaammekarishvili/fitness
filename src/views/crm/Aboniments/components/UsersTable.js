@@ -27,7 +27,7 @@ const ActionColumn = ({ row }) => {
             className={`${textTheme} cursor-pointer select-none font-semibold`}
             onClick={onEdit}
         >
-            Edit
+            რედაქტირება
         </div>
     )
 }

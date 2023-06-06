@@ -109,14 +109,14 @@ const Profile = ({ data, userId }) => {
 
                             </FormRow> <FormRow
                                 name="lastname"
-                                label="გავრი"
+                                label="გვარი"
                                 {...validatorProps}
                             >
                                 <Field
                                     type="text"
                                     autoComplete="off"
                                     name="lastname"
-                                    placeholder="გავრი"
+                                    placeholder="გვარი"
                                     component={Input}
 
                                 />

@@ -62,7 +62,7 @@ function RowSelection() {
                 accessorKey: 'lastName',
             },
             {
-                header: 'Email',
+                header: 'ელ. ფოსტა',
                 accessorKey: 'email',
             },
         ]

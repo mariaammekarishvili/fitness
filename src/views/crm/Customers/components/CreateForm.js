@@ -106,7 +106,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     type="text"
                                     autoComplete="off"
                                     name="lastname"
-                                    placeholder="გავრი"
+                                    placeholder="გვარი"
                                     component={Input}
 
                                 />

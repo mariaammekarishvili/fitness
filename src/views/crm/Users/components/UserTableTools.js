@@ -113,7 +113,7 @@ const CustomersTableTools = () => {
                     </div>
                     {message && (
                         <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
-                            {message === "success" ? 'მომხმარებელი წარმატებით დაემატა' : message}
+                            {message === "success" ? 'ადმინისტრატორი წარმატებით დაემატა' : message}
                         </Alert>
                     )}
                 </Dialog>
