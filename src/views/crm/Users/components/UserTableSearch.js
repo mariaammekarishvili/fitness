@@ -19,7 +19,10 @@ const CustomerTableSearch = forwardRef((props, ref) => {
     setSearchValue(value);
 
     const filtered = data.filter(item =>
-      item?.firstname.toLowerCase().includes(value.toLowerCase())
+      item?.firstname.toLowerCase().includes(value.toLowerCase()) ||
+      item?.lastname.toLowerCase().includes(value.toLowerCase()) || 
+      item?.idCard.toLowerCase().includes(value.toLowerCase()) ||
+      item?.mobile.toLowerCase().includes(value.toLowerCase()) 
     );
 
     setFilteredData(filtered); // Update the filtered data locally

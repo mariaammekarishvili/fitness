@@ -48,6 +48,25 @@ export const fetchList = async (token) => {
         console.error(error);
     }
 };
+
+export const fetchUserSale = async ({userId},token) => {
+    try {
+        const response = await fetch(`${API}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            throw new Error('Error retrieving customer list');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 export const filterSaleList = async (token) => {
     try {
         const response = await fetch(`${API}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
