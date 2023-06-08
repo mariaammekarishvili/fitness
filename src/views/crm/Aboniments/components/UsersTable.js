@@ -93,7 +93,7 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {formatDate(row.maxEntries)}
+                    {row.maxEntries}
                 </div>
             )
         },

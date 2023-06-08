@@ -27,12 +27,12 @@ const Side = ({ children, content, ...rest }) => {
                             <span className="opacity-80">CTO, Onward</span>
                         </div>
                     </div> */}
-                    <p className="text-lg text-white opacity-80">
-                        აქციე ჯანსაღი რუტინა, ცხოვრების წესად
-                    </p>
+                    <h3 className=" text-white opacity-80">
+                        Athletic Club Georgia
+                    </h3>
                 </div>
                 <span className="text-white">
-                Copyright KPI, terms & conditions, privacy and policy
+                    Copyright KPI, terms & conditions, privacy and policy
                 </span>
             </div>
             <div className="col-span-2 flex flex-col justify-center items-center bg-white dark:bg-gray-800">

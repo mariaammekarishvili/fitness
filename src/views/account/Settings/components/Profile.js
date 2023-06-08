@@ -123,7 +123,7 @@ const Profile = ({ data, userId }) => {
                             </FormRow>
                             <FormRow
                                 name="idCard"
-                                label="idCard"
+                                label="პირადი ნომერი"
                                 {...validatorProps}
                             >
                                 <Field

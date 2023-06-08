@@ -8,10 +8,10 @@ const DrawerFooter = ({ onSaveClick, onCancel }) => {
     return (
         <div className="text-right w-full">
             <Button size="sm" className="mr-2" onClick={onCancel}>
-                Cancel
+                გაუქმება
             </Button>
             <Button size="sm" variant="solid" onClick={onSaveClick}>
-                Save
+                შენახვა
             </Button>
         </div>
     )

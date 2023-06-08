@@ -19,7 +19,8 @@ const CustomerTableSearch = forwardRef((props, ref) => {
     setSearchValue(value);
 
     const filtered = data.filter(item =>
-      item?.customer?.firstname.toLowerCase().includes(value.toLowerCase())
+      item?.customer?.firstname.toLowerCase().includes(value.toLowerCase()) ||
+      item?.customer?.lastname.toLowerCase().includes(value.toLowerCase())
     );
 
     setFilteredData(filtered); // Update the filtered data locally
@@ -34,7 +35,7 @@ const CustomerTableSearch = forwardRef((props, ref) => {
       ref={ref}
       className="max-w-md md:w-52 mb-4"
       size="sm"
-      placeholder="შეიყვანეთ მომხმარებლის სახელი"
+      placeholder="შეიყვანეთ სახელი"
       prefix={<HiOutlineSearch className="text-lg" />}
       onChange={(e) => handleSearch(e)}
       value={searchValue}

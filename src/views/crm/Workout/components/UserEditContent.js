@@ -42,7 +42,6 @@ const CustomerEditContent = forwardRef((_, ref) => {
             return elm
         })
         // if (!isEmpty(editedCustomer)) {
-            console.log('edited', editedCustomer)
             dispatch(putCustomer({ data: editedCustomer, customerID: id }))
         // }/
         dispatch(setDrawerClose())

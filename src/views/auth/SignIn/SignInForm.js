@@ -111,7 +111,7 @@ const SignInForm = (props) => {
                                 variant="solid"
                                 type="submit"
                             >
-                                {isSubmitting ? 'Signing in...' : 'Sign In'}
+                                {isSubmitting ? 'მიმდინარეობს ავტორიზაცია...' : 'ავტორიზაცია'}
                             </Button>
                             {/* <div className="mt-4 text-center">
                                 <span>Don't have an account yet? </span>

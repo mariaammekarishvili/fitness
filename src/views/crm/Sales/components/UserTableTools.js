@@ -94,7 +94,7 @@ const CustomersTableTools = () => {
                     ref={inputRef}
                     onInputChange={handleInputChange}
                 />
-                {/*<CustomerTableFilter /> */}
+                <CustomerTableFilter />
             </div>
             <div className="mb-4 flex">
                 {/* <Button size="sm" onClick={onClearAll}>

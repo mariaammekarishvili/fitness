@@ -23,11 +23,11 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     customerID: Yup.string()
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    trainerID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    trainerID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა'),
+        // .required('ინფორმაციის შეყვანა სავალდებულოა'),
     abonimentID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    workoutID: Yup.array().required('ინფორმაციის შეყვანა სავალდებულოა'),
+    workoutID: Yup.array(),
     abonimentCount: Yup.string()
         .max(5, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
@@ -194,6 +194,7 @@ const CreateForm = ({ setMessage, message }) => {
                                             field={field}
                                             form={form}
                                             options={workoutList}
+                                            placeholder={'ჩაწერეთ ჯგუფის სახელი'}
                                             value={values.workoutID}
                                             onChange={(option) => {
                                                 form.setFieldValue(
