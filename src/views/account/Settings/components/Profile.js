@@ -37,9 +37,9 @@ const validationSchema = Yup.object().shape({
     idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    email: Yup.string().email('Invalid email'),
-    mobile: Yup.string().max(12, ('too much!'))
-        .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
+    email: Yup.string().email('მეილის ფორმატი არასწორია'),
+    mobile: Yup.string().max(12, ('ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს'))
+        .matches(/^[0-9]{9}$/, 'შეიყვანეთ მხოლოდ ციფრები')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
         .min(2, 'ინფორმაცია ძალიან მცირეა')
@@ -53,9 +53,9 @@ const validationSchema = Yup.object().shape({
             const date = new Date(originalValue);
             return isNaN(date) ? undefined : date;
         })
-        .typeError('Invalid date')
+        .typeError('  ფორმატი არასწორია')
         .required('ინფორმაციის შეყვანა სავალდებულოა')
-        .max(new Date(), 'Date cannot be in the future'),
+        .max(new Date(), 'მომავალი დროის შეყანა შეუძლებელია'),
     gander: Yup.string()
         .oneOf(['male', 'female', 'non-binary', 'other'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),

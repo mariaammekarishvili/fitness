@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     capacity: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    timeOfTheDay: Yup.string().required('Time is required').matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'ფორმატი არასწორია, (მაგალითად: 22:00)'),
+    timeOfTheDay: Yup.string().required('ინფორმაციის შეყვანა სავალდებულოა').matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'ფორმატი არასწორია, (მაგალითად: 22:00)'),
 
     weekDays: Yup.array()
         .min(1, 'Select at least one week day'),
