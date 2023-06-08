@@ -171,7 +171,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     onChange={handleTrainerChange}
                                     className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 >
-                                    <option value="">Select...</option>
+                                    <option value="">აირჩიეთ ტრენერი..</option>
                                     {trainerList.map((user) => (
                                         <option key={user?.trainerID} value={user?.trainerID}>
                                             {user?.firstname} {user?.lastname} {user?.idCard}
