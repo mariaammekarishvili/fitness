@@ -102,11 +102,11 @@ const columns = [
             const row = props.row.original
             if(!row?.workouts) return
             return (
-                <div className="flex items-center">
+                <>
                     {row?.workouts.map((workout, index) => (
                         <div key={index}>{workout}</div>
                     ))}
-                </div>
+                </>
             )
         },
     },
