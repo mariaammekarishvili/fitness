@@ -12,7 +12,7 @@ import FormRow from './FormRow'
 import { useDispatch } from 'react-redux'
 import { Field, Form, Formik } from 'formik'
 import { components } from 'react-select'
-import { putCustomer } from '../../../crm/CustomerDetail/store/dataSlice'
+import { putCustomer } from '../../../crm/Users/store/dataSlice'
 import {
     HiOutlineMail,
     HiUserCircle,
@@ -225,11 +225,11 @@ const Profile = ({ data, userId }) => {
 
                             <div className="mt-4 ltr:text-right">
                                 <Button
-                                    className="ltr:mr-2 rtl:ml-2"
+                                    className="ltr:mr-2 rtl:ml-2 px-4 important"
                                     type="button"
                                     onClick={resetForm}
                                 >
-                                    Reset
+                                    ცვლილებების გაუქმება
                                 </Button>
                                 <Button
                                     variant="solid"

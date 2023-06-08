@@ -95,9 +95,6 @@ const CustomersTableTools = () => {
                 {/*<CustomerTableFilter /> */}
             </div>
             <div className="mb-4 flex">
-                <Button size="sm" onClick={onClearAll}>
-                    Clear All
-                </Button>
                 <div style={{ marginLeft: '10px' }}>
                     <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
                         + დამატება
@@ -113,7 +110,7 @@ const CustomersTableTools = () => {
                     </div>
                     {message && (
                         <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
-                            {message === "success" ? 'ტრეინერი წარმატებით დაემატა' : message}
+                            {message === "success" ? 'ტრენერი წარმატებით დაემატა' : message}
                         </Alert>
                     )}
                 </Dialog>
