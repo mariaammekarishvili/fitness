@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Dialog, Alert } from 'components/ui'
+import { Button, Dialog, Alert, RangeCalendar } from 'components/ui'
 import { getCustomers, setTableData, setFilterData } from '../store/dataSlice'
 import CustomerTableSearch from './UserTableSearch'
 import CustomerTableFilter from './UserTableFilter'
@@ -8,6 +8,20 @@ import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
 import { filterSaleList, fetchList } from 'services/Sales'
+import dayjs from 'dayjs'
+
+const Range = () => {
+    const [value, setValue] = useState([
+        new Date(),
+        dayjs(new Date()).add(5, 'days').toDate(),
+    ])
+
+    return (
+        <div className="md:w-[260px] max-w-[260px] mx-auto">
+            <RangeCalendar value={value} onChange={setValue} />
+        </div>
+    )
+}
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -94,7 +108,8 @@ const CustomersTableTools = () => {
                     ref={inputRef}
                     onInputChange={handleInputChange}
                 />
-                <CustomerTableFilter />
+                {/* <CustomerTableFilter /> */}
+                <Range />
             </div>
             <div className="mb-4 flex">
                 {/* <Button size="sm" onClick={onClearAll}>

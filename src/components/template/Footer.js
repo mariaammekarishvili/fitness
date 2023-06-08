@@ -8,7 +8,7 @@ const FooterContent = () => {
     return (
         <div className="flex items-center justify-between flex-auto w-full">
             <span>
-                Copyright KPI, terms & conditions, privacy and policy
+                Copyright KPI
             </span>
             <div className="">
                 <a

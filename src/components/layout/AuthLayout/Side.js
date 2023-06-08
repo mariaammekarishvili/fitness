@@ -32,7 +32,7 @@ const Side = ({ children, content, ...rest }) => {
                     </h3>
                 </div>
                 <span className="text-white">
-                    Copyright KPI, terms & conditions, privacy and policy
+                    Copyright KPI
                 </span>
             </div>
             <div className="col-span-2 flex flex-col justify-center items-center bg-white dark:bg-gray-800">

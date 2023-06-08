@@ -23,7 +23,7 @@ const Cover = ({ children, content, ...rest }) => {
                     </p>
                 </div>
                 <span className="text-white">
-                Copyright KPI, terms & conditions, privacy and policy
+                Copyright KPI
                 </span>
             </div>
             <div className="flex flex-col justify-center items-center bg-white dark:bg-gray-800">
