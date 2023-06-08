@@ -22,8 +22,8 @@ const HeaderActionsStart = () => {
 const HeaderActionsEnd = () => {
     return (
         <>
-            <Search />
-            <LanguageSelector />
+            {/* <Search /> */}
+            {/* <LanguageSelector /> */}
             {/* <Notification /> */}
             <SidePanel />
             <UserDropdown hoverable={false} />

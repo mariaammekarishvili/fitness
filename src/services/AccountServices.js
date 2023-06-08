@@ -1,12 +1,11 @@
 import ApiService from './ApiService'
+import appConfig from 'configs/app.config'
 
-
-//chaneg
-const API = 'http://localhost:3000';
+const { apiPrefix } = appConfig
 
 export async function apiGetAccountSettingData({ userId }, token) {
     try {
-        const response = await fetch(`${API}/users/${userId}`, {
+        const response = await fetch(`${apiPrefix}/users/${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
