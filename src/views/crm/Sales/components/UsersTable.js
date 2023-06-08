@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { Avatar } from 'components/ui'
+import { Avatar, Button } from 'components/ui'
+import { HiOutlinePencil } from 'react-icons/hi'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTableData } from '../store/dataSlice'
@@ -23,12 +24,9 @@ const ActionColumn = ({ row }) => {
     }
 
     return (
-        <div
-            className={`${textTheme} cursor-pointer select-none font-semibold`}
-            onClick={onEdit}
-        >
-            რედაქტირება
-        </div>
+        <Button className={`mb-[7px]`} size={'sm'} onClick={onEdit} icon={<HiOutlinePencil />}>
+            <span>რედაქტირება</span>
+        </Button>
     )
 }
 
@@ -68,7 +66,7 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row?.customer?.firstname}  {row?.customer?.lastname} / პ.ნ:  {row?.customer?.idCard}
+                    {row?.customer?.firstname}  {row?.customer?.lastname} -  პ/ნ:  {row?.customer?.idCard}
                 </div>
             )
         },
@@ -80,7 +78,7 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row?.trainer?.firstname}  {row?.trainer?.lastname} / პ.ნ:  {row?.trainer?.idCard}
+                    {row?.trainer?.firstname}  {row?.trainer?.lastname} -  პ/ნ:  {row?.trainer?.idCard}
                 </div>
             )
         },
@@ -123,7 +121,7 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row?.user?.firstname}  {row?.user?.lastname} / პ.ნ:  {row?.user?.idCard}
+                    {row?.user?.firstname}  {row?.user?.lastname} -  პ/ნ:  {row?.user?.idCard}
                 </div>
             )
         },

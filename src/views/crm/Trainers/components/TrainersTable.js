@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { Avatar } from 'components/ui'
+import { Avatar, Button } from 'components/ui'
+import { HiOutlinePencil } from 'react-icons/hi'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTableData } from '../store/dataSlice'
@@ -23,12 +24,9 @@ const ActionColumn = ({ row }) => {
     }
 
     return (
-        <div
-            className={`${textTheme} cursor-pointer select-none font-semibold`}
-            onClick={onEdit}
-        >
-            რედაქტირება
-        </div>
+        <Button className={`mb-[7px]`} size={'sm'} onClick={onEdit} icon={<HiOutlinePencil />}>
+            <span>რედაქტირება</span>
+        </Button>
     )
 }
 
@@ -44,6 +42,29 @@ const NameColumn = ({ row }) => {
             >
                 {row.firstname} {row.lastname}
             </Link>
+        </div>
+    )
+}
+
+const dateColumn = ({ row }) => {
+    const months = {
+        january: 'იანვარი',
+        february: 'თებერვალი',
+        march: 'მარტი',
+        april: 'აპრილი',
+        may: 'მაისი',
+        june: 'ივნისი',
+        july: 'ივლისი',
+        august: 'აგვისტო',
+        september: 'სექტემბერი',
+        october: 'ოქტომბერი',
+        november: 'ნოემბერი',
+        december: 'დეკემბერი'
+    }
+
+    return (
+        <div className="flex items-center">
+            {formatDate(row.birthday)}
         </div>
     )
 }
@@ -66,6 +87,8 @@ const formatDate = (dateString) => {
     });
     return formattedDate;
 };
+
+
 
 const columns = [
     {
@@ -99,7 +122,7 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row.price}₾ 
+                    {row.price}₾
                 </div>
             )
         },
@@ -109,12 +132,20 @@ const columns = [
         accessorKey: 'birthday',
         cell: (props) => {
             const row = props.row.original
+            const birthday = row.birthday;
+            const date = new Date(birthday);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            const formattedBirthday = `${day}/${month}/${year}`;
             return (
-                <div className="flex items-center">
-                    {formatDate(row.birthday)}
+                <div>
+                    <p>{formattedBirthday}</p>
                 </div>
             )
-        },
+        }
     },
     {
         header: '',

@@ -112,7 +112,7 @@ const CreateForm = ({ setMessage, message }) => {
                     <Form>
                         <FormContainer>
                             <FormItem
-                                label="ტურნიკეტის კოდი"
+                                label="ბარათის ID"
                                 invalid={errors.turniketCode && touched.turniketCode}
                                 errorMessage={errors.turniketCode}
                             >
@@ -138,7 +138,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     {customerList.map((customer) => (
                                         <option key={customer?.customerID} value={customer?.customerID} style={{ fontSize: '16px', borderBottom: 'solid black 1px' }}
                                         >
-                                            {customer?.firstname} {customer?.lastname} / პ.ნ: {customer?.idCard}
+                                            {customer?.firstname} {customer?.lastname} -  პ/ნ: {customer?.idCard}
                                         </option>))
                                     }
                                 </Field>
@@ -156,7 +156,7 @@ const CreateForm = ({ setMessage, message }) => {
                                     <option value="">დააჭირეთ ასარჩევად</option>
                                     {trainerList.map((user) => (
                                         <option key={user?.trainerID} value={user?.trainerID} style={{ fontSize: '16px', borderBottom: 'solid black 1px' }}>
-                                            {user?.firstname} {user?.lastname} / პ.ნ: {user?.idCard}
+                                            {user?.firstname} {user?.lastname} -  პ/ნ: {user?.idCard}
                                         </option>
                                     ))}
                                 </Field>
