@@ -11,6 +11,7 @@
         "appsCrm": {
             "crm": "სამომხმარებლო პანელი",
             "stuf": "თანამშრომლები",
+            "services" : "სერვისები",
             "dashboard": "Dashboard",
             "calendar": "Calendar",
             "customers": "Customers",

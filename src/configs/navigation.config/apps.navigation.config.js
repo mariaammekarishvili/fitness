@@ -67,6 +67,7 @@ const appsNavigationConfig = [
             //                 },
             //             ],
             //         },
+          
             {
                 key: 'apps.crm',
                 path: '',
@@ -86,6 +87,26 @@ const appsNavigationConfig = [
                         subMenu: [],
                     },
                     {
+                        key: 'appsCrm.sales',
+                        path: `${APP_PREFIX_PATH}/crm/sales`,
+                        title: 'გაყიდვები',
+                        translateKey: 'nav.appsCrm.sales',
+                        icon: 'forms', type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        subMenu: [],
+                    },
+                ],
+            },
+            {
+                key: 'apps.crm',
+                path: '',
+                title: 'სერვისები',
+                translateKey: 'nav.appsCrm.services',
+                icon: 'documentation',
+                type: NAV_ITEM_TYPE_COLLAPSE,
+                authority: [ADMIN, USER],
+                subMenu: [
+                    {
                         key: 'appsCrm.workout',
                         path: `${APP_PREFIX_PATH}/crm/workout`,
                         title: 'სავარჯიშო ჯგუფები',
@@ -102,17 +123,7 @@ const appsNavigationConfig = [
                         icon: 'forms', type: NAV_ITEM_TYPE_ITEM,
                         authority: [ADMIN, USER],
                         subMenu: [],
-                    },
-                    {
-                        key: 'appsCrm.sales',
-                        path: `${APP_PREFIX_PATH}/crm/sales`,
-                        title: 'გაყიდვები',
-                        translateKey: 'nav.appsCrm.sales',
-                        icon: 'forms', type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN, USER],
-                        subMenu: [],
-                    },
-                ],
+                    },]
             },
             {
                 key: 'apps.crm',
@@ -129,7 +140,7 @@ const appsNavigationConfig = [
                         title: 'ადმინისტრატორები',
                         translateKey: 'nav.appsCrm.staff',
                         icon: 'crm', type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN,USER],
+                        authority: [ADMIN, USER],
                         subMenu: [],
                     },
                     {
