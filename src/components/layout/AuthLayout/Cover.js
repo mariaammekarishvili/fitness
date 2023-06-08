@@ -23,8 +23,7 @@ const Cover = ({ children, content, ...rest }) => {
                     </p>
                 </div>
                 <span className="text-white">
-                    Copyright &copy; {`${new Date().getFullYear()}`}{' '}
-                    <span className="font-semibold">{`${APP_NAME}`}</span>{' '}
+                Copyright KPI, terms & conditions, privacy and policy
                 </span>
             </div>
             <div className="flex flex-col justify-center items-center bg-white dark:bg-gray-800">

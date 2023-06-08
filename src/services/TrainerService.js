@@ -1,10 +1,11 @@
 import ApiService from './ApiService'
+import appConfig from 'configs/app.config'
 
-const API = 'http://localhost:3000';
+const { apiPrefix } = appConfig;
 
 export async function createNewTrainer({ data, companyId }, token) {
     try {
-        const response = await fetch(`${API}/trainers/register/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/trainers/register/${companyId}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -31,7 +32,7 @@ export async function createNewTrainer({ data, companyId }, token) {
 
 export const fetchTrainerList = async ({ companyId }, token) => {
     try {
-        const response = await fetch(`${API}/trainers/list/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/trainers/list/${companyId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"

@@ -1,10 +1,11 @@
 import ApiService from './ApiService'
-//need change
-const API = 'http://localhost:3000';
+import appConfig from 'configs/app.config'
+
+const { apiPrefix } = appConfig
 
 export async function createNewSale({ data, companyId }, token) {
     try {
-        const response = await fetch(`${API}/sales/register/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/sales/register/${companyId}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -32,7 +33,7 @@ export async function createNewSale({ data, companyId }, token) {
 export const fetchList = async (token) => {
     try {
         //რადგან არგევღირსა ლისტის გეთზე სრული ინფო გვიწევს ცარიელი ფილტრის გამოყენება.
-        const response = await fetch(`${API}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -51,7 +52,7 @@ export const fetchList = async (token) => {
 
 export const fetchUserSale = async ({userId},token) => {
     try {
-        const response = await fetch(`${API}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -69,7 +70,7 @@ export const fetchUserSale = async ({userId},token) => {
 };
 export const filterSaleList = async (token) => {
     try {
-        const response = await fetch(`${API}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

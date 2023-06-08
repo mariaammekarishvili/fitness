@@ -1,5 +1,6 @@
 import { createServer } from 'miragejs'
 import appConfig from 'configs/app.config'
+
 import { notificationListData, searchQueryPoolData } from './data/commonData'
 import {
     projectList,

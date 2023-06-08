@@ -32,8 +32,7 @@ const Side = ({ children, content, ...rest }) => {
                     </p>
                 </div>
                 <span className="text-white">
-                    Copyright &copy; {`${new Date().getFullYear()}`}{' '}
-                    <span className="font-semibold">{`Fitness`}</span>{' '}
+                Copyright KPI, terms & conditions, privacy and policy
                 </span>
             </div>
             <div className="col-span-2 flex flex-col justify-center items-center bg-white dark:bg-gray-800">

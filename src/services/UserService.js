@@ -1,10 +1,11 @@
 import ApiService from './ApiService'
-//change
-const API = 'http://localhost:3000';
+import appConfig from 'configs/app.config'
+
+const { apiPrefix } = appConfig
 
 export async function createNewUser({ data, companyId }, token) {
     try {
-        const response = await fetch(`${API}/users/register/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/users/register/${companyId}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -31,7 +32,7 @@ export async function createNewUser({ data, companyId }, token) {
 
 export const fetchList = async ({ companyId }, token) => {
     try {
-        const response = await fetch(`${API}/users/list/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/users/list/${companyId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"

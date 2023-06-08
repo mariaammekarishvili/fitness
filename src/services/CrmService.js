@@ -1,4 +1,7 @@
 import ApiService from './ApiService'
+import appConfig from 'configs/app.config'
+
+const { apiPrefix } = appConfig
 
 export async function apiGetCrmDashboardData(data) {
     return ApiService.fetchData({
@@ -22,22 +25,9 @@ export async function apiGetCrmCustomers({ companyId }) {
     })
 }
 
-// export async function createNewCustomer({data,companyId}) {
-//     return ApiService.fetchData({
-//         url: `/customers/register/${companyId}`,
-//         method: 'post',
-//         data,
-//     })
-// }
-
-// ---> usable
-
-// change
-const API = 'http://localhost:3000';
-
 export async function createNewCustomer({ data, companyId }, token) {
     try {
-        const response = await fetch(`${API}/customers/register/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/customers/register/${companyId}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -64,7 +54,7 @@ export async function createNewCustomer({ data, companyId }, token) {
 
 export const fetchCustomers = async ({ companyId }, token) => {
     try {
-        const response = await fetch(`${API}/customers/list/${companyId}`, {
+        const response = await fetch(`${apiPrefix}/customers/list/${companyId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
