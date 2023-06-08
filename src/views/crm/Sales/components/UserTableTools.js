@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
-import { filterSaleList, fetchList } from 'services/Sales'
+import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
 
 const Range = () => {

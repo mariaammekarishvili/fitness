@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { deleteCustomer } from '../store/dataSlice'
 import { Button, Dialog } from 'components/ui'
-import { setCustomerList } from '../store/dataSlice'
+import { setCustomerList, setFilterData } from '../store/dataSlice'
 import { fetchCustomers } from 'services/CrmService'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -27,8 +27,9 @@ export const DeleteColumn = ({ row }) => {
 
         setTimeout(async () => {
             const data = await fetchCustomers({ companyId: row?.companyID }, token);
-            if (data) {
+           if (data) {
                 dispatch(setCustomerList(data));
+                dispatch(setFilterData(data))
             }
         }, 1000);
     };

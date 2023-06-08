@@ -84,7 +84,7 @@ const columns = [
         },
     },
     {
-        header: 'ტრენერს ფასი',
+        header: 'დაწყება - დასრულება',
         accessorKey: 'id',
         cell: (props) => {
             const row = props.row.original
