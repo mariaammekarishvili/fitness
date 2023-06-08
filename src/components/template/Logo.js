@@ -18,9 +18,9 @@ const Logo = (props) => {
         >
             <img
                 className={imgClass}
-                src={`${LOGO_SRC_PATH}ATHLETIC logo-LIGHT.png`}
+                src={mode === 'dark' ? `${LOGO_SRC_PATH}ATHLETIC_logo.png` : `${LOGO_SRC_PATH}ATHLETIC logo-LIGHT.png`}
                 alt={`${APP_NAME} logo`}
-                style={{height: '80px', marginTop: '20px'}}
+                style={{height: '80px', margin: '20px 0'}}
             />
         </div>
     )

@@ -1,13 +1,12 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Input } from 'components/ui'
 import { HiOutlineSearch } from 'react-icons/hi'
-import debounce from 'lodash/debounce'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilterData } from '../store/dataSlice'
 
 const CustomerTableSearch = forwardRef((props, ref) => {
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const data = useSelector((state) => state.crmCustomers.data.customerList)
 
@@ -36,7 +35,6 @@ const CustomerTableSearch = forwardRef((props, ref) => {
     <Input
       ref={ref}
       className="max-w-md md:w-52 mb-4"
-      size="xl"
       placeholder="შეიყვანეთ სახელი"
       prefix={<HiOutlineSearch className="text-lg" />}
       onChange={(e) => handleSearch(e)}

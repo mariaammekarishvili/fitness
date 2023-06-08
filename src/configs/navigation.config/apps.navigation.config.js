@@ -10,8 +10,7 @@ const appsNavigationConfig = [
     {
         key: 'apps',
         path: '',
-        title: 'APPS',
-        translateKey: 'nav.apps',
+        translateKey: '',
         icon: 'apps',
         type: NAV_ITEM_TYPE_TITLE,
         authority: [ADMIN, USER],
@@ -98,7 +97,7 @@ const appsNavigationConfig = [
                 ],
             },
             {
-                key: 'apps.crm',
+                key: 'apps.services',
                 path: '',
                 title: 'სერვისები',
                 translateKey: 'nav.appsCrm.services',
@@ -126,7 +125,7 @@ const appsNavigationConfig = [
                     },]
             },
             {
-                key: 'apps.crm',
+                key: 'apps.stuffs',
                 path: '',
                 title: 'თანამშრომლები',
                 translateKey: 'nav.appsCrm.staf',

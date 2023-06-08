@@ -64,11 +64,7 @@ const CustomerStatistic = ({type}) => {
     const loading = useSelector(
         (state) => state.crmCustomers.data.statisticLoading
     )
-
-    useEffect(() => {
-        dispatch(getCustomerStatistic())
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+ 
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">

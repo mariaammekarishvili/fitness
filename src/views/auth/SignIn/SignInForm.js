@@ -47,15 +47,13 @@ const SignInForm = (props) => {
         <div className={className}>
             {message && (
                 <Alert className="mb-4" type="danger" showIcon>
-                    {message}
+                    მონაცემები არასწორია
                 </Alert>
             )}
             <Formik
-
-            //need change !!
                 initialValues={{
-                    email: 'g.b@gmail.com',
-                    password: '11111',
+                    email: '',
+                    password: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {

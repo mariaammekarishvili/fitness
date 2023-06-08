@@ -101,7 +101,7 @@ const CreateForm = ({ setMessage, message }) => {
                     turniketCode: '',
                     abonimentID: '',
                     customerID: '',
-                    trainerID: [],
+                    trainerID: '',
                     workoutID: '',
                     abonimentCount: ''
                 }}
