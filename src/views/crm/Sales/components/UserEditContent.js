@@ -4,6 +4,7 @@ import { setCustomerList, putCustomer } from '../store/dataSlice'
 import { setDrawerClose } from '../store/stateSlice'
 import cloneDeep from 'lodash/cloneDeep'
 import CustomerForm from 'views/crm/CustomerForm'
+import { setFilterData } from 'views/crm/Customers/store/dataSlice'
 
 const CustomerEditContent = forwardRef((_, ref) => {
     const dispatch = useDispatch()
@@ -40,13 +41,14 @@ const CustomerEditContent = forwardRef((_, ref) => {
             return elm
         })
         // if (!isEmpty(editedCustomer)) {
-            console.log('edited', editedCustomer)
-            dispatch(putCustomer({ data: editedCustomer, customerID: id }))
+        console.log('edited', editedCustomer)
+        dispatch(putCustomer({ data: editedCustomer, customerID: id }))
         // }/
         dispatch(setDrawerClose())
         dispatch(setCustomerList(newData))
+        dispatch(setFilterData(newData))
     }
-  
+
     return (
         <CustomerForm
             ref={ref}

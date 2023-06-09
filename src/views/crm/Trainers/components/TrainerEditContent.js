@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCustomerList, putCustomer } from '../store/dataSlice'
+import { setCustomerList,setFilterData, putCustomer } from '../store/dataSlice'
 import { setDrawerClose } from '../store/stateSlice'
 import cloneDeep from 'lodash/cloneDeep'
 import CustomerForm from 'views/crm/CustomerForm'
@@ -53,8 +53,9 @@ const CustomerEditContent = forwardRef((_, ref) => {
             console.log('editedCustomer', editedCustomer)
             dispatch(putCustomer({ data: editedCustomer, customerID: id }))
         // }/
-        dispatch(setDrawerClose())
+                dispatch(setDrawerClose())
         dispatch(setCustomerList(newData))
+        dispatch(setFilterData(newData))
     }
   
     return (

@@ -88,9 +88,19 @@ const columns = [
         accessorKey: 'id',
         cell: (props) => {
             const row = props.row.original
+            const dateComponent = ( incomeDate ) => {
+                if (incomeDate  != null) {
+                    const formattedDate = new Date(incomeDate).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "2-digit",
+                    });
+                    return formattedDate
+                }
+            };
             return (
                 <div className="flex items-center">
-                    {row?.trainerPrice} ლ
+                    {dateComponent(row?.startDate)} - {dateComponent(row?.endDate)} 
                 </div>
             )
         },
