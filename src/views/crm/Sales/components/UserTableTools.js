@@ -2,30 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Dialog, Alert, RangeCalendar } from 'components/ui'
 import { getCustomers, setTableData, setFilterData } from '../store/dataSlice'
 import CustomerTableSearch from './UserTableSearch'
-import CustomerTableFilter from './UserTableFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
 import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
-import { HiCalendar } from 'react-icons/hi'
-import { range } from 'lodash'
-
-const Range = () => {
-    const [value, setValue] = useState([
-        new Date(),
-        dayjs(new Date()).add(5, 'days').toDate(),
-    ])
-
-    console.log('ret', value )
-
-    return (
-        <div className="absolute shadow-md bg-white border-black  top-[193px] left-[304px] md:w-[260px] max-w-[260px] mx-auto">
-            <RangeCalendar value={value} onChange={setValue} />
-        </div>
-    )
-}
+import { HiOutlineCalendar } from 'react-icons/hi'
+import { filterByDate } from 'services/Sales'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -39,6 +23,18 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector(state => state.auth.user.companyId)
 
+    const [value, setValue] = useState([
+        new Date(),
+        dayjs(new Date()).add(5, 'days').toDate(),
+    ])
+
+
+    const filterWithDate = async () => {
+        const data = await filterByDate({ startDate: value[0], endDate: value[1] }, token);
+        if (data) {
+            dispatch(setFilterData(data))
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -104,7 +100,9 @@ const CustomersTableTools = () => {
             return () => clearTimeout(timeout);
         }
     }, [message])
+
     const [openRange, setOpenRange] = useState(false)
+
     return (
         <div className="md:flex items-center justify-between">
             <div className="md:flex items-center gap-4">
@@ -112,14 +110,15 @@ const CustomersTableTools = () => {
                     ref={inputRef}
                     onInputChange={handleInputChange}
                 />
-                {/* <CustomerTableFilter /> */}
-                <HiCalendar onClick={() => setOpenRange(!openRange)} />
-                {openRange && <Range />}
+                <HiOutlineCalendar className='cursor-pointer w-[53px] pointer h-[28px] mb-[16px]' onClick={() => setOpenRange(!openRange)} />
+                {openRange &&
+                    <div className="p-[14px] absolute shadow-md bg-white border-black  top-[193px] left-[304px] md:w-[290px] max-w-[290px] mx-auto">
+                        <RangeCalendar value={value} onChange={setValue} />
+                        <Button size={'sm'} className='ml-[192px]' onClick={filterWithDate} variant="solid">ძებნა</Button>
+                    </div>
+                }
             </div>
             <div className="mb-4 flex">
-                {/* <Button size="sm" onClick={onClearAll}>
-                    Clear All
-                </Button> */}
                 <div style={{ marginLeft: '10px' }}>
                     <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
                         + დამატება
