@@ -9,6 +9,8 @@ import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
 import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
+import { HiCalendar } from 'react-icons/hi'
+import { range } from 'lodash'
 
 const Range = () => {
     const [value, setValue] = useState([
@@ -16,8 +18,10 @@ const Range = () => {
         dayjs(new Date()).add(5, 'days').toDate(),
     ])
 
+    console.log('ret', value )
+
     return (
-        <div className="md:w-[260px] max-w-[260px] mx-auto">
+        <div className="absolute shadow-md bg-white border-black  top-[193px] left-[304px] md:w-[260px] max-w-[260px] mx-auto">
             <RangeCalendar value={value} onChange={setValue} />
         </div>
     )
@@ -100,7 +104,7 @@ const CustomersTableTools = () => {
             return () => clearTimeout(timeout);
         }
     }, [message])
-
+    const [openRange, setOpenRange] = useState(false)
     return (
         <div className="md:flex items-center justify-between">
             <div className="md:flex items-center gap-4">
@@ -109,7 +113,8 @@ const CustomersTableTools = () => {
                     onInputChange={handleInputChange}
                 />
                 {/* <CustomerTableFilter /> */}
-                <Range />
+                <HiCalendar onClick={() => setOpenRange(!openRange)} />
+                {openRange && <Range />}
             </div>
             <div className="mb-4 flex">
                 {/* <Button size="sm" onClick={onClearAll}>
