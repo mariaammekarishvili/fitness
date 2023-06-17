@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from 'components/shared'
 import reducer from './store'
 import { injectReducer } from 'store/index'
-import { Timeline } from 'components/ui'
 import { useSelector } from 'react-redux'
 import { fetchUserSale } from 'services/Sales'
-import ListItem from 'views/project/ProjectList/components/ListItem'
 import GridItem from 'views/project/ProjectList/components/GridItem'
 injectReducer('accountActivityLog', reducer)
 
