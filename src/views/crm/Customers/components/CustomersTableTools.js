@@ -5,7 +5,7 @@ import CustomerTableSearch from './CustomerTableSearch'
 import CustomerTableFilter from './CustomerTableFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
-import CreateForm from './CreateForm'
+import CreateForm from './CustomerCreateForm'
 import { setCustomerList } from '../store/dataSlice'
 import { fetchCustomers } from 'services/CrmService'
 

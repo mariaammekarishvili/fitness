@@ -1,6 +1,13 @@
-
 import React, { useEffect, useState } from 'react'
-import { Input, Button, FormItem, FormContainer, Select } from 'components/ui'
+import {
+    Input,
+    Button,
+    FormItem,
+    FormContainer,
+    Select,
+    Alert,
+    Dialog,
+} from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
@@ -9,23 +16,21 @@ import { fetchTrainerList } from 'services/TrainerService'
 import { fetchList as workoutFetch } from 'services/WorkoutService'
 import { fetchList as abonimentFetch } from 'services/AbonimentService'
 import { fetchCustomers } from 'services/CrmService'
-import CreatableSelect from 'react-select/creatable'
 
-import {
-    HiPencil,
-    HiUserGroup,
-} from 'react-icons/hi'
+import { HiPencil, HiUserGroup } from 'react-icons/hi'
+import CustomerCreateForm from 'views/crm/Customers/components/CustomerCreateForm'
 
 const validationSchema = Yup.object().shape({
     turniketCode: Yup.string()
         .min(7, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    customerID: Yup.string()
-        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    customerID: Yup.string(),
+    // .required('ინფორმაციის შეყვანა სავალდებულოა'),
     trainerID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა'),
-        // .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    abonimentID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    // .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    abonimentID: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     workoutID: Yup.array(),
     abonimentCount: Yup.string()
@@ -34,60 +39,109 @@ const validationSchema = Yup.object().shape({
 })
 
 const CreateForm = ({ setMessage, message }) => {
-    const companyId = useSelector(state => state.auth.user.companyId)
+    const companyId = useSelector((state) => state.auth.user.companyId)
 
     const token = useSelector((state) => state.auth.session.token)
 
-    const [trainerList, setTrenerList] = useState([]);
-    const [abonimentList, setAbonimentList] = useState([]);
-    const [customerList, setCustomerList] = useState([]);
-    const [workoutList, setWorkoutList] = useState([]);
+    const [trainerList, setTrenerList] = useState([])
+    const [abonimentList, setAbonimentList] = useState([])
+    const [customerList, setCustomerList] = useState([])
+    const [workoutList, setWorkoutList] = useState([])
+    const [openUserPopup, setOpenUserPopup] = useState(false)
+
+    const onDialogClose = (e) => {
+        console.log('onDialogClose', e)
+        setOpenUserPopup(false)
+    }
+
+    const [createdUser, setCreatedUser] = useState()
+    const [createCustomerMessage, setCreateCustomerMessage] = useState('')
+
+    useEffect(() => {
+        if (createCustomerMessage) {
+            const timeout = setTimeout(() => {
+                setOpenUserPopup(false)
+            }, 1000)
+            const timeoutMess = setTimeout(() => {
+                setCreateCustomerMessage('')
+            }, 2000)
+            // Clean up
+            // Clean up the timeout when the component unmounts or when the effect is re-triggered
+            return () => {
+                clearTimeout(timeout)
+                clearTimeout(timeoutMess)
+            }
+        }
+    }, [createCustomerMessage])
 
     useEffect(() => {
         const fetchTrainer = async () => {
-            const data = await fetchTrainerList({ companyId }, token);
+            const data = await fetchTrainerList({ companyId }, token)
             if (data) {
-                setTrenerList(data)
+                const updatedList = data.map((item) => ({
+                    value: item.customerID,
+                    label:
+                        item.firstname +
+                        ' ' +
+                        item.lastname +
+                        ' პ/ნ: ' +
+                        item.idCard,
+                }))
+                setTrenerList(updatedList)
             }
-        };
+        }
 
         const fetchAboniment = async () => {
-            const data = await abonimentFetch({ companyId }, token);
+            const data = await abonimentFetch({ companyId }, token)
             if (data) {
-                setAbonimentList(data);
+                const updatedList = data.map((item) => ({
+                    value: item.abonimentID,
+                    label: item.name,
+                }))
+                setAbonimentList(updatedList)
             }
-        };
+        }
 
         const fetchWorkout = async () => {
-            const data = await workoutFetch({ companyId }, token);
+            const data = await workoutFetch({ companyId }, token)
             if (data) {
                 const updatedWorkoutList = data.map((workout) => ({
                     value: workout.workoutID,
                     label: workout.name,
-                }));
+                }))
 
-                setWorkoutList([...workoutList, ...updatedWorkoutList]);
+                setWorkoutList([...workoutList, ...updatedWorkoutList])
             }
-        };
+        }
 
         const fetchCustomersList = async () => {
-            const data = await fetchCustomers({ companyId }, token);
-            if (data) {
-                setCustomerList(data);
-            }
-        };
+            const data = await fetchCustomers({ companyId }, token)
+            const updatedList = data.map((item) => ({
+                value: item.customerID,
+                label:
+                    item.firstname +
+                    ' ' +
+                    item.lastname +
+                    ' პ/ნ: ' +
+                    item.idCard,
+            }))
+            setCustomerList(updatedList)
+        }
 
-        fetchAboniment();
-        fetchWorkout();
-        fetchCustomersList();
-        fetchTrainer();
-    }, []);
+        fetchAboniment()
+        fetchWorkout()
+        fetchCustomersList()
+        fetchTrainer()
+    }, [])
 
     async function handleCreateNewCustomer(data) {
         try {
-            const selectedValues = data.workoutID.map((option) => option.value);
+            const selectedValues = data.workoutID.map((option) => option.value)
             data.workoutID = selectedValues
-            const response = await createNewSale({ data, companyId }, token);
+            if (createdUser) {
+                data.customerID = createdUser.customerID
+            }
+            const response = await createNewSale({ data, companyId }, token)
             setMessage('success')
         } catch (error) {
             setMessage(error?.message)
@@ -103,7 +157,7 @@ const CreateForm = ({ setMessage, message }) => {
                     customerID: '',
                     trainerID: '',
                     workoutID: '',
-                    abonimentCount: ''
+                    abonimentCount: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -113,7 +167,9 @@ const CreateForm = ({ setMessage, message }) => {
                         <FormContainer>
                             <FormItem
                                 label="ბარათის ID"
-                                invalid={errors.turniketCode && touched.turniketCode}
+                                invalid={
+                                    errors.turniketCode && touched.turniketCode
+                                }
                                 errorMessage={errors.turniketCode}
                             >
                                 <Field
@@ -125,81 +181,154 @@ const CreateForm = ({ setMessage, message }) => {
                                     prefix={<HiPencil className="text-xl" />}
                                 />
                             </FormItem>
-                            <FormItem label='აირჩიეთ კლიენტი' invalid={errors.customerID && touched.customerID}
-                                errorMessage={errors.customerID}>
-                                <Field
-                                    as="select"
-                                    name="customerID"
-                                    type='select'
-                                    autoComplete="off"
-                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-base appearance-none"
-                                >
-                                    <option value="">დააჭირეთ ასარჩევად</option>
-                                    {customerList.map((customer) => (
-                                        <option key={customer?.customerID} value={customer?.customerID} style={{ fontSize: '16px', borderBottom: 'solid black 1px' }}
-                                        >
-                                            {customer?.firstname} {customer?.lastname} -  პ/ნ: {customer?.idCard}
-                                        </option>))
-                                    }
-                                </Field>
-                            </FormItem>
 
-                            <FormItem label='აირჩიეთ ტრენერი' invalid={errors.trainerID && touched.trainerID}
-                                errorMessage={errors.trainerID}>
-                                <Field
-                                    as="select"
-                                    name="trainerID"
-                                    type='select'
-                                    autoComplete="off"
-                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            {createdUser && (
+                                <p className="font-bold heading-text my-[15px]">
+                                    მომხმარებელი: <br />{' '}
+                                    {createdUser?.firstname}{' '}
+                                    {createdUser.lastname} პ/ნ:{' '}
+                                    {createdUser.idCard}
+                                </p>
+                            )}
+
+                            {!createdUser && (
+                                <>
+                                    <FormItem
+                                        label="აირჩიეთ მომხმარებელი"
+                                        invalid={
+                                            errors.customerID &&
+                                            touched.customerID
+                                        }
+                                        errorMessage={errors.customerID}
+                                    >
+                                        <Field name="customerID">
+                                            {({ field, form }) => (
+                                                <Select
+                                                    field={field}
+                                                    form={form}
+                                                    options={customerList}
+                                                    placeholder={
+                                                        'ჩაწერეთ სახელი'
+                                                    }
+                                                    value={values.customerID}
+                                                    onChange={(option) => {
+                                                        form.setFieldValue(
+                                                            field.name,
+                                                            option
+                                                        )
+                                                    }}
+                                                />
+                                            )}
+                                        </Field>
+                                    </FormItem>
+
+                                    <Button
+                                        className="mb-[20px] mt-[-15px]"
+                                        variant="twoTone"
+                                        onClick={() => setOpenUserPopup(true)}
+                                    >
+                                        + მომხმარებლის დამატება
+                                    </Button>
+                                </>
+                            )}
+                            <Dialog
+                                isOpen={openUserPopup}
+                                onClose={onDialogClose}
+                                onRequestClose={onDialogClose}
+                            >
+                                <div className="add-form-div">
+                                    <CustomerCreateForm
+                                        setMessage={setCreateCustomerMessage}
+                                        message={createCustomerMessage}
+                                        setCreatedUser={setCreatedUser}
+                                    />
+                                </div>
+                            </Dialog>
+                            {createCustomerMessage && (
+                                <Alert
+                                    className="mb-4 respons-notf"
+                                    type={
+                                        createCustomerMessage === 'success'
+                                            ? 'success'
+                                            : 'danger'
+                                    }
+                                    showIcon
                                 >
-                                    <option value="">დააჭირეთ ასარჩევად</option>
-                                    {trainerList.map((user) => (
-                                        <option key={user?.trainerID} value={user?.trainerID} style={{ fontSize: '16px', borderBottom: 'solid black 1px' }}>
-                                            {user?.firstname} {user?.lastname} -  პ/ნ: {user?.idCard}
-                                        </option>
-                                    ))}
+                                    {createCustomerMessage === 'success'
+                                        ? 'მომხმარებელი წარმატებით დაემატა'
+                                        : createCustomerMessage}
+                                </Alert>
+                            )}
+                            <FormItem
+                                label="აირჩიეთ ტრენერი"
+                                invalid={errors.trainerID && touched.trainerID}
+                                errorMessage={errors.trainerID}
+                            >
+                                <Field name="trainerID">
+                                    {({ field, form }) => (
+                                        <Select
+                                            field={field}
+                                            form={form}
+                                            options={trainerList}
+                                            placeholder={'ჩაწერეთ სახელი'}
+                                            value={values.trainerID}
+                                            onChange={(option) => {
+                                                form.setFieldValue(
+                                                    field.name,
+                                                    option
+                                                )
+                                            }}
+                                        />
+                                    )}
                                 </Field>
                             </FormItem>
-                            <FormItem label='აირჩიეთ აბონიმენტი' invalid={errors.abonimentID && touched.abonimentID}
-                                errorMessage={errors.abonimentID}>
-                                <Field
-                                    as="select"
-                                    name="abonimentID"
-                                    type='select'
-                                    autoComplete="off"
-                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                >
-                                    <option value="">დააჭირეთ ასარჩევად</option>
-                                    {abonimentList.map((aboniment) => (
-                                        <option key={aboniment?.abonimentID} value={aboniment?.abonimentID} style={{ fontSize: '16px', borderBottom: 'solid black 1px' }}>
-                                            {aboniment?.name}
-                                        </option>
-                                    ))}
+                            <FormItem
+                                label="აირჩიეთ აბონიმენტი"
+                                invalid={
+                                    errors.abonimentID && touched.abonimentID
+                                }
+                                errorMessage={errors.abonimentID}
+                            >
+                                <Field name="abonimentID">
+                                    {({ field, form }) => (
+                                        <Select
+                                            field={field}
+                                            form={form}
+                                            options={abonimentList}
+                                            placeholder={'ჩაწერეთ სახელი'}
+                                            value={values.abonimentID}
+                                            onChange={(option) => {
+                                                form.setFieldValue(
+                                                    field.name,
+                                                    option
+                                                )
+                                            }}
+                                        />
+                                    )}
                                 </Field>
                             </FormItem>
                             <FormItem
                                 label="სავარჯიშო ჯგუფი"
                                 invalid={Boolean(
-                                    errors.workoutID &&
-                                    touched.workoutID
+                                    errors.workoutID && touched.workoutID
                                 )}
                                 errorMessage={errors.workoutID}
                             >
                                 <Field name="workoutID">
                                     {({ field, form }) => (
                                         <Select
-                                            componentAs={CreatableSelect}
                                             isMulti
                                             field={field}
                                             form={form}
                                             options={workoutList}
-                                            placeholder={'ჩაწერეთ ჯგუფის სახელი'}
+                                            placeholder={
+                                                'ჩაწერეთ ჯგუფის სახელი'
+                                            }
                                             value={values.workoutID}
                                             onChange={(option) => {
                                                 form.setFieldValue(
                                                     field.name,
-                                                    option,
+                                                    option
                                                 )
                                             }}
                                         />
@@ -209,7 +338,10 @@ const CreateForm = ({ setMessage, message }) => {
 
                             <FormItem
                                 label="მოქმედების ვადა"
-                                invalid={errors.abonimentCount && touched.abonimentCount}
+                                invalid={
+                                    errors.abonimentCount &&
+                                    touched.abonimentCount
+                                }
                                 errorMessage={errors.abonimentCount}
                             >
                                 <Field
@@ -219,11 +351,10 @@ const CreateForm = ({ setMessage, message }) => {
                                     placeholder="შეიყვანეთ"
                                     component={Input}
                                     prefix={<HiUserGroup className="text-xl" />}
-
                                 />
                             </FormItem>
                             <FormItem>
-                                <Button variant={"solid"} type="submit">
+                                <Button variant={'solid'} type="submit">
                                     დამატება
                                 </Button>
                             </FormItem>
@@ -236,4 +367,3 @@ const CreateForm = ({ setMessage, message }) => {
 }
 
 export default CreateForm
-

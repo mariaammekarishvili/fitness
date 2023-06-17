@@ -5,7 +5,7 @@ import CustomerTableSearch from './UserTableSearch'
 import CustomerTableFilter from './UserTableFilter'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
-import CreateForm from './CreateForm'
+import CreateForm from './UserCreateForm'
 import { setCustomerList } from '../store/dataSlice'
 import { fetchList } from 'services/UserService'
 
@@ -85,6 +85,7 @@ const CustomersTableTools = () => {
         }
     }, [message])
 
+    console.log('inside', message)
     return (
         <div className="md:flex items-center justify-between">
             <div className="md:flex items-center gap-4">
