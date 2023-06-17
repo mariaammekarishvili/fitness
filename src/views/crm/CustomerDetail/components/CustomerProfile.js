@@ -87,34 +87,89 @@ const CustomerProfileAction = ({ id }) => {
         </>
     )
 }
+const DateComponent = ({ incomeDate }) => {
+    const formattedDate = new Date(incomeDate).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+    })
 
-const CustomerProfile = ({ data = {} }) => {
+    return <>{formattedDate}</>
+}
+
+const CustomerProfile = ({ item = {} }) => {
     return (
         <Card>
             <div className="flex flex-col xl:justify-between h-full 2xl:min-w-[360px] mx-auto">
                 <div className="flex xl:flex-col items-center gap-4">
-                    <Avatar size={90} shape="circle" src={data.img} />
-                    <h4 className="font-bold">{data.name}</h4>
+                    <div class="flex items-center justify-center">
+                        <div class="w-[90px] flex justify-center items-center h-[90px] bg-blue-500 rounded-full ">
+                           <h3 className='text-[#FFFF]'> {item.customer?.firstname[0].toUpperCase()}.{item.customer?.lastname[0].toUpperCase()}</h3>
+                        </div>
+                    </div>
+                    {/* <Members members={[{ name: name.toUpperCase() }]} /> */}
+
+                    <h4 className="font-bold">
+                        {item.customer?.firstname} {item?.customer?.lastname}
+                    </h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-y-7 gap-x-4 mt-8">
-                    <CustomerInfoField title="Email" value={data.email} />
                     <CustomerInfoField
-                        title="Phone"
-                        value={data.personalInfo?.phoneNumber}
+                        title="ბარათის ID"
+                        value={item?.turniketCode}
                     />
                     <CustomerInfoField
-                        title="Location"
-                        value={data.personalInfo?.location}
+                        title="თარიღი"
+                        value={<DateComponent incomeDate={item?.createdAt} />}
                     />
+                    {item?.trainer && (
+                        <>
+                            <CustomerInfoField
+                                title="ტრენერი"
+                                value={
+                                    item?.trainer?.firstname +
+                                    ' ' +
+                                    item?.trainer?.lastname +
+                                    ' პ/ნ: ' +
+                                    item?.trainer?.idCard
+                                }
+                            />
+                            <CustomerInfoField
+                                title="ტრენერის ღირებულება"
+                                value={item?.trainerPrice}
+                            />
+                        </>
+                    )}
                     <CustomerInfoField
-                        title="Date of birth"
-                        value={data.personalInfo?.birthday}
+                        title="აბონიმენტი"
+                        value={
+                            <div>
+                                {item?.aboniment?.name}
+                                <br /> საშეღავათო პერიოდი:{' '}
+                                {item?.aboniment?.countStartsDays}
+                                <br /> შესვლის რაოდენობა:{' '}
+                                {item?.aboniment?.maxEntries}
+                            </div>
+                        }
                     />
-                    <CustomerInfoField
-                        title="Title"
-                        value={data.personalInfo?.title}
-                    />
-                    <div className="mb-7">
+                    {item?.workouts && (
+                        <CustomerInfoField
+                            title="საარჯიშო ჯგუფები"
+                            value={
+                                <>
+                                    {item?.workouts.map((workout, index) => (
+                                        <div key={index}>{workout}</div>
+                                    ))}
+                                    <div>
+                                        {' '}
+                                        საარჯიშო ჯგუფების სრული ღირებულება:{' '}
+                                        {item?.workoutPrice}₾
+                                    </div>
+                                </>
+                            }
+                        />
+                    )}
+                    {/* <div className="mb-7">
                         <span>Social</span>
                         <div className="flex mt-4">
                             <Button
@@ -152,6 +207,7 @@ const CustomerProfile = ({ data = {} }) => {
                 </div>
                 <div className="mt-4 flex flex-col xl:flex-row gap-2">
                     <CustomerProfileAction id={data.id} />
+                </div> */}
                 </div>
             </div>
         </Card>

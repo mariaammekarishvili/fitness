@@ -7,8 +7,24 @@ import { HiOutlineClipboardCheck } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 
 const ListItem = ({ item, cardBorder }) => {
+    const [dialogIsOpen, setIsOpen] = React.useState(false)
+
+    const openDialog = () => {
+        setIsOpen(true)
+    }
+
+    const onDialogClose = (e) => {
+        console.log('onDialogClose', e)
+        setIsOpen(false)
+    }
+
+    const onDialogOk = (e) => {
+        console.log('onDialogOk', e)
+        setIsOpen(false)
+    }
+
     return (
-        <div className="mb-4">
+        <div className="mb-4" onClick={onDialogOk}>
             <Card bordered={cardBorder}>
                 <div className="grid gap-x-4 grid-cols-12">
                     <div className="my-1 sm:my-0 col-span-12 sm:col-span-2 md:col-span-3 lg:col-span-3 md:flex md:items-center">
@@ -54,6 +70,7 @@ const ListItem = ({ item, cardBorder }) => {
                     </div>
                 </div>
             </Card>
+            
         </div>
     )
 }

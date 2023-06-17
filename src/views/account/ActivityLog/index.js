@@ -66,7 +66,7 @@ const ActivityLog = () => {
                 //     </div>
                 //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
                 //         <div className="w-1/2 font-bold">ტრენერი</div>
-                //         <div>{item?.trainer?.firstname} {item?.trainer?.lastname} - პ/ნ: {item?.trainer?.idCard}
+                //         <div>
                 //             <br /> მეილი: {item.trainer?.mail || "-"}
                 //             <br /> დაბადების თარიღი: <DateComponent incomeDate={item?.trainer?.birthday} />
                 //         </div>

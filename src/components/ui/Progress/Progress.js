@@ -18,7 +18,7 @@ const Progress = React.forwardRef((props, ref) => {
         }
         return (
             <span className={`progress-info ${variant}`}>
-                {customInfo || `${percent}%`}
+                {/* {customInfo || `${percent}%`} */}
             </span>
         )
     }
