@@ -86,9 +86,9 @@ export const fetchUserSale = async ({userId},token) => {
         console.error(error);
     }
 };
-export const filterSaleList = async (token) => {
+export const filterSaleList = async ({data},token) => {
     try {
-        const response = await fetch(`${apiPrefix}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=${data?.userID}&customerID=${data?.customerID}&trainerID=${data?.trainerID}&abonimentID=${data?.abonimentID}&salesDate[from]=&salesDate[to]=`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

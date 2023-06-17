@@ -13,8 +13,9 @@ import { filterByDate } from 'services/Sales'
 import { fetchTrainerList } from 'services/TrainerService'
 import { fetchList as workoutFetch } from 'services/WorkoutService'
 import { fetchList as abonimentFetch } from 'services/AbonimentService'
+import { fetchList as usersFetch } from 'services/UserService'
 import { fetchCustomers } from 'services/CrmService'
-
+import UserTableFilter from './UserTableFilter'
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
 
@@ -36,6 +37,7 @@ const CustomersTableTools = () => {
     const [abonimentList, setAbonimentList] = useState([])
     const [customerList, setCustomerList] = useState([])
     const [workoutList, setWorkoutList] = useState([])
+    const [userList, setUserList] = useState([])
 
     useEffect(() => {
         const fetchTrainer = async () => {
@@ -50,7 +52,22 @@ const CustomersTableTools = () => {
                         ' პ/ნ: ' +
                         item.idCard,
                 }))
-                setTrenerList([...trainerList,...updatedList])
+                setTrenerList([...trainerList, ...updatedList])
+            }
+        }
+        const fetchUser = async () => {
+            const data = await usersFetch({ companyId }, token)
+            if (data) {
+                const updatedList = data.map((item) => ({
+                    value: item.userID,
+                    label:
+                        item.firstname +
+                        ' ' +
+                        item.lastname +
+                        ' პ/ნ: ' +
+                        item.idCard,
+                }))
+                setUserList([...userList, ...updatedList])
             }
         }
 
@@ -95,6 +112,7 @@ const CustomersTableTools = () => {
         fetchWorkout()
         fetchCustomersList()
         fetchTrainer()
+        fetchUser()
     }, [])
 
     const filterWithDate = async () => {
@@ -105,19 +123,20 @@ const CustomersTableTools = () => {
         if (data) {
             dispatch(setFilterData(data))
         }
+        setOpenRange(false)
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = { salesID: '' }
-            const incomeData = await fetchList(token)
-            if (incomeData) {
-                dispatch(setSaleList(incomeData))
-                dispatch(setFilterData(incomeData))
-            }
-        }
-        fetchData()
-    }, [companyId, message])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const data = { salesID: '' }
+    //         const incomeData = await fetchList(token)
+    //         if (incomeData) {
+    //             dispatch(setSaleList(incomeData))
+    //             dispatch(setFilterData(incomeData))
+    //         }
+    //     }
+    //     fetchData()
+    // }, [companyId, message])
 
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)
@@ -176,17 +195,21 @@ const CustomersTableTools = () => {
 
     return (
         <div className="md:flex items-center justify-between">
-            <div className="md:flex items-center gap-4">
-                <CustomerTableSearch
-                    ref={inputRef}
-                    onInputChange={handleInputChange}
+            <div className="md:flex items-center w-[100%] justify-between space-y-4 gap-4">
+                <UserTableFilter
+                    trainerList={trainerList}
+                    abonimentList={abonimentList}
+                    customerList={customerList}
+                    workoutList={workoutList}
+                    token={token}
+                    userList={userList}
                 />
                 <HiOutlineCalendar
-                    className="cursor-pointer w-[53px] pointer h-[28px] mb-[16px]"
+                    className="cursor-pointer w-[53px] pointer h-[28px] mb-[16px] mt-[-15px] !important  calendar-icon-filter"
                     onClick={() => setOpenRange(!openRange)}
                 />
                 {openRange && (
-                    <div className="p-[14px] absolute shadow-md bg-white border-black  top-[193px] left-[304px] md:w-[290px] max-w-[290px] mx-auto">
+                    <div className="p-[14px] absolute shadow-md bg-white border-black important top-[243px] right-[154px] calendar-icon-filter md:w-[290px] max-w-[290px] mx-auto">
                         <RangeCalendar value={value} onChange={setValue} />
                         <Button
                             size={'sm'}

@@ -56,7 +56,7 @@ const CustomerStatistic = ({type}) => {
     const dispatch = useDispatch()
 
     
-    const data = useSelector((state) => state.crmCustomers.data.customerList)
+    const data = useSelector((state) => state.crmCustomers.data.filterData)
 
     const statisticData = useSelector(
         (state) => state.crmCustomers.data.statisticData

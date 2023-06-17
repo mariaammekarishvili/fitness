@@ -75,8 +75,12 @@ const CreateForm = ({
 
     async function handleCreateNewCustomer(data) {
         try {
-            const selectedValues = data.workoutID.map((option) => option.value)
-            data.workoutID = selectedValues
+            if (data.workoutID.length) {
+                const selectedValues = data.workoutID.map(
+                    (option) => option.value
+                )
+                data.workoutID = selectedValues
+            }
             if (createdUser) {
                 data.customerID = createdUser.customerID
             }
@@ -95,7 +99,7 @@ const CreateForm = ({
                     abonimentID: '',
                     customerID: '',
                     trainerID: '',
-                    workoutID: '',
+                    workoutID: [],
                     abonimentCount: '',
                 }}
                 validationSchema={validationSchema}

@@ -1,8 +1,10 @@
 import ApiService from './ApiService'
 import jwtDecode from 'jwt-decode';
+import appConfig from 'configs/app.config'
+
+const { apiPrefix } = appConfig
 
 //change before production 
-const API = 'http://localhost:3000';
 
 // export async function apiSignIn(data) {
 //     return ApiService.fetchData({
@@ -13,7 +15,7 @@ const API = 'http://localhost:3000';
 // }
 
 export async function apiSignIn(data) {
-    const response = await fetch(`${API}/users/login/user`, {
+    const response = await fetch(`${apiPrefix}/users/login/user`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
