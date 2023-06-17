@@ -5,11 +5,15 @@ import CustomerTableSearch from './UserTableSearch'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
-import { setCustomerList } from '../store/dataSlice'
+import { setCustomerList as setSaleList } from '../store/dataSlice'
 import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
 import { HiOutlineCalendar } from 'react-icons/hi'
 import { filterByDate } from 'services/Sales'
+import { fetchTrainerList } from 'services/TrainerService'
+import { fetchList as workoutFetch } from 'services/WorkoutService'
+import { fetchList as abonimentFetch } from 'services/AbonimentService'
+import { fetchCustomers } from 'services/CrmService'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -21,32 +25,99 @@ const CustomersTableTools = () => {
     const tableData = useSelector((state) => state.crmCustomers.data.tableData)
 
     const token = useSelector((state) => state.auth.session.token)
-    const companyId = useSelector(state => state.auth.user.companyId)
+    const companyId = useSelector((state) => state.auth.user.companyId)
 
     const [value, setValue] = useState([
         new Date(),
         dayjs(new Date()).add(5, 'days').toDate(),
     ])
 
+    const [trainerList, setTrenerList] = useState([])
+    const [abonimentList, setAbonimentList] = useState([])
+    const [customerList, setCustomerList] = useState([])
+    const [workoutList, setWorkoutList] = useState([])
+
+    useEffect(() => {
+        const fetchTrainer = async () => {
+            const data = await fetchTrainerList({ companyId }, token)
+            if (data) {
+                const updatedList = data.map((item) => ({
+                    value: item.trainerID,
+                    label:
+                        item.firstname +
+                        ' ' +
+                        item.lastname +
+                        ' პ/ნ: ' +
+                        item.idCard,
+                }))
+                setTrenerList([...trainerList,...updatedList])
+            }
+        }
+
+        const fetchAboniment = async () => {
+            const data = await abonimentFetch({ companyId }, token)
+            if (data) {
+                const updatedList = data.map((item) => ({
+                    value: item.abonimentID,
+                    label: item.name,
+                }))
+                setAbonimentList([...abonimentList, ...updatedList])
+            }
+        }
+
+        const fetchWorkout = async () => {
+            const data = await workoutFetch({ companyId }, token)
+            if (data) {
+                const updatedWorkoutList = data.map((workout) => ({
+                    value: workout.workoutID,
+                    label: workout.name,
+                }))
+
+                setWorkoutList([...workoutList, ...updatedWorkoutList])
+            }
+        }
+
+        const fetchCustomersList = async () => {
+            const data = await fetchCustomers({ companyId }, token)
+            const updatedList = data.map((item) => ({
+                value: item.customerID,
+                label:
+                    item.firstname +
+                    ' ' +
+                    item.lastname +
+                    ' პ/ნ: ' +
+                    item.idCard,
+            }))
+            setCustomerList([...customerList, ...updatedList])
+        }
+
+        fetchAboniment()
+        fetchWorkout()
+        fetchCustomersList()
+        fetchTrainer()
+    }, [])
 
     const filterWithDate = async () => {
-        const data = await filterByDate({ startDate: value[0], endDate: value[1] }, token);
+        const data = await filterByDate(
+            { startDate: value[0], endDate: value[1] },
+            token
+        )
         if (data) {
             dispatch(setFilterData(data))
         }
-    };
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             const data = { salesID: '' }
-            const incomeData = await fetchList(token);
+            const incomeData = await fetchList(token)
             if (incomeData) {
-                dispatch(setCustomerList(incomeData))
+                dispatch(setSaleList(incomeData))
                 dispatch(setFilterData(incomeData))
             }
-        };
-        fetchData();
-    }, [companyId, message]);
+        }
+        fetchData()
+    }, [companyId, message])
 
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)
@@ -93,11 +164,11 @@ const CustomersTableTools = () => {
     useEffect(() => {
         if (message) {
             const timeout = setTimeout(() => {
-                setMessage('');
+                setMessage('')
                 setIsOpen(false)
-            }, 5000);
+            }, 1000)
             // Clean up the timeout when the component unmounts or when the effect is re-triggered
-            return () => clearTimeout(timeout);
+            return () => clearTimeout(timeout)
         }
     }, [message])
 
@@ -110,17 +181,32 @@ const CustomersTableTools = () => {
                     ref={inputRef}
                     onInputChange={handleInputChange}
                 />
-                <HiOutlineCalendar className='cursor-pointer w-[53px] pointer h-[28px] mb-[16px]' onClick={() => setOpenRange(!openRange)} />
-                {openRange &&
+                <HiOutlineCalendar
+                    className="cursor-pointer w-[53px] pointer h-[28px] mb-[16px]"
+                    onClick={() => setOpenRange(!openRange)}
+                />
+                {openRange && (
                     <div className="p-[14px] absolute shadow-md bg-white border-black  top-[193px] left-[304px] md:w-[290px] max-w-[290px] mx-auto">
                         <RangeCalendar value={value} onChange={setValue} />
-                        <Button size={'sm'} className='ml-[192px]' onClick={filterWithDate} variant="solid">ძებნა</Button>
+                        <Button
+                            size={'sm'}
+                            className="ml-[192px]"
+                            onClick={filterWithDate}
+                            variant="solid"
+                        >
+                            ძებნა
+                        </Button>
                     </div>
-                }
+                )}
             </div>
             <div className="mb-4 flex">
                 <div style={{ marginLeft: '10px' }}>
-                    <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
+                    <Button
+                        variant="solid"
+                        onClick={() => openDialog()}
+                        active={true}
+                        size="sm"
+                    >
                         + დამატება
                     </Button>
                 </div>
@@ -130,16 +216,28 @@ const CustomersTableTools = () => {
                     onRequestClose={onDialogClose}
                 >
                     <div>
-                        <CreateForm setMessage={setMessage} message={message} />
+                        <CreateForm
+                            trainerList={trainerList}
+                            abonimentList={abonimentList}
+                            customerList={customerList}
+                            setMessage={setMessage}
+                            message={message}
+                            workoutList={workoutList}
+                        />
                     </div>
                     {message && (
-                        <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
-                            {message === "success" ? 'გაყიდვა წარმატებით დაემატა' : message}
+                        <Alert
+                            className="mb-4 respons-notf"
+                            type={message === 'success' ? 'success' : 'danger'}
+                            showIcon
+                        >
+                            {message === 'success'
+                                ? 'გაყიდვა წარმატებით დაემატა'
+                                : message}
                         </Alert>
                     )}
                 </Dialog>
-                <div style={{ position: 'absolute' }}>
-                </div>
+                <div style={{ position: 'absolute' }}></div>
             </div>
         </div>
     )

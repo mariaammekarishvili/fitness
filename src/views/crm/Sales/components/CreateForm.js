@@ -12,10 +12,6 @@ import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import { createNewSale } from 'services/Sales'
-import { fetchTrainerList } from 'services/TrainerService'
-import { fetchList as workoutFetch } from 'services/WorkoutService'
-import { fetchList as abonimentFetch } from 'services/AbonimentService'
-import { fetchCustomers } from 'services/CrmService'
 
 import { HiPencil, HiUserGroup } from 'react-icons/hi'
 import CustomerCreateForm from 'views/crm/Customers/components/CustomerCreateForm'
@@ -38,15 +34,18 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
-const CreateForm = ({ setMessage, message }) => {
+const CreateForm = ({
+    setMessage,
+    trainerList,
+    abonimentList,
+    customerList,
+    workoutList,
+    message,
+}) => {
     const companyId = useSelector((state) => state.auth.user.companyId)
 
     const token = useSelector((state) => state.auth.session.token)
 
-    const [trainerList, setTrenerList] = useState([])
-    const [abonimentList, setAbonimentList] = useState([])
-    const [customerList, setCustomerList] = useState([])
-    const [workoutList, setWorkoutList] = useState([])
     const [openUserPopup, setOpenUserPopup] = useState(false)
 
     const onDialogClose = (e) => {
@@ -73,66 +72,6 @@ const CreateForm = ({ setMessage, message }) => {
             }
         }
     }, [createCustomerMessage])
-
-    useEffect(() => {
-        const fetchTrainer = async () => {
-            const data = await fetchTrainerList({ companyId }, token)
-            if (data) {
-                const updatedList = data.map((item) => ({
-                    value: item.customerID,
-                    label:
-                        item.firstname +
-                        ' ' +
-                        item.lastname +
-                        ' პ/ნ: ' +
-                        item.idCard,
-                }))
-                setTrenerList(updatedList)
-            }
-        }
-
-        const fetchAboniment = async () => {
-            const data = await abonimentFetch({ companyId }, token)
-            if (data) {
-                const updatedList = data.map((item) => ({
-                    value: item.abonimentID,
-                    label: item.name,
-                }))
-                setAbonimentList(updatedList)
-            }
-        }
-
-        const fetchWorkout = async () => {
-            const data = await workoutFetch({ companyId }, token)
-            if (data) {
-                const updatedWorkoutList = data.map((workout) => ({
-                    value: workout.workoutID,
-                    label: workout.name,
-                }))
-
-                setWorkoutList([...workoutList, ...updatedWorkoutList])
-            }
-        }
-
-        const fetchCustomersList = async () => {
-            const data = await fetchCustomers({ companyId }, token)
-            const updatedList = data.map((item) => ({
-                value: item.customerID,
-                label:
-                    item.firstname +
-                    ' ' +
-                    item.lastname +
-                    ' პ/ნ: ' +
-                    item.idCard,
-            }))
-            setCustomerList(updatedList)
-        }
-
-        fetchAboniment()
-        fetchWorkout()
-        fetchCustomersList()
-        fetchTrainer()
-    }, [])
 
     async function handleCreateNewCustomer(data) {
         try {
@@ -210,11 +149,11 @@ const CreateForm = ({ setMessage, message }) => {
                                                     placeholder={
                                                         'ჩაწერეთ სახელი'
                                                     }
-                                                    value={values.customerID}
+                                                    value={values.select}
                                                     onChange={(option) => {
                                                         form.setFieldValue(
                                                             field.name,
-                                                            option
+                                                            option.value
                                                         )
                                                     }}
                                                 />
@@ -271,11 +210,11 @@ const CreateForm = ({ setMessage, message }) => {
                                             form={form}
                                             options={trainerList}
                                             placeholder={'ჩაწერეთ სახელი'}
-                                            value={values.trainerID}
+                                            value={values.select}
                                             onChange={(option) => {
                                                 form.setFieldValue(
                                                     field.name,
-                                                    option
+                                                    option.value
                                                 )
                                             }}
                                         />
@@ -296,11 +235,11 @@ const CreateForm = ({ setMessage, message }) => {
                                             form={form}
                                             options={abonimentList}
                                             placeholder={'ჩაწერეთ სახელი'}
-                                            value={values.abonimentID}
+                                            value={values.select}
                                             onChange={(option) => {
                                                 form.setFieldValue(
                                                     field.name,
-                                                    option
+                                                    option.value
                                                 )
                                             }}
                                         />
