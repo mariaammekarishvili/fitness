@@ -17,11 +17,15 @@ import { DeleteColumn } from './DeleteColumn'
 const ActionColumn = ({ row }) => {
     const { textTheme } = useThemeClass()
     const dispatch = useDispatch()
-
+    
     const onEdit = () => {
         dispatch(setDrawerOpen())
         dispatch(setSelectedCustomer(row))
     }
+
+    const userRole = useSelector((state) => state.auth.user.authority)
+    
+    if(userRole[0] === 'user') return
 
     return (
         <Button className={`mb-[7px]`} size={'sm'} onClick={onEdit} icon={<HiOutlinePencil />}>

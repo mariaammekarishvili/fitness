@@ -8,6 +8,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
 import { setCustomerList } from '../store/dataSlice'
 import { fetchList } from 'services/AbonimentService'
+import { ADMIN, USER } from 'constants/roles.constant'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -19,18 +20,18 @@ const CustomersTableTools = () => {
     const tableData = useSelector((state) => state.crmCustomers.data.tableData)
 
     const token = useSelector((state) => state.auth.session.token)
-    const companyId = useSelector(state => state.auth.user.companyId)
-
-    useEffect(() => { 
-
+    const companyId = useSelector((state) => state.auth.user.companyId)
+    const userRole = useSelector((state) => state.auth.user.authority)
+    useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchList({ companyId }, token);
+            const data = await fetchList({ companyId }, token)
             if (data) {
                 dispatch(setCustomerList(data))
-                dispatch(setFilterData(data))            }
-        };
-        fetchData();
-    }, [companyId, message]);
+                dispatch(setFilterData(data))
+            }
+        }
+        fetchData()
+    }, [companyId, message])
 
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)
@@ -77,11 +78,11 @@ const CustomersTableTools = () => {
     useEffect(() => {
         if (message) {
             const timeout = setTimeout(() => {
-                setMessage('');
+                setMessage('')
                 setIsOpen(false)
-            }, 5000);
+            }, 5000)
             // Clean up the timeout when the component unmounts or when the effect is re-triggered
-            return () => clearTimeout(timeout);
+            return () => clearTimeout(timeout)
         }
     }, [message])
 
@@ -98,11 +99,18 @@ const CustomersTableTools = () => {
                 {/* <Button size="sm" onClick={onClearAll}>
                     Clear All
                 </Button> */}
-                <div style={{ marginLeft: '10px' }}>
-                    <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
-                        + დამატება
-                    </Button>
-                </div>
+                {userRole[0] === 'admin' && (
+                    <div style={{ marginLeft: '10px' }}>
+                        <Button
+                            variant="solid"
+                            onClick={() => openDialog()}
+                            active={true}
+                            size="sm"
+                        >
+                            + დამატება
+                        </Button>
+                    </div>
+                )}
                 <Dialog
                     isOpen={dialogIsOpen}
                     onClose={onDialogClose}
@@ -112,13 +120,18 @@ const CustomersTableTools = () => {
                         <CreateForm setMessage={setMessage} message={message} />
                     </div>
                     {message && (
-                        <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
-                            {message === "success" ? 'აბონიმენი წარმატებით დაემატა' : message}
+                        <Alert
+                            className="mb-4 respons-notf"
+                            type={message === 'success' ? 'success' : 'danger'}
+                            showIcon
+                        >
+                            {message === 'success'
+                                ? 'აბონიმენი წარმატებით დაემატა'
+                                : message}
                         </Alert>
                     )}
                 </Dialog>
-                <div style={{ position: 'absolute' }}>
-                </div>
+                <div style={{ position: 'absolute' }}></div>
             </div>
         </div>
     )

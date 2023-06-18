@@ -58,7 +58,7 @@ const ActivityLog = () => {
                 />
                 <StatisticCard
                     icon={<HiCash />}
-                    avatarClass="!bg-indigo-600"
+                    avatarClass="!bg-green-600"
                     label="სრული ღირებულება"
                     value={totalPrice}
                     growthRate={0}

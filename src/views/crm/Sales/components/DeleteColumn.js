@@ -15,6 +15,7 @@ export const DeleteColumn = ({ row }) => {
     }
 
     const token = useSelector((state) => state.auth.session.token)
+    const userRole = useSelector((state) => state.auth.user.authority)
 
     const onDialogClose = (e) => {
         console.log('onDialogClose', e)
@@ -33,6 +34,8 @@ export const DeleteColumn = ({ row }) => {
             }
         }, 1000);
     };
+
+    if(userRole[0] === 'user') return
 
     return (
         <>

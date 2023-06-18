@@ -34,6 +34,10 @@ export const DeleteColumn = ({ row }) => {
         }, 1000);
     };
 
+    const userRole = useSelector((state) => state.auth.user.authority)
+    
+    if(userRole[0] === 'user') return
+
     return (
         <>
             <Button

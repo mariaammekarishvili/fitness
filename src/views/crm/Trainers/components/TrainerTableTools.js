@@ -19,18 +19,19 @@ const CustomersTableTools = () => {
     const tableData = useSelector((state) => state.crmCustomers.data.tableData)
 
     const token = useSelector((state) => state.auth.session.token)
-    const companyId = useSelector(state => state.auth.user.companyId)
+    const companyId = useSelector((state) => state.auth.user.companyId)
+    const userRole = useSelector((state) => state.auth.user.authority)
 
-    useEffect(() => { 
-
+    useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchTrainerList({ companyId }, token);
+            const data = await fetchTrainerList({ companyId }, token)
             if (data) {
                 dispatch(setCustomerList(data))
-                dispatch(setFilterData(data))            }
-        };
-        fetchData();
-    }, [companyId, message]);
+                dispatch(setFilterData(data))
+            }
+        }
+        fetchData()
+    }, [companyId, message])
 
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)
@@ -77,11 +78,11 @@ const CustomersTableTools = () => {
     useEffect(() => {
         if (message) {
             const timeout = setTimeout(() => {
-                setMessage('');
+                setMessage('')
                 setIsOpen(false)
-            }, 5000);
+            }, 5000)
             // Clean up the timeout when the component unmounts or when the effect is re-triggered
-            return () => clearTimeout(timeout);
+            return () => clearTimeout(timeout)
         }
     }, [message])
 
@@ -96,26 +97,38 @@ const CustomersTableTools = () => {
             </div>
             <div className="mb-4 flex">
                 <div style={{ marginLeft: '10px' }}>
-                    <Button variant="solid" onClick={() => openDialog()} active={true} size="sm" >
-                        + დამატება
-                    </Button>
+                    {userRole[0] === 'admin' && (
+                        <Button
+                            variant="solid"
+                            onClick={() => openDialog()}
+                            active={true}
+                            size="sm"
+                        >
+                            + დამატება
+                        </Button>
+                    )}
                 </div>
                 <Dialog
                     isOpen={dialogIsOpen}
                     onClose={onDialogClose}
                     onRequestClose={onDialogClose}
                 >
-                    <div className='add-form-div'>
+                    <div className="add-form-div">
                         <CreateForm setMessage={setMessage} message={message} />
                     </div>
                     {message && (
-                        <Alert className="mb-4 respons-notf" type={message === "success" ? "success" : "danger"} showIcon>
-                            {message === "success" ? 'ტრენერი წარმატებით დაემატა' : message}
+                        <Alert
+                            className="mb-4 respons-notf"
+                            type={message === 'success' ? 'success' : 'danger'}
+                            showIcon
+                        >
+                            {message === 'success'
+                                ? 'ტრენერი წარმატებით დაემატა'
+                                : message}
                         </Alert>
                     )}
                 </Dialog>
-                <div style={{ position: 'absolute' }}>
-                </div>
+                <div style={{ position: 'absolute' }}></div>
             </div>
         </div>
     )

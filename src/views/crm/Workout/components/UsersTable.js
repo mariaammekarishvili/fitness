@@ -23,6 +23,10 @@ const ActionColumn = ({ row }) => {
         dispatch(setSelectedCustomer(row))
     }
 
+    const userRole = useSelector((state) => state.auth.user.authority)
+    
+    if(userRole[0] === 'user') return
+
     return (
         <Button className={`mb-[7px]`} size={'sm'} onClick={onEdit} icon={<HiOutlinePencil />}>
             <span>რედაქტირება</span>
