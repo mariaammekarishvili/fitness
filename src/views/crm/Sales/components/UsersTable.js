@@ -4,10 +4,7 @@ import { HiOutlinePencil } from 'react-icons/hi'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTableData } from '../store/dataSlice'
-import {
-    setSelectedCustomer,
-    setDrawerOpen,
-} from '../store/stateSlice'
+import { setSelectedCustomer, setDrawerOpen } from '../store/stateSlice'
 import useThemeClass from 'utils/hooks/useThemeClass'
 import CustomerEditDialog from './UserEditDialog'
 import { Link } from 'react-router-dom'
@@ -24,7 +21,12 @@ const ActionColumn = ({ row }) => {
     }
 
     return (
-        <Button className={`mb-[7px]`} size={'sm'} onClick={onEdit} icon={<HiOutlinePencil />}>
+        <Button
+            className={`mb-[7px]`}
+            size={'sm'}
+            onClick={onEdit}
+            icon={<HiOutlinePencil />}
+        >
             <span>რედაქტირება</span>
         </Button>
     )
@@ -35,7 +37,13 @@ const NameColumn = ({ row }) => {
 
     return (
         <div className="flex items-center">
-            <Avatar size={28} shape="circle" src={'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'} />
+            <Avatar
+                size={28}
+                shape="circle"
+                src={
+                    'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'
+                }
+            />
             <Link
                 className={`hover:${textTheme} ml-2 rtl:mr-2 font-semibold`}
                 to={`/app/crm/customer-details?id=${row?.id}`}
@@ -53,7 +61,7 @@ const columns = [
         cell: (props) => {
             const row = props.row.original
             return (
-                <div style={{color: 'green'}} className="flex items-center">
+                <div style={{ color: 'green' }} className="flex items-center">
                     {row.totalPrice}ლ
                 </div>
             )
@@ -66,7 +74,8 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row?.customer?.firstname}  {row?.customer?.lastname} -  პ/ნ:  {row?.customer?.idCard}
+                    {row?.customer?.firstname} {row?.customer?.lastname} - პ/ნ:{' '}
+                    {row?.customer?.idCard}
                 </div>
             )
         },
@@ -78,7 +87,8 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row?.trainer?.firstname}  {row?.trainer?.lastname} -  პ/ნ:  {row?.trainer?.idCard}
+                    {row?.trainer?.firstname} {row?.trainer?.lastname} - პ/ნ:{' '}
+                    {row?.trainer?.idCard}
                 </div>
             )
         },
@@ -88,19 +98,22 @@ const columns = [
         accessorKey: 'id',
         cell: (props) => {
             const row = props.row.original
-            const dateComponent = ( incomeDate ) => {
-                if (incomeDate  != null) {
-                    const formattedDate = new Date(incomeDate).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "2-digit",
-                    });
+            const dateComponent = (incomeDate) => {
+                if (incomeDate != null) {
+                    const formattedDate = new Date(
+                        incomeDate
+                    ).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                    })
                     return formattedDate
                 }
-            };
+            }
             return (
                 <div className="flex items-center">
-                    {dateComponent(row?.startDate)} - {dateComponent(row?.endDate)} 
+                    {dateComponent(row?.startDate)} -{' '}
+                    {dateComponent(row?.endDate)}
                 </div>
             )
         },
@@ -110,7 +123,7 @@ const columns = [
         accessorKey: 'workouts',
         cell: (props) => {
             const row = props.row.original
-            if(!row?.workouts) return
+            if (!row?.workouts) return
             return (
                 <>
                     {row?.workouts.map((workout, index) => (
@@ -122,8 +135,9 @@ const columns = [
     },
     {
         header: 'თვეების რაოდენობა',
-        accessorKey: 'abonimentCount'
+        accessorKey: 'abonimentCount',
     },
+    { header: 'გამოყენებული ვიზიტები', accessorKey: 'visitCount' },
     {
         header: 'ასმინისტრატორი (გამყიდველი)',
         accessorKey: 'user',
@@ -131,7 +145,8 @@ const columns = [
             const row = props.row.original
             return (
                 <div className="flex items-center">
-                    {row?.user?.firstname}  {row?.user?.lastname} -  პ/ნ:  {row?.user?.idCard}
+                    {row?.user?.firstname} {row?.user?.lastname} - პ/ნ:{' '}
+                    {row?.user?.idCard}
                 </div>
             )
         },

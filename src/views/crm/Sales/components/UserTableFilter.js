@@ -132,34 +132,6 @@ const CustomerTableFilter = ({
                             </FormItem>
                             <FormItem
                                 className="mr-[14px]"
-                                label="სავარჯიშო ჯგუფი"
-                                invalid={Boolean(
-                                    errors.workoutID && touched.workoutID
-                                )}
-                                errorMessage={errors.workoutID}
-                            >
-                                <Field name="workoutID">
-                                    {({ field, form }) => (
-                                        <Select
-                                            field={field}
-                                            form={form}
-                                            options={workoutList}
-                                            placeholder={
-                                                'ჩაწერეთ ჯგუფის სახელი'
-                                            }
-                                            value={values.select}
-                                            onChange={(option) => {
-                                                form.setFieldValue(
-                                                    field.name,
-                                                    option.value
-                                                )
-                                            }}
-                                        />
-                                    )}
-                                </Field>
-                            </FormItem>
-                            <FormItem
-                                className="mr-[14px]"
                                 label="აირჩიეთ თანამშრომელი"
                             >
                                 <Field name="userID">

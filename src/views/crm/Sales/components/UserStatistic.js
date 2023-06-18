@@ -8,8 +8,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import NumberFormat from 'react-number-format'
 
-const StatisticCard = (props) => {
-    const { icon, avatarClass, label, value, growthRate, loading } = props
+export const StatisticCard = (props) => {
+    const { icon, avatarClass, label, value, priceType, growthRate, loading } = props
 
     const avatarSize = 55
 
@@ -41,7 +41,8 @@ const StatisticCard = (props) => {
                                     displayType="text"
                                     value={value}
                                     thousandSeparator
-                                />
+                                /> 
+                                {priceType && <>₾</>}
                             </h3>
                         </div>
                     </div>

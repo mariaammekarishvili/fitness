@@ -16,6 +16,8 @@ import { fetchList as abonimentFetch } from 'services/AbonimentService'
 import { fetchList as usersFetch } from 'services/UserService'
 import { fetchCustomers } from 'services/CrmService'
 import UserTableFilter from './UserTableFilter'
+import OutsideClickHandler from 'react-outside-click-handler'
+
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
 
@@ -33,11 +35,36 @@ const CustomersTableTools = () => {
         dayjs(new Date()).add(5, 'days').toDate(),
     ])
 
-    const [trainerList, setTrenerList] = useState([])
-    const [abonimentList, setAbonimentList] = useState([])
-    const [customerList, setCustomerList] = useState([])
-    const [workoutList, setWorkoutList] = useState([])
-    const [userList, setUserList] = useState([])
+    const [trainerList, setTrenerList] = useState([
+        {
+            value: '',
+            label: 'გასუფთავება',
+        },
+    ])
+    const [abonimentList, setAbonimentList] = useState([
+        {
+            value: '',
+            label: 'გასუფთავება',
+        },
+    ])
+    const [customerList, setCustomerList] = useState([
+        {
+            value: '',
+            label: 'გასუფთავება',
+        },
+    ])
+    const [workoutList, setWorkoutList] = useState([
+        {
+            value: '',
+            label: 'გასუფთავება',
+        },
+    ])
+    const [userList, setUserList] = useState([
+        {
+            value: '',
+            label: 'გასუფთავება',
+        },
+    ])
 
     useEffect(() => {
         const fetchTrainer = async () => {
@@ -209,17 +236,23 @@ const CustomersTableTools = () => {
                     onClick={() => setOpenRange(!openRange)}
                 />
                 {openRange && (
-                    <div className="p-[14px] absolute shadow-md bg-white border-black important top-[243px] right-[154px] calendar-icon-filter md:w-[290px] max-w-[290px] mx-auto">
-                        <RangeCalendar value={value} onChange={setValue} />
-                        <Button
-                            size={'sm'}
-                            className="ml-[192px]"
-                            onClick={filterWithDate}
-                            variant="solid"
-                        >
-                            ძებნა
-                        </Button>
-                    </div>
+                    <OutsideClickHandler
+                        onOutsideClick={() => {
+                            setOpenRange(false)
+                        }}
+                    >
+                        <div className="p-[14px] absolute shadow-md bg-white border-black important top-[243px] right-[154px] calendar-icon-filter md:w-[290px] max-w-[290px] mx-auto dark:bg-gray-900">
+                            <RangeCalendar value={value} onChange={setValue} />
+                            <Button
+                                size={'sm'}
+                                className="ml-[192px]"
+                                onClick={filterWithDate}
+                                variant="solid"
+                            >
+                                ძებნა
+                            </Button>
+                        </div>
+                    </OutsideClickHandler>
                 )}
             </div>
             <div className="mb-4 flex">
