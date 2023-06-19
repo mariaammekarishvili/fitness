@@ -49,6 +49,24 @@ export const fetchList = async (token) => {
         console.error(error);
     }
 };
+export const filterByDate = async ({ startDate, endDate, userId},token) => {
+    try {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=${startDate}&salesDate[to]=${endDate}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data
+        } else {
+            throw new Error('Error retrieving customer list');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 export const fetchUserSale = async ({userId},token) => {
     try {

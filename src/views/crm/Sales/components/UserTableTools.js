@@ -8,12 +8,15 @@ import CreateForm from './CreateForm'
 import { setCustomerList as setSaleList } from '../store/dataSlice'
 import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
+import { HiOutlineCalendar } from 'react-icons/hi'
+import { filterByDate } from 'services/Sales'
 import { fetchTrainerList } from 'services/TrainerService'
 import { fetchList as workoutFetch } from 'services/WorkoutService'
 import { fetchList as abonimentFetch } from 'services/AbonimentService'
 import { fetchList as usersFetch } from 'services/UserService'
 import { fetchCustomers } from 'services/CrmService'
 import UserTableFilter from './UserTableFilter'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -27,7 +30,10 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector((state) => state.auth.user.companyId)
 
-   
+    const [value, setValue] = useState([
+        new Date(),
+        dayjs(new Date()).add(5, 'days').toDate(),
+    ])
 
     const [trainerList, setTrenerList] = useState([
         {
@@ -136,7 +142,17 @@ const CustomersTableTools = () => {
         fetchUser()
     }, [])
 
-   
+    const filterWithDate = async () => {
+        const data = await filterByDate(
+            { startDate: value[0], endDate: value[1] },
+            token
+        )
+        if (data) {
+            dispatch(setFilterData(data))
+        }
+        setOpenRange(false)
+    }
+
     // useEffect(() => {
     //     const fetchData = async () => {
     //         const data = { salesID: '' }
@@ -202,6 +218,7 @@ const CustomersTableTools = () => {
         }
     }, [message])
 
+    const [openRange, setOpenRange] = useState(false)
 
     return (
         <div className="md:flex items-center justify-between">
@@ -214,6 +231,7 @@ const CustomersTableTools = () => {
                     token={token}
                     userList={userList}
                 />
+               
             </div>
             <div className="mb-4 flex">
                 <div style={{ marginLeft: '10px' }}>

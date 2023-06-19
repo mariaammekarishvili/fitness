@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import reducer from './store'
 import { injectReducer } from 'store/index'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserSale } from 'services/Sales'
 import GridItem from 'views/project/ProjectList/components/GridItem'
 import { StatisticCard } from 'views/crm/Sales/components/UserStatistic'
 import { HiCash, HiOutlineUserGroup } from 'react-icons/hi'
-
+import { HiOutlineCalendar } from 'react-icons/hi'
+import OutsideClickHandler from 'react-outside-click-handler'
+import dayjs from 'dayjs'
+import { Button, RangeCalendar } from 'components/ui'
+import { filterByDate } from 'services/Sales'
 injectReducer('accountActivityLog', reducer)
 
 const ActivityLog = () => {
@@ -14,6 +18,7 @@ const ActivityLog = () => {
     const token = useSelector((state) => state.auth.session.token)
 
     const [list, setList] = useState()
+    const [openRange, setOpenRange] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,26 +30,53 @@ const ActivityLog = () => {
         fetchData()
     }, [userId])
 
-    const DateComponent = ({ incomeDate }) => {
-        const formattedDate = new Date(incomeDate).toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
-        })
+    const [value, setValue] = useState([
+        dayjs(new Date()).add(-5, 'days').toDate(),
+        new Date(),
+    ])
 
-        return <>{formattedDate}</>
+    const filterWithDate = async () => {
+        const data = await filterByDate(
+            { startDate: value[0], endDate: value[1], userId },
+            token
+        )
+        if (data) {
+            setList(data)
+        }
+        setOpenRange(false)
     }
 
     const [totalPrice, setTotalPrice] = useState(0)
 
-    useEffect(() => {
-        list?.map((item) => setTotalPrice(totalPrice + item.totalPrice))
-    }, [list])
-
     if (!list?.length) return <h3>თქვენი გაყიდვები ვერ მოიძებნა</h3>
     return (
         <>
-            <h3 className="mb-[30px]">ჩემი გაყიდვები</h3>
+            <div className="flex items-center justify-between">
+                <h3 className="mb-[30px]">ჩემი გაყიდვები</h3>
+                {openRange && (
+                    <OutsideClickHandler
+                        onOutsideClick={() => {
+                            setOpenRange(false)
+                        }}
+                    >
+                        <div className="p-[14px] absolute shadow-md bg-white border-black important top-[45px] right-[86px] calendar-icon-filter md:w-[290px] max-w-[290px] mx-auto dark:bg-gray-900">
+                            <RangeCalendar value={value} onChange={setValue} />
+                            <Button
+                                size={'sm'}
+                                className="ml-[192px]"
+                                onClick={filterWithDate}
+                                variant="solid"
+                            >
+                                ძებნა
+                            </Button>
+                        </div>
+                    </OutsideClickHandler>
+                )}
+                <HiOutlineCalendar
+                    className="cursor-pointer w-[53px] pointer h-[28px] mb-[16px] mt-[-15px] !important  calendar-icon-filter"
+                    onClick={() => setOpenRange(!openRange)}
+                />
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
                 <StatisticCard
                     icon={<HiOutlineUserGroup />}
@@ -66,11 +98,11 @@ const ActivityLog = () => {
                 />
             </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {list?.map((item, index) => (
-                        <GridItem key={index} item={item} />
-                    ))}
-                </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {list?.map((item, index) => (
+                    <GridItem key={index} item={item} />
+                ))}
+            </div>
         </>
     )
 }
