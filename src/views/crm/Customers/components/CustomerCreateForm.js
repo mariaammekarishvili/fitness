@@ -52,7 +52,12 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
-const CustomerCreateForm = ({ setMessage, message, setCreatedUser }) => {
+const CustomerCreateForm = ({
+    setMessage,
+    message,
+    setCreatedUser,
+    formSale,
+}) => {
     const companyId = useSelector((state) => state.auth.user.companyId)
     const token = useSelector((state) => state.auth.session.token)
 
@@ -60,7 +65,9 @@ const CustomerCreateForm = ({ setMessage, message, setCreatedUser }) => {
         try {
             const response = await createNewCustomer({ data, companyId }, token)
             setMessage('success')
-            setCreatedUser(response)
+            if (formSale) {
+                setCreatedUser(response)
+            }
         } catch (error) {
             setMessage(error?.message)
         }

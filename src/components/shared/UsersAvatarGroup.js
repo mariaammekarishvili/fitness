@@ -16,7 +16,6 @@ const UsersAvatarGroup = (props) => {
     } = props
 
     const bgColor = useTwColorByName()
-
     const defaultAvatarProps = useMemo(() => {
         return {
             shape: 'circle',

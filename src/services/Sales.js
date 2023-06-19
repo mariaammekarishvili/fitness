@@ -51,7 +51,7 @@ export const fetchList = async (token) => {
 };
 export const filterByDate = async ({ startDate, endDate, userId},token) => {
     try {
-        const response = await fetch(`${apiPrefix}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=${startDate}&salesDate[to]=${endDate}`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=${startDate}&salesDate[to]=${endDate ? endDate : ''}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -88,7 +88,7 @@ export const fetchUserSale = async ({userId},token) => {
 };
 export const filterSaleList = async ({data},token) => {
     try {
-        const response = await fetch(`${apiPrefix}/sales/filter?userID=${data?.userID}&customerID=${data?.customerID}&trainerID=${data?.trainerID}&abonimentID=${data?.abonimentID}&salesDate[from]=${data?.startDate}&salesDate[to]=${data?.endDate}`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=${data?.userID}&customerID=${data?.customerID}&trainerID=${data?.trainerID}&abonimentID=${data?.abonimentID}&salesDate[from]=${data?.startDate}&salesDate[to]=${data?.endDate ?? ''}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

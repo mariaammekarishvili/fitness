@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Dialog, Alert, RangeCalendar } from 'components/ui'
 import { getCustomers, setTableData, setFilterData } from '../store/dataSlice'
-import CustomerTableSearch from './UserTableSearch'
 import { useDispatch, useSelector } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import CreateForm from './CreateForm'
@@ -73,9 +72,8 @@ const CustomersTableTools = () => {
                     label:
                         item.firstname +
                         ' ' +
-                        item.lastname +
-                        ' პ/ნ: ' +
-                        item.idCard,
+                        item.lastname + ' - ' +
+                        item.price + 'ლ'
                 }))
                 setTrenerList([...trainerList, ...updatedList])
             }
@@ -140,17 +138,6 @@ const CustomersTableTools = () => {
         fetchUser()
     }, [])
 
-    const filterWithDate = async () => {
-        const data = await filterByDate(
-            { startDate: value[0], endDate: value[1] },
-            token
-        )
-        if (data) {
-            dispatch(setFilterData(data))
-        }
-        setOpenRange(false)
-    }
-
     // useEffect(() => {
     //     const fetchData = async () => {
     //         const data = { salesID: '' }
@@ -181,14 +168,6 @@ const CustomersTableTools = () => {
         dispatch(getCustomers(data))
     }
 
-    const onClearAll = () => {
-        const newTableData = cloneDeep(tableData)
-        newTableData.query = ''
-        inputRef.current.value = ''
-        dispatch(setFilterData({ status: '' }))
-        fetchData(newTableData)
-    }
-
     const [dialogIsOpen, setIsOpen] = useState(false)
 
     const openDialog = () => {
@@ -215,8 +194,6 @@ const CustomersTableTools = () => {
             return () => clearTimeout(timeout)
         }
     }, [message])
-
-    const [openRange, setOpenRange] = useState(false)
 
     return (
         <div className="md:flex items-center justify-between">

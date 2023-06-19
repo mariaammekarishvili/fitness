@@ -184,6 +184,7 @@ const CreateForm = ({
                                         setMessage={setCreateCustomerMessage}
                                         message={createCustomerMessage}
                                         setCreatedUser={setCreatedUser}
+                                        formSale
                                     />
                                 </div>
                             </Dialog>

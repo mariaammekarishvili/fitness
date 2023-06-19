@@ -5,7 +5,7 @@ import ProgressionBar from './ProgressionBar'
 import CustomerProfile from 'views/crm/CustomerDetail/components/CustomerProfile'
 
 const GridItem = ({ item }) => {
-    const name = item.customer ? item.customer?.firstname + item.customer?.lastname :''
+    const name = item.customer ? item.customer?.firstname + ' ' +item.customer?.lastname :''
     const [dialogIsOpen, setIsOpen] = React.useState(false)
 
     const openDialog = () => {
