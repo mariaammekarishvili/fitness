@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import CustomerProfile from 'views/crm/CustomerDetail/components/CustomerProfile'
 
 const GridItem = ({ item }) => {
-    const name = item.customer?.firstname + item.customer?.lastname
+    const name = item.customer ? item.customer?.firstname + item.customer?.lastname :''
     const [dialogIsOpen, setIsOpen] = React.useState(false)
 
     const openDialog = () => {
@@ -44,11 +44,12 @@ const GridItem = ({ item }) => {
                         <br /> საშეღავათო პერიოდი:{' '}
                         {item?.aboniment?.countStartsDays}
                         <br /> შესვლის რაოდენობა: {item?.aboniment?.maxEntries}
+                        <br /> გამყიდველი: {item?.user?.firstname} {item?.user.lastname}
                     </p>
                     <div className="mt-3">
                         <ProgressionBar progression={100} />
                         <div className="flex items-center justify-between mt-2">
-                            <Members members={[{ name: name.toUpperCase() }]} />
+                            <Members members={[{ name: name?.toUpperCase() }]} />
                             <div className="flex items-center rounded-full font-semibold mt-[10px]">
                                 <div className="flex items-center px-2 py-1 border border-gray-300 rounded-full">
                                     <span className="ml-1 text-green-500 rtl:mr-1 whitespace-nowrap">

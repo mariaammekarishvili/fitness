@@ -8,7 +8,6 @@ import CreateForm from './CreateForm'
 import { setCustomerList as setSaleList } from '../store/dataSlice'
 import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
-import { HiOutlineCalendar } from 'react-icons/hi'
 import { filterByDate } from 'services/Sales'
 import { fetchTrainerList } from 'services/TrainerService'
 import { fetchList as workoutFetch } from 'services/WorkoutService'
@@ -16,7 +15,6 @@ import { fetchList as abonimentFetch } from 'services/AbonimentService'
 import { fetchList as usersFetch } from 'services/UserService'
 import { fetchCustomers } from 'services/CrmService'
 import UserTableFilter from './UserTableFilter'
-import OutsideClickHandler from 'react-outside-click-handler'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()

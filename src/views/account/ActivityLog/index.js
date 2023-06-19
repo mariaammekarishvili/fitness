@@ -14,15 +14,19 @@ import { filterByDate } from 'services/Sales'
 injectReducer('accountActivityLog', reducer)
 
 const ActivityLog = () => {
-    const userId = useSelector((state) => state.auth.user.userId)
     const token = useSelector((state) => state.auth.session.token)
+    const userRole = useSelector((state) => state.auth.user.authority)
+    const userId = useSelector((state) => state.auth.user.userId)
 
     const [list, setList] = useState()
     const [openRange, setOpenRange] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchUserSale({ userId }, token)
+            const data = await fetchUserSale(
+                { userId: userRole[0] === 'admin' ? '' : userId },
+                token
+            )
             if (data) {
                 setList(data)
             }
@@ -37,7 +41,7 @@ const ActivityLog = () => {
 
     const filterWithDate = async () => {
         const data = await filterByDate(
-            { startDate: value[0], endDate: value[1], userId },
+            { startDate: value[0], endDate: value[1],  userId: userRole[0] === 'admin' ? '' : userId },
             token
         )
         if (data) {
@@ -47,6 +51,14 @@ const ActivityLog = () => {
     }
 
     const [totalPrice, setTotalPrice] = useState(0)
+
+    useEffect(() => {
+        const fullTotalPrice = list?.reduce(
+            (total, item) => total + item.totalPrice,
+            0
+        )
+        setTotalPrice(fullTotalPrice)
+    }, [list])
 
     if (!list?.length) return <h3>თქვენი გაყიდვები ვერ მოიძებნა</h3>
     return (

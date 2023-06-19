@@ -107,7 +107,7 @@ const CustomerProfile = ({ item = {} }) => {
                            <h3 className='text-[#FFFF]'> {item.customer?.firstname[0].toUpperCase()}.{item.customer?.lastname[0].toUpperCase()}</h3>
                         </div>
                     </div>
-                    {/* <Members members={[{ name: name.toUpperCase() }]} /> */}
+                    {/* <Members members={[{ name: name?.toUpperCase() }]} /> */}
 
                     <h4 className="font-bold">
                         {item.customer?.firstname} {item?.customer?.lastname}
