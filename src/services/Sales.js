@@ -49,24 +49,6 @@ export const fetchList = async (token) => {
         console.error(error);
     }
 };
-export const filterByDate = async ({ startDate, endDate},token) => {
-    try {
-        const response = await fetch(`${apiPrefix}/sales/filter?userID=&customerID=&trainerID=&abonimentID=&salesDate[from]=${startDate}&salesDate[to]=${endDate}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-        if (response.ok) {
-            const data = await response.json();
-            return data
-        } else {
-            throw new Error('Error retrieving customer list');
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 export const fetchUserSale = async ({userId},token) => {
     try {
@@ -88,7 +70,7 @@ export const fetchUserSale = async ({userId},token) => {
 };
 export const filterSaleList = async ({data},token) => {
     try {
-        const response = await fetch(`${apiPrefix}/sales/filter?userID=${data?.userID}&customerID=${data?.customerID}&trainerID=${data?.trainerID}&abonimentID=${data?.abonimentID}&salesDate[from]=&salesDate[to]=`, {
+        const response = await fetch(`${apiPrefix}/sales/filter?userID=${data?.userID}&customerID=${data?.customerID}&trainerID=${data?.trainerID}&abonimentID=${data?.abonimentID}&salesDate[from]=${data?.startDate}&salesDate[to]=${data?.endDate}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

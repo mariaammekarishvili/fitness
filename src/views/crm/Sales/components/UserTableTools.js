@@ -8,15 +8,12 @@ import CreateForm from './CreateForm'
 import { setCustomerList as setSaleList } from '../store/dataSlice'
 import { fetchList } from 'services/Sales'
 import dayjs from 'dayjs'
-import { HiOutlineCalendar } from 'react-icons/hi'
-import { filterByDate } from 'services/Sales'
 import { fetchTrainerList } from 'services/TrainerService'
 import { fetchList as workoutFetch } from 'services/WorkoutService'
 import { fetchList as abonimentFetch } from 'services/AbonimentService'
 import { fetchList as usersFetch } from 'services/UserService'
 import { fetchCustomers } from 'services/CrmService'
 import UserTableFilter from './UserTableFilter'
-import OutsideClickHandler from 'react-outside-click-handler'
 
 const CustomersTableTools = () => {
     const dispatch = useDispatch()
@@ -30,10 +27,7 @@ const CustomersTableTools = () => {
     const token = useSelector((state) => state.auth.session.token)
     const companyId = useSelector((state) => state.auth.user.companyId)
 
-    const [value, setValue] = useState([
-        new Date(),
-        dayjs(new Date()).add(5, 'days').toDate(),
-    ])
+   
 
     const [trainerList, setTrenerList] = useState([
         {
@@ -142,17 +136,7 @@ const CustomersTableTools = () => {
         fetchUser()
     }, [])
 
-    const filterWithDate = async () => {
-        const data = await filterByDate(
-            { startDate: value[0], endDate: value[1] },
-            token
-        )
-        if (data) {
-            dispatch(setFilterData(data))
-        }
-        setOpenRange(false)
-    }
-
+   
     // useEffect(() => {
     //     const fetchData = async () => {
     //         const data = { salesID: '' }
@@ -218,7 +202,6 @@ const CustomersTableTools = () => {
         }
     }, [message])
 
-    const [openRange, setOpenRange] = useState(false)
 
     return (
         <div className="md:flex items-center justify-between">
@@ -231,29 +214,6 @@ const CustomersTableTools = () => {
                     token={token}
                     userList={userList}
                 />
-                <HiOutlineCalendar
-                    className="cursor-pointer w-[53px] pointer h-[28px] mb-[16px] mt-[-15px] !important  calendar-icon-filter"
-                    onClick={() => setOpenRange(!openRange)}
-                />
-                {openRange && (
-                    <OutsideClickHandler
-                        onOutsideClick={() => {
-                            setOpenRange(false)
-                        }}
-                    >
-                        <div className="p-[14px] absolute shadow-md bg-white border-black important top-[243px] right-[154px] calendar-icon-filter md:w-[290px] max-w-[290px] mx-auto dark:bg-gray-900">
-                            <RangeCalendar value={value} onChange={setValue} />
-                            <Button
-                                size={'sm'}
-                                className="ml-[192px]"
-                                onClick={filterWithDate}
-                                variant="solid"
-                            >
-                                ძებნა
-                            </Button>
-                        </div>
-                    </OutsideClickHandler>
-                )}
             </div>
             <div className="mb-4 flex">
                 <div style={{ marginLeft: '10px' }}>

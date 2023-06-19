@@ -41,7 +41,6 @@ const ActivityLog = () => {
         list?.map((item) => setTotalPrice(totalPrice + item.totalPrice))
     }, [list])
 
-
     if (!list?.length) return <h3>თქვენი გაყიდვები ვერ მოიძებნა</h3>
     return (
         <>
@@ -66,73 +65,12 @@ const ActivityLog = () => {
                     priceType
                 />
             </div>
-            {list?.map((item, index) => (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    <GridItem key={index} item={item} />
-                </div>
-                // <div key={index} className=" py-4 px-6 text-[17px] bg-gray-100 rounded-lg shadow-lg p-6 mb-[30px]">
-                //     <h3>#{index + 1}</h3>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4 border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">თარიღი</div>
-                //         <DateComponent incomeDate={item?.createdAt} />
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">მომხმარებელი</div>
-                //         <div>{item.customer?.firstname} {item?.customer?.lastname} - პ/ნ: {item?.customer?.idCard}
-                //             <br /> მეილი: {item.customer?.mail || "-"}
-                //             <br /> დაბადების თარიღი: <DateComponent incomeDate={item?.customer?.birthday} />
-                //         </div>
 
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">ბარათის ID</div>
-                //         <div>{item?.turniketCode}</div>
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">ტრენერი</div>
-                //         <div>
-                //             <br /> მეილი: {item.trainer?.mail || "-"}
-                //             <br /> დაბადების თარიღი: <DateComponent incomeDate={item?.trainer?.birthday} />
-                //         </div>
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">ტრენერის ღირებულება</div>
-                //         <div>{item?.trainerPrice} ₾</div>
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">აბონიმენტი</div>
-                //         <div>
-                //             {item?.aboniment?.name}
-                //             <br /> საშეღავათო პერიოდი: {item?.aboniment?.countStartsDays}
-                //             <br /> შესვლის რაოდენობა: {item?.aboniment?.maxEntries}
-                //         </div>
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">აბონიმენტის ღირებულება</div>
-                //         <div>{item?.aboniment?.price} ₾</div>
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">საარჯიშო ჯგუფები</div>
-                //         <div>
-                //             {item?.workouts.map((workout, index) => (
-                //                 <div key={index}>
-                //                     {workout}
-                //                 </div>
-                //             ))}
-                //         </div>
-                //     </div>
-                //     <div className="mb-4 flex border-b border-gray-200 w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">საარჯიშო ჯგუფების სრული ღირებულება</div>
-                //         <div>
-                //             {item?.workoutPrice}₾
-                //         </div>
-                //     </div>
-                //     <div className="mb-4 flex w-[80%] py-4">
-                //         <div className="w-1/2 font-bold">სრული ღირებულება</div>
-                //         <div className='text-green-500'>{item?.totalPrice}₾</div>
-                //     </div>
-                // </div>
-            ))}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {list?.map((item, index) => (
+                        <GridItem key={index} item={item} />
+                    ))}
+                </div>
         </>
     )
 }

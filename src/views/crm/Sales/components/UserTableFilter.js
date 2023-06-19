@@ -3,41 +3,46 @@ import { setFilterData } from '../store/dataSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { components } from 'react-select'
 import { HiCheck } from 'react-icons/hi'
-import { Input, Button, FormItem, FormContainer, Select } from 'components/ui'
+import {
+    RangeCalendar,
+    Button,
+    FormItem,
+    FormContainer,
+    Select,
+} from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import { filterSaleList } from 'services/Sales'
+import dayjs from 'dayjs'
+import { HiOutlineCalendar } from 'react-icons/hi'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 const CustomerTableFilter = ({
     trainerList,
     abonimentList,
     customerList,
-    workoutList,
     token,
-    userList
+    userList,
 }) => {
-
     const dispatch = useDispatch()
-    const { status } = useSelector(
-        (state) => state.crmCustomers.data.filterData
-    )
-
-    const onStatusFilterChange = (selected) => {
-        dispatch(setFilterData({ status: selected.value }))
-    }
-
-    const [list, setList] = React.useState()
 
     const filterSalesAction = async (data) => {
         try {
+            data.startDate = value[0]
+            data.endDate = value[1]
             const incomeData = await filterSaleList({ data }, token)
             if (incomeData) {
                 dispatch(setFilterData(incomeData))
-                // setList(incomeData)
             }
         } catch (error) {
             console.log(error?.message)
         }
     }
+    const [openRange, setOpenRange] = React.useState(false)
+
+    const [value, setValue] = React.useState([
+        dayjs(new Date()).subtract(5, 'days').toDate(),
+        new Date(),
+    ])
 
     return (
         <div className="search-bar">
@@ -47,7 +52,7 @@ const CustomerTableFilter = ({
                     customerID: '',
                     trainerID: '',
                     workoutID: '',
-                    userID: ''
+                    userID: '',
                 }}
                 onSubmit={(value) => filterSalesAction(value)}
             >
@@ -151,6 +156,27 @@ const CustomerTableFilter = ({
                                         />
                                     )}
                                 </Field>
+                            </FormItem>
+                            <FormItem>
+                                <HiOutlineCalendar
+                                    className="cursor-pointer w-[53px] pointer h-[34px] mb-[7px] !important  calendar-icon-filter"
+                                    onClick={() => setOpenRange(!openRange)}
+                                />
+                                {openRange && (
+                                    <OutsideClickHandler
+                                        onOutsideClick={() => {
+                                            setOpenRange(false)
+                                        }}
+                                    >
+                                        <div className="p-[14px] absolute shadow-md bg-white border-black important top-[23px] right-[4px] calendar-icon-filter md:w-[290px] max-w-[290px] mx-auto dark:bg-gray-900">
+                                            <RangeCalendar
+                                                locale="ge"
+                                                value={value}
+                                                onChange={setValue}
+                                            />
+                                        </div>
+                                    </OutsideClickHandler>
+                                )}
                             </FormItem>
 
                             <FormItem className="mr-[14px]">
