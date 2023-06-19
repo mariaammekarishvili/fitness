@@ -6,7 +6,7 @@ import uiComponentNavigationConfig from './ui-components.navigation.config'
 
 const navigationConfig = [
     ...appsNavigationConfig,
-    ...uiComponentNavigationConfig,
+    // ...uiComponentNavigationConfig,
     // ...pagesNavigationConfig,
     // ...authNavigationConfig,
     // ...docNavigationConfig,

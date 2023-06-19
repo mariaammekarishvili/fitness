@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo, useRef, useEffect, useState, useImperativeHandle } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { Table, Pagination, Select, Checkbox, Alert } from 'components/ui'
+import { Table, Checkbox, Alert } from 'components/ui'
 import TableRowSkeleton from './loaders/TableRowSkeleton'
 import Loading from './Loading'
 import {
@@ -54,18 +54,8 @@ const DataTable = forwardRef((props, ref) => {
     } = props
 
     const loading = !data.length
-    const { pageSize, pageIndex, total } = pagingData
 
     const [sorting, setSorting] = useState(null)
-
-    const pageSizeOption = useMemo(
-        () =>
-            pageSizes.map((number) => ({
-                value: number,
-                label: `${number} / page`,
-            })),
-        [pageSizes]
-    )
 
     const handleCheckBoxChange = (checked, row) => {
         if (!loading) {
@@ -79,17 +69,17 @@ const DataTable = forwardRef((props, ref) => {
         }
     }
 
-    const handlePaginationChange = (page) => {
-        if (!loading) {
-            onPaginationChange?.(page)
-        }
-    }
+    // const handlePaginationChange = (page) => {
+    //     if (!loading) {
+    //         onPaginationChange?.(page)
+    //     }
+    // }
 
-    const handleSelectChange = (value) => {
-        if (!loading) {
-            onSelectChange?.(Number(value))
-        }
-    }
+    // const handleSelectChange = (value) => {
+    //     if (!loading) {
+    //         onSelectChange?.(Number(value))
+    //     }
+    // }
 
     useEffect(() => {
         if (Array.isArray(sorting)) {

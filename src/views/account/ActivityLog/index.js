@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import reducer from './store'
 import { injectReducer } from 'store/index'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { fetchUserSale } from 'services/Sales'
 import GridItem from 'views/project/ProjectList/components/GridItem'
 import { StatisticCard } from 'views/crm/Sales/components/UserStatistic'
