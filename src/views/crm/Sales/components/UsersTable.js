@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Avatar, Button } from 'components/ui'
 import { HiOutlinePencil } from 'react-icons/hi'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'
-import { setTableData } from '../store/dataSlice'
+import { setCustomerList, setTableData } from '../store/dataSlice'
 import { setSelectedCustomer, setDrawerOpen } from '../store/stateSlice'
 import useThemeClass from 'utils/hooks/useThemeClass'
 import CustomerEditDialog from './UserEditDialog'
@@ -85,6 +85,10 @@ const columns = [
         },
     },
     {
+        header: 'აბონიმენტი',
+        accessorKey: 'aboniment.name',
+    },
+    {
         header: 'ტრენერი',
         accessorKey: 'trainer',
         cell: (props) => {
@@ -143,7 +147,7 @@ const columns = [
     },
     { header: 'გამოყენებული ვიზიტები', accessorKey: 'visitCount' },
     {
-        header: 'ასმინისტრატორი (გამყიდველი)',
+        header: 'ადმინისტრატორი (გამყიდველი)',
         accessorKey: 'user',
         cell: (props) => {
             const row = props.row.original
@@ -168,6 +172,9 @@ const Customers = () => {
     const filterData = useSelector(
         (state) => state.crmCustomers.data.filterData
     )
+    useEffect(() => {
+        dispatch(setCustomerList([]))
+    },[])
 
     const { pageIndex, pageSize, sort, query, total } = useSelector(
         (state) => state.crmCustomers.data.tableData
@@ -201,7 +208,7 @@ const Customers = () => {
         <>
             <DataTable
                 columns={columns}
-                data={filterData}
+                data={data}
                 skeletonAvatarColumns={[0]}
                 skeletonAvatarProps={{ width: 28, height: 28 }}
                 loading={!data}

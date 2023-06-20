@@ -26,9 +26,9 @@ const CustomerTableSearch = forwardRef((props, ref) => {
     setFilteredData(filtered); // Update the filtered data locally
   };
 
-  useEffect(() => {
-    dispatch(setFilterData(filteredData)); // Update the Redux store with filtered data
-  }, [dispatch, filteredData]);
+  // useEffect(() => {
+  //   dispatch(setFilterData(filteredData)); // Update the Redux store with filtered data
+  // }, [dispatch, filteredData]);
 
   return (
     <Input

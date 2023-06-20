@@ -72,8 +72,10 @@ const CustomersTableTools = () => {
                     label:
                         item.firstname +
                         ' ' +
-                        item.lastname + ' - ' +
-                        item.price + 'ლ'
+                        item.lastname +
+                        ' - ' +
+                        item.price +
+                        'ლ',
                 }))
                 setTrenerList([...trainerList, ...updatedList])
             }
@@ -138,18 +140,6 @@ const CustomersTableTools = () => {
         fetchUser()
     }, [])
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const data = { salesID: '' }
-    //         const incomeData = await fetchList(token)
-    //         if (incomeData) {
-    //             dispatch(setSaleList(incomeData))
-    //             dispatch(setFilterData(incomeData))
-    //         }
-    //     }
-    //     fetchData()
-    // }, [companyId, message])
-
     const handleInputChange = (val) => {
         const newTableData = cloneDeep(tableData)
         newTableData.query = val
@@ -206,7 +196,6 @@ const CustomersTableTools = () => {
                     token={token}
                     userList={userList}
                 />
-               
             </div>
             <div className="mb-4 flex">
                 <div style={{ marginLeft: '10px' }}>

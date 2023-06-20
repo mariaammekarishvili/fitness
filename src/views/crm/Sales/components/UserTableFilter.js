@@ -15,6 +15,7 @@ import { filterSaleList } from 'services/Sales'
 import dayjs from 'dayjs'
 import { HiOutlineCalendar } from 'react-icons/hi'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { setCustomerList } from 'views/crm/Customers/store/dataSlice'
 
 const CustomerTableFilter = ({
     trainerList,
@@ -31,7 +32,7 @@ const CustomerTableFilter = ({
             data.endDate = value[1]
             const incomeData = await filterSaleList({ data }, token)
             if (incomeData) {
-                dispatch(setFilterData(incomeData))
+                dispatch(setCustomerList(incomeData))
             }
         } catch (error) {
             console.log(error?.message)
