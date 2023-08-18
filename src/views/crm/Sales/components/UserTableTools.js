@@ -203,7 +203,7 @@ const CustomersTableTools = () => {
                         variant="solid"
                         onClick={() => openDialog()}
                         active={true}
-                        size="sm"
+                        size="sm "
                     >
                         + დამატება
                     </Button>
@@ -212,8 +212,9 @@ const CustomersTableTools = () => {
                     isOpen={dialogIsOpen}
                     onClose={onDialogClose}
                     onRequestClose={onDialogClose}
+                    className={'dialog-box'}
                 >
-                    <div>
+                    <div className='max-h-[80%]'>
                         <CreateForm
                             trainerList={trainerList}
                             abonimentList={abonimentList}
@@ -221,6 +222,7 @@ const CustomersTableTools = () => {
                             setMessage={setMessage}
                             message={message}
                             workoutList={workoutList}
+                            className='max-h-[80%]'
                         />
                     </div>
                     {message && (

@@ -75,7 +75,7 @@ const CreateForm = ({ setMessage, message }) => {
     }
 
     return (
-        <div>
+        <div className='max-h-[490px] overflow-y-auto'>
             <Formik
                 initialValues={{
                     firstname: '',

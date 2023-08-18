@@ -1,1 +1,7 @@
 @import './_docs.css';
+
+.dialog-box .dialog-after-open
+{
+    background-color: red;
+    max-height: 80%;
+}

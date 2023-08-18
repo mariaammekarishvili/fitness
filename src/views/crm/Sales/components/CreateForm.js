@@ -92,7 +92,7 @@ const CreateForm = ({
     }
 
     return (
-        <div>
+        <div className='max-h-[490px] overflow-y-auto'>
             <Formik
                 initialValues={{
                     turniketCode: '',
