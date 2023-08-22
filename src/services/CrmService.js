@@ -150,7 +150,7 @@ export const getUserPersonalInformation = async ({ id }, token) => {
 
 export const deleteUserTurniketCard = async (id, token) => {
     try {
-        const response = await fetch(`${apiPrefix}/delete/turniketCode/${id}`, {
+        const response = await fetch(`${apiPrefix}/cards/delete/turniketCode/${id}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`,

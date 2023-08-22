@@ -4,20 +4,24 @@ import {
     Loading,
     Container,
     DoubleSidedImage,
+    IconText,
 } from 'components/shared'
 import CustomerProfile from './components/CustomerProfile'
-import PaymentHistory from './components/PaymentHistory'
-import CurrentSubscription from './components/CurrentSubscription'
-import PaymentMethods from './components/PaymentMethods'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCustomer } from './store/dataSlice'
 import reducer from './store'
 import { injectReducer } from 'store/index'
 import isEmpty from 'lodash/isEmpty'
 import useQuery from 'utils/hooks/useQuery'
 import { getUserPersonalInformation } from 'services/CrmService'
-import { Button } from 'react-scroll'
-import { Dialog } from 'components/ui'
+import { Card, Dialog, Tag, Button } from 'components/ui'
+import {
+    fetchCostumerSale,
+    fetchUserSale,
+    filterSaleList,
+} from 'services/Sales'
+import { HiCalendar, HiCash } from 'react-icons/hi'
+import dayjs from 'dayjs'
+import AbonimentsCard from './components/AbonimentsCard'
 
 injectReducer('crmCustomerDetails', reducer)
 
@@ -35,6 +39,7 @@ const CustomerDetail = () => {
         (state) => state.crmCustomerDetails.data.loading
     )
     const [data, setData] = useState([])
+    const [salesData, setSalesData] = useState([])
 
     useEffect(() => {
         const id = query.get('id')
@@ -45,6 +50,13 @@ const CustomerDetail = () => {
                 setData(data)
             }
         }
+        const fetchSales = async () => {
+            const data = await fetchCostumerSale({ costumerId: id }, token)
+            if (data) {
+                setSalesData(data)
+            }
+        }
+        fetchSales()
         fetchData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -55,17 +67,21 @@ const CustomerDetail = () => {
     }
 
     const onDialogClose = (e) => {
-        console.log('onDialogClose', e)
         setIsOpen(false)
     }
-
+    console.log('salesData', salesData)
     return (
         <Container className="h-full">
             {/* <Loading loading={loading}> */}
             {/* {!isEmpty(data) && ( */}
-            <div className="flex flex-col xl:flex-row gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div>
                     <CustomerProfile item={data} isCustomer={true} />
+                </div>
+                <div className="grid col-span-2 grid-cols-1 lg:grid-cols-2 gap-3 w-full">
+                    {salesData.map((item) => (
+                        <AbonimentsCard key={item.salesID} item={item} token={token} />
+                    ))}
                 </div>
                 <div className="w-full">
                     <AdaptableCard>

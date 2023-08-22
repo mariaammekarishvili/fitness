@@ -26,13 +26,10 @@ const validationSchema = Yup.object().shape({
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     workoutID: Yup.array(),
     abonimentCount: Yup.number()
-        .max(5, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     abonimentCountDays: Yup.number()
-        .max(5, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     countPersonalStartsDays: Yup.number()
-        .max(5, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
@@ -283,7 +280,7 @@ const CreateForm = ({
                                     prefix={<HiUserGroup className="text-xl" />}
                                 />
                             </FormItem>
-                            <h3>ან</h3>
+                            <h4 className='mb-[10px] mt-[-5px]'>ან</h4>
                             <FormItem
                                 label="მოქმედების ვადა (დღეების რაოდენობა)"
                                 invalid={

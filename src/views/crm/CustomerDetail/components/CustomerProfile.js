@@ -13,6 +13,7 @@ import {
     putUserNewTurniketCode,
 } from 'services/CrmService'
 import useQuery from 'utils/hooks/useQuery'
+import SubmitPopup from './SubmitPopup'
 
 const CustomerInfoField = ({ title, value }) => {
     return (
@@ -113,12 +114,23 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
 
     const id = query.get('id')
     const token = useSelector((state) => state.auth.session.token)
+    const [feedback, setFeedback] = useState('')
 
     const deleteAction = async () => {
         try {
             await deleteUserTurniketCard(id, token)
+            setFeedback('success')
+            setTimeout(() => {
+                setIsOpen(false)
+                setFeedback('')
+            }, 3000)
             // Handle success, e.g., show a success message or update state
         } catch (error) {
+            setFeedback('danger')
+            setTimeout(() => {
+                setIsOpen(false)
+                setFeedback('')
+            }, 3000)
             // Handle error, e.g., show an error message or log the error
         }
     }
@@ -143,22 +155,24 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                     <div className="flex items-center justify-center">
                         <div className="w-[90px] flex justify-center items-center h-[90px] bg-blue-500 rounded-full ">
                             <h3 className="text-[#FFFF]">
-                                {item?.customer?.firstname[0].toUpperCase() ||
-                                    item?.firstname[0].toUpperCase()}
-                                
-                                {item?.customer?.lastname[0].toUpperCase() ||
-                                    item?.lastname[0].toUpperCase()}
+                                {isCustomer
+                                    ? item?.customer?.firstname[0]?.toUpperCase()
+                                    : item?.firstname[0]?.toUpperCase()}
+
+                                {isCustomer
+                                    ? item?.customer?.lastname[0]?.toUpperCase()
+                                    : item?.lastname[0]?.toUpperCase()}
                             </h3>
                         </div>
                     </div>
                     {/* <Members members={[{ name: name?.toUpperCase() }]} /> */}
 
                     <h4 className="font-bold">
-                        {item.customer?.firstname || item.firstname}{' '}
+                        {item?.customer?.firstname || item?.firstname}{' '}
                         {item?.customer?.lastname || item?.lastname}
                     </h4>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-y-7 gap-x-4 mt-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 max-w-[96%] xl:grid-cols-1 gap-y-7 gap-x-4 mt-8">
                     <CustomerInfoField
                         title="ბარათის ID"
                         value={item?.turniketCode}
@@ -237,13 +251,20 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                             }
                         />
                     )}
-                    <Dialog
+                    <SubmitPopup
+                        feedback={feedback}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        SubmitFunction={deleteAction}
+                        text={'ნამდვილად გსურთ ბარათის წაშლა?'}
+                    />
+                    {/* <Dialog
                         isOpen={isOpen}
                         onClose={onDialogClose}
                         onRequestClose={onDialogClose}
                     >
                         <div className="flex-col flex items-center center column pt-[15px]">
-                            <h5 className="mb-4">ნამდვილად გსურთ წაშლა?</h5>
+                            <h5 className="mb-4"></h5>
                             <div className="text-right mt-6">
                                 <Button
                                     className="ltr:mr-2 border rtl:ml-2"
@@ -261,7 +282,7 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                                 </Button>
                             </div>
                         </div>
-                    </Dialog>
+                    </Dialog> */}
                     <Dialog
                         isOpen={changeIsOpen}
                         onClose={onDialogClose}
@@ -294,8 +315,8 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                     {isCustomer && (
                         <>
                             <Button
-                                className="mr-2 mb-1"
-                                variant="solid"
+                                className="mr-2 mb-1 mb-[-15px]"
+                                // variant="solid"
                                 color="yellow-600"
                                 onClick={() => setChangeIsOpen(true)}
                             >
@@ -305,7 +326,7 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                                 className="mr-2 mb-2"
                                 variant="solid"
                                 color="red-600"
-                                onClick={openDialog}
+                                onClick={() => setIsOpen(true)}
                             >
                                 ბარათის წაშლა
                             </Button>
