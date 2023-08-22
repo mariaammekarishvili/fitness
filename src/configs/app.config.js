@@ -1,5 +1,5 @@
 const appConfig = {
-    apiPrefix: 'http://localhost:3000',
+    apiPrefix: 'http://localhost:5000',
     authenticatedEntryPath: '/app/crm/customers',
     unAuthenticatedEntryPath: '/sign-in',
     tourPath: '/app/account/kyc-form',

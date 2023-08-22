@@ -12,6 +12,7 @@ import {
     HiPhone,
     HiCalendar,
     HiIdentification,
+    HiPencilAlt,
 } from 'react-icons/hi'
 
 const validationSchema = Yup.object().shape({
@@ -50,6 +51,10 @@ const validationSchema = Yup.object().shape({
     gander: Yup.string()
         .oneOf(['male', 'female', 'non-binary', 'other'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
+        turniketCode: Yup.string()
+        .min(7, 'ინფორმაცია ძალიან მცირეა!')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
 const CustomerCreateForm = ({
@@ -74,7 +79,7 @@ const CustomerCreateForm = ({
     }
 
     return (
-        <div>
+        <div className='max-h-[490px] overflow-y-auto'>
             <h3 className="mb-[15px]">ახალი მომხმარებლის დამატება</h3>
             <Formik
                 initialValues={{
@@ -86,6 +91,7 @@ const CustomerCreateForm = ({
                     address: '',
                     birthday: '',
                     gander: 'male',
+                    turniketCode: ''
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -136,6 +142,22 @@ const CustomerCreateForm = ({
                                     prefix={
                                         <HiIdentification className="text-xl" />
                                     }
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="ბარათის ID"
+                                invalid={
+                                    errors.turniketCode && touched.turniketCode
+                                }
+                                errorMessage={errors.turniketCode}
+                            >
+                                <Field
+                                    type="text"
+                                    autoComplete="off"
+                                    name="turniketCode"
+                                    placeholder="შეიყვანეთ კოდი"
+                                    component={Input}
+                                    prefix={<HiPencilAlt className="text-xl" />}
                                 />
                             </FormItem>
 

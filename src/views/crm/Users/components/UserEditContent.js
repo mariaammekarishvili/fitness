@@ -1,9 +1,11 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCustomerList,setFilterData, putCustomer } from '../store/dataSlice'
 import { setDrawerClose } from '../store/stateSlice'
 import cloneDeep from 'lodash/cloneDeep'
 import CustomerForm from 'views/crm/CustomerForm'
+import { Button } from 'react-scroll'
+import { Input } from 'components/ui'
 
 const CustomerEditContent = forwardRef((_, ref) => {
     const dispatch = useDispatch()
@@ -59,14 +61,19 @@ const CustomerEditContent = forwardRef((_, ref) => {
         dispatch(setCustomerList(newData))
         dispatch(setFilterData(newData))
     }
-  
+  const [changeCard, setChangeCard] = useState(false)
     return (
+        <>
+        <Button onClick={() => setChangeCard(true)}>ბარათის შეცვა</Button>
+        {changeCard && 
+        <Input type='text'/>
+        }
         <CustomerForm
             ref={ref}
             onFormSubmit={onFormSubmit}
             customer={customer}
             type={'user'}
-        />
+        /></>
     )
 })
 

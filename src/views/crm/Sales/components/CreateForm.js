@@ -17,10 +17,6 @@ import { HiPencil, HiUserGroup } from 'react-icons/hi'
 import CustomerCreateForm from 'views/crm/Customers/components/CustomerCreateForm'
 
 const validationSchema = Yup.object().shape({
-    turniketCode: Yup.string()
-        .min(7, 'ინფორმაცია ძალიან მცირეა!')
-        .max(20, 'ინფორმაცია ზედმეტად დიდია')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'),
     customerID: Yup.string(),
     // .required('ინფორმაციის შეყვანა სავალდებულოა'),
     trainerID: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა'),
@@ -29,7 +25,13 @@ const validationSchema = Yup.object().shape({
         .min(1, 'ინფორმაცია ძალიან მცირეა')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     workoutID: Yup.array(),
-    abonimentCount: Yup.string()
+    abonimentCount: Yup.number()
+        .max(5, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    abonimentCountDays: Yup.number()
+        .max(5, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    countPersonalStartsDays: Yup.number()
         .max(5, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
@@ -92,15 +94,16 @@ const CreateForm = ({
     }
 
     return (
-        <div className='max-h-[490px] overflow-y-auto'>
+        <div className="max-h-[490px] overflow-y-auto">
             <Formik
                 initialValues={{
-                    turniketCode: '',
                     abonimentID: '',
                     customerID: '',
                     trainerID: '',
                     workoutID: [],
-                    abonimentCount: '',
+                    abonimentCount: 0,
+                    countPersonalStartsDays: 0,
+                    abonimentCountDays: 0
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -108,23 +111,6 @@ const CreateForm = ({
                 {({ touched, errors, values, resetForm }) => (
                     <Form>
                         <FormContainer>
-                            <FormItem
-                                label="ბარათის ID"
-                                invalid={
-                                    errors.turniketCode && touched.turniketCode
-                                }
-                                errorMessage={errors.turniketCode}
-                            >
-                                <Field
-                                    type="text"
-                                    autoComplete="off"
-                                    name="turniketCode"
-                                    placeholder="შეიყვანეთ კოდი"
-                                    component={Input}
-                                    prefix={<HiPencil className="text-xl" />}
-                                />
-                            </FormItem>
-
                             {createdUser && (
                                 <p className="font-bold heading-text my-[15px]">
                                     მომხმარებელი: <br />{' '}
@@ -281,7 +267,7 @@ const CreateForm = ({
                             </FormItem>
 
                             <FormItem
-                                label="მოქმედების ვადა"
+                                label="მოქმედების ვადა (თვეების რაოდენობა)"
                                 invalid={
                                     errors.abonimentCount &&
                                     touched.abonimentCount
@@ -292,6 +278,41 @@ const CreateForm = ({
                                     type="number"
                                     autoComplete="off"
                                     name="abonimentCount"
+                                    placeholder="შეიყვანეთ"
+                                    component={Input}
+                                    prefix={<HiUserGroup className="text-xl" />}
+                                />
+                            </FormItem>
+                            <h3>ან</h3>
+                            <FormItem
+                                label="მოქმედების ვადა (დღეების რაოდენობა)"
+                                invalid={
+                                    errors.abonimentCountDays &&
+                                    touched.abonimentCountDays
+                                }
+                                errorMessage={errors.abonimentCountDays}
+                            >
+                                <Field
+                                    type="number"
+                                    autoComplete="off"
+                                    name="abonimentCountDays"
+                                    placeholder="შეიყვანეთ"
+                                    component={Input}
+                                    prefix={<HiUserGroup className="text-xl" />}
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="ინდივიდუალური საშეღავათო პერიოდი"
+                                invalid={
+                                    errors.countPersonalStartsDays &&
+                                    touched.countPersonalStartsDays
+                                }
+                                errorMessage={errors.countPersonalStartsDays}
+                            >
+                                <Field
+                                    type="number"
+                                    autoComplete="off"
+                                    name="countPersonalStartsDays"
                                     placeholder="შეიყვანეთ"
                                     component={Input}
                                     prefix={<HiUserGroup className="text-xl" />}

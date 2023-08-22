@@ -43,7 +43,7 @@ const NameColumn = ({ row }) => {
             <Avatar size={28} shape="circle" src={'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'} />
             <Link
                 className={`hover:${textTheme} ml-2 rtl:mr-2 font-semibold`}
-                to={`/app/crm/customer-details?id=${row.id}`}
+                to={`/app/crm/customer-details?id=${row.customerID}`}
             >
                 {row.firstname} {row.lastname}
             </Link>

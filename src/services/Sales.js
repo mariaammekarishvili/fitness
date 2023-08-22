@@ -67,7 +67,7 @@ export const filterByDate = async ({ startDate, endDate, userId},token) => {
         console.error(error);
     }
 };
-
+/////
 export const fetchUserSale = async ({userId},token) => {
     try {
         const response = await fetch(`${apiPrefix}/sales/filter?userID=${userId}&customerID=&trainerID=&abonimentID=&salesDate[from]=&salesDate[to]=`, {
