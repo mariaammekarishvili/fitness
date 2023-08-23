@@ -42,9 +42,9 @@ const AbonimentsCard = ({ item, token }) => {
             />
             <Card
                 className={
-                    'max-h-[280%]' + item?.aboniment?.isActive
-                        ? 'bg-[#ECFDF5]'
-                        : 'bg-[#FFF7ED]'
+                     item?.aboniment?.isActive
+                        ? 'bg-[#ECFDF5] my-card'
+                        : 'bg-[#FFF7ED] my-card'
                 }
                 //   ref={ref}
                 // className={
@@ -53,7 +53,7 @@ const AbonimentsCard = ({ item, token }) => {
                 // bodyClass="p-4"
                 // clickable
             >
-                <>
+                <div>
                     <Tag
                         className="mr-2 rtl:ml-2 mb-2"
                         prefixClass={
@@ -65,59 +65,64 @@ const AbonimentsCard = ({ item, token }) => {
                     >
                         {item?.aboniment?.isActive ? 'აქტიური' : 'არა აქტიური'}
                     </Tag>
-                </>
-                <h6 className="mb-2">{item?.aboniment?.name}</h6>
-                <IconText
-                    textClass="text-sm font-semibold"
-                    className="mb-2"
-                    icon={<HiCalendar className="text-lg" />}
-                >
-                    {dayjs(item?.aboniment?.createdAt).format('MMMM DD YYYY')}
-                </IconText>
-                <div>
-                    <span className="text-bold">ტრენერი:</span>{' '}
-                    {item?.trainer?.firstname} {item?.trainer?.lastname}
-                </div>
-                <div className="flex">
-                    <div className="mr-[5px]">სავარჯიო ჯგუფი: </div>
+                    <h6 className="mb-2">{item?.aboniment?.name}</h6>
+                    <IconText
+                        textClass="text-sm font-semibold"
+                        className="mb-2"
+                        icon={<HiCalendar className="text-lg" />}
+                    >
+                        {dayjs(item?.aboniment?.createdAt).format(
+                            'MMMM DD YYYY'
+                        )}
+                    </IconText>
                     <div>
-                        {'  '}
-                        {item?.workouts?.map((workout, index) => (
-                            <div key={index}>{workout}</div>
-                        ))}{' '}
+                        <span className="text-bold">ტრენერი:</span>{' '}
+                        {item?.trainer?.firstname} {item?.trainer?.lastname}
                     </div>
-                </div>
-                <div className="flex items-center justify-end mt-[100px] ">
-                    <div className="flex items-center gap-2">
-                        <IconText
-                            className="font-semibold"
-                            icon={<HiCash className="text-base" />}
-                        >
-                            {item.totalPrice} ₾
-                        </IconText>
+                    <div className="flex">
+                        <div className="mr-[5px]">სავარჯიო ჯგუფი: </div>
+                        <div>
+                            {'  '}
+                            {item?.workouts?.map((workout, index) => (
+                                <div key={index}>{workout}</div>
+                            ))}{' '}
+                        </div>
                     </div>
+                    <div />
                 </div>
-                <div className="mt-[20px] flex justify-between">
-                    {item?.aboniment?.isActive && (
+                <div>
+                    <div className="flex items-center justify-end">
+                        <div className="flex items-center gap-2">
+                            <IconText
+                                className="font-semibold"
+                                icon={<HiCash className="text-base" />}
+                            >
+                                {item.totalPrice} ₾
+                            </IconText>
+                        </div>
+                    </div>
+                    <div className="mt-[20px] flex justify-between">
+                        {item?.aboniment?.isActive && (
+                            <Button
+                                color="green-600"
+                                variant="solid"
+                                onClick={() => setVisitPopup(true)}
+                                size="sm"
+                                className="w-[49%]"
+                            >
+                                ვიზიტის გატარება
+                            </Button>
+                        )}
                         <Button
-                            color="green-600"
-                            variant="solid"
-                            onClick={() => setVisitPopup(true)}
+                            variant="twoTone"
+                            color="yellow-600"
+                            onClick={null}
                             size="sm"
                             className="w-[49%]"
                         >
-                            ვიზიტის გატარება
+                            თარიღის შეცვლა
                         </Button>
-                    )}
-                    <Button
-                        variant="twoTone"
-                        color="yellow-600"
-                        onClick={null}
-                        size="sm"
-                        className="w-[49%]"
-                    >
-                        თარიღის შეცვლა
-                    </Button>
+                    </div>
                 </div>
             </Card>
         </>

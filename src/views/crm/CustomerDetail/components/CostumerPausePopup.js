@@ -15,10 +15,8 @@ export const CostumerPausePopup = ({
 
     const [feedback, setFeedback] = useState('')
     const [stopDate, setStopDate] = useState('29/09/2023')
-console.log('token', token)
 
     const handlePauseUpdateClick = async () => {
-        console.log('stopdate', stopDate)
         try {
             const updatedPauseCustomer = await updatePauseCustomer(token, id, stopDate)
             console.log('Pause customer updated:', updatedPauseCustomer)

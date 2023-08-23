@@ -7,6 +7,16 @@
         @apply text-gray-500 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-900 leading-normal;
         -webkit-font-smoothing: antialiased;
     }
+    .my-card{
+        max-height: 348px;
+        min-height: 340px;
+    }
+    .my-card>.card-body{
+        height: 345px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     .search-bar .form-item{
         margin-right: 14px;
     }
