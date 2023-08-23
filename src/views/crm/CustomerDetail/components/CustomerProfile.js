@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card, Button, Notification, toast, Dialog } from 'components/ui'
 
-import { HiPencilAlt, HiOutlineTrash } from 'react-icons/hi'
+import { HiPencilAlt, HiOutlineTrash, HiUser } from 'react-icons/hi'
 import { ConfirmDialog } from 'components/shared'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,9 @@ import {
 } from 'services/CrmService'
 import useQuery from 'utils/hooks/useQuery'
 import SubmitPopup from './SubmitPopup'
+import { updatePauseCustomer } from 'services/UserService'
+import { TurniketCodePopup } from './TurniketCodePopup'
+import { CostumerPausePopup } from './CostumerPausePopup'
 
 const CustomerInfoField = ({ title, value }) => {
     return (
@@ -26,68 +29,6 @@ const CustomerInfoField = ({ title, value }) => {
     )
 }
 
-const CustomerProfileAction = ({ id }) => {
-    const dispatch = useDispatch()
-    const [dialogOpen, setDialogOpen] = useState(false)
-
-    const navigate = useNavigate()
-
-    const onDialogClose = () => {
-        setDialogOpen(false)
-    }
-
-    const onDialogOpen = () => {
-        setDialogOpen(true)
-    }
-
-    const onDelete = () => {
-        setDialogOpen(false)
-        // dispatch(deleteCustomer({ id }))
-        navigate('/app/crm/customers')
-        toast.push(
-            <Notification title={'Successfuly Deleted'} type="success">
-                Customer successfuly deleted
-            </Notification>
-        )
-    }
-
-    const onEdit = () => {
-        dispatch(openEditCustomerDetailDialog())
-    }
-
-    return (
-        <>
-            <Button block icon={<HiOutlineTrash />} onClick={onDialogOpen}>
-                Delete
-            </Button>
-            <Button
-                icon={<HiPencilAlt />}
-                block
-                variant="solid"
-                onClick={onEdit}
-            >
-                Edit
-            </Button>
-            <ConfirmDialog
-                isOpen={dialogOpen}
-                onClose={onDialogClose}
-                onRequestClose={onDialogClose}
-                type="danger"
-                title="Delete customer"
-                onCancel={onDialogClose}
-                onConfirm={onDelete}
-                confirmButtonColor="red-600"
-            >
-                <p>
-                    Are you sure you want to delete this customer? All record
-                    related to this customer will be deleted as well. This
-                    action cannot be undone.
-                </p>
-            </ConfirmDialog>
-            <EditCustomerProfile />
-        </>
-    )
-}
 const DateComponent = ({ incomeDate }) => {
     const formattedDate = new Date(incomeDate).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -103,15 +44,8 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [changeIsOpen, setChangeIsOpen] = useState(false)
-    const openDialog = () => {
-        setIsOpen(true)
-    }
-    const onDialogClose = (e) => {
-        console.log('onDialogClose', e)
-        setIsOpen(false)
-        setChangeIsOpen(false)
-    }
-
+    const [pause, setPause] = useState(false)
+    
     const id = query.get('id')
     const token = useSelector((state) => state.auth.session.token)
     const [feedback, setFeedback] = useState('')
@@ -135,19 +69,6 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
         }
     }
 
-    const updateTurniketCode = async () => {
-        const data = {
-            turniketCode: newTurniketCode,
-        }
-        try {
-            await putUserNewTurniketCode(id, token, data)
-            // Handle success, e.g., show a success message or update state
-        } catch (error) {
-            // Handle error, e.g., show an error message or log the error
-        }
-    }
-    const [newTurniketCode, setNewTurniketCode] = useState('')
-
     return (
         <Card>
             <div className="flex flex-col xl:justify-between h-full 2xl:min-w-[360px] mx-auto">
@@ -155,13 +76,11 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                     <div className="flex items-center justify-center">
                         <div className="w-[90px] flex justify-center items-center h-[90px] bg-blue-500 rounded-full ">
                             <h3 className="text-[#FFFF]">
-                                {isCustomer
-                                    ? item?.customer?.firstname[0]?.toUpperCase()
-                                    : item?.firstname[0]?.toUpperCase()}
-
-                                {isCustomer
-                                    ? item?.customer?.lastname[0]?.toUpperCase()
-                                    : item?.lastname[0]?.toUpperCase()}
+                                {isCustomer && <HiUser />}
+                                {!isCustomer &&
+                                    item?.customer?.firstname[0]?.toUpperCase() +
+                                        '.' +
+                                        item?.customer?.lastname[0]?.toUpperCase()}
                             </h3>
                         </div>
                     </div>
@@ -172,7 +91,7 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                         {item?.customer?.lastname || item?.lastname}
                     </h4>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 max-w-[96%] xl:grid-cols-1 gap-y-7 gap-x-4 mt-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 max-w-[96%] xl:grid-cols-1 gap-y-6 gap-x-4 mt-8">
                     <CustomerInfoField
                         title="ბარათის ID"
                         value={item?.turniketCode}
@@ -258,77 +177,50 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                         SubmitFunction={deleteAction}
                         text={'ნამდვილად გსურთ ბარათის წაშლა?'}
                     />
-                    {/* <Dialog
-                        isOpen={isOpen}
-                        onClose={onDialogClose}
-                        onRequestClose={onDialogClose}
-                    >
-                        <div className="flex-col flex items-center center column pt-[15px]">
-                            <h5 className="mb-4"></h5>
-                            <div className="text-right mt-6">
-                                <Button
-                                    className="ltr:mr-2 border rtl:ml-2"
-                                    variant="plain"
-                                    onClick={onDialogClose}
-                                >
-                                    არა
-                                </Button>
-                                <Button
-                                    color="red-600"
-                                    variant="solid"
-                                    onClick={deleteAction}
-                                >
-                                    დიახ
-                                </Button>
-                            </div>
-                        </div>
-                    </Dialog> */}
-                    <Dialog
-                        isOpen={changeIsOpen}
-                        onClose={onDialogClose}
-                        onRequestClose={onDialogClose}
-                    >
-                        <div className="flex-col flex items-center center column pt-[15px]">
-                            <h5 className="mb-4">შეიყვანეთ ახალი ბარათის ID</h5>
-                            {/* <input type='text'
-                            className="border rounded py-2 px-3 focus:outline-none focus:ring w-[90%] focus:border-blue-600"
-                            placeholder="..."
-                             value={newTurniketCode} onChange={(e) => setNewTurniketCode(e.target.value)}></input> */}
-                            <div className="text-right mt-6">
-                                <Button
-                                    className="ltr:mr-2 border rtl:ml-2 green-600"
-                                    variant="solid"
-                                    onClick={updateTurniketCode}
-                                >
-                                    შენახვა
-                                </Button>
-                                <Button
-                                    color="red-600"
-                                    // variant="solid"
-                                    onClick={onDialogClose}
-                                >
-                                    გაუქმება
-                                </Button>
-                            </div>
-                        </div>
-                    </Dialog>
+
+                    <CostumerPausePopup 
+                        changeIsOpen={pause}
+                        setChangeIsOpen={setPause}
+                        token={token}
+                        id={id}
+                    />
+
+                    <TurniketCodePopup
+                        changeIsOpen={changeIsOpen}
+                        token={token}
+                        id={id}
+                        setChangeIsOpen={setChangeIsOpen}
+                    />
+
                     {isCustomer && (
                         <>
+                            <div className="flex justify-between max-w-[97%]">
+                                <Button
+                                    className="px-[0px] py-0 mb-[-15px] w-[161px]"
+                                    // variant="solid"
+                                    size="md"
+                                    color="yellow-600"
+                                    onClick={() => setChangeIsOpen(true)}
+                                >
+                                    ბარათის შეცვლა
+                                </Button>
+                                <Button
+                                    className="px-[0px] py-0 w-[161px]"
+                                    variant="solid"
+                                    color="red-600"
+                                    size="md"
+                                    onClick={() => setIsOpen(true)}
+                                >
+                                    ბარათის წაშლა
+                                </Button>
+                            </div>
                             <Button
-                                className="mr-2 mb-1 mb-[-15px]"
-                                // variant="solid"
-                                color="yellow-600"
-                                onClick={() => setChangeIsOpen(true)}
-                            >
-                                ბარათის შეცვლა
-                            </Button>
-                            <Button
-                                className="mr-2 mb-2"
+                                className="mb-2 mt-[-15px] max-w-[97%]"
                                 variant="solid"
-                                color="red-600"
-                                onClick={() => setIsOpen(true)}
+                                color="orange-600"
+                                onClick={() => setPause(true)}
                             >
-                                ბარათის წაშლა
+                                დაპაუზება
                             </Button>
                         </>
                     )}

@@ -65,6 +65,29 @@ export async function apiDelete({data, customerID}) {
     })
 }
 
+export const updatePauseCustomer = async (token, id, countStopDays) => {
+    try {
+        const response = await fetch(`${apiPrefix}/customers/pause/${id}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({countStopDays})
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Error updating pause customer');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
 // --------------------
 
 export async function apiGetCrmCustomersStatistic(params) {
