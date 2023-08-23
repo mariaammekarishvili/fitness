@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { Card, Avatar } from 'components/ui'
+import React, { useEffect, useState } from 'react'
+import { Card, Avatar, Button } from 'components/ui'
 import { MediaSkeleton, Loading } from 'components/shared'
 import { getCustomerStatistic } from '../store/dataSlice'
-import {
-    HiOutlineUserGroup,
-} from 'react-icons/hi'
+import { HiOutlineUserGroup } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import NumberFormat from 'react-number-format'
+import { TurniketCodePopup } from 'views/crm/CustomerDetail/components/TurniketCodePopup'
+import AddUnlimitedCard from './AddUnlimitedCard'
 
 const StatisticCard = (props) => {
     const { icon, avatarClass, label, value, growthRate, loading } = props
@@ -52,10 +52,9 @@ const StatisticCard = (props) => {
     )
 }
 
-const CustomerStatistic = ({type}) => {
+const CustomerStatistic = ({ type }) => {
     const dispatch = useDispatch()
 
-    
     const data = useSelector((state) => state.crmCustomers.data.customerList)
 
     const statisticData = useSelector(
@@ -64,19 +63,34 @@ const CustomerStatistic = ({type}) => {
     const loading = useSelector(
         (state) => state.crmCustomers.data.statisticLoading
     )
- 
+
+    const [cardPopup, setCardPopup] = useState(false)
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
-            <StatisticCard
-                icon={<HiOutlineUserGroup />}
-                avatarClass="!bg-indigo-600"
-                label="რაოდენობა"
-                value={data?.length}
-                growthRate={statisticData?.totalCustomers?.growShrink}
-                loading={!data}
+        <>
+            <AddUnlimitedCard
+                changeIsOpen={cardPopup}
+                setChangeIsOpen={setCardPopup}
             />
-            {/* <StatisticCard
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
+                <StatisticCard
+                    icon={<HiOutlineUserGroup />}
+                    avatarClass="!bg-indigo-600"
+                    label="რაოდენობა"
+                    value={data?.length}
+                    growthRate={statisticData?.totalCustomers?.growShrink}
+                    loading={!data}
+                />
+                <div></div>
+                <Button
+                    onClick={() => setCardPopup(true)}
+                    color="green-600"
+                    variant="solid"
+                    className="max-w-[278px] ml-[auto]"
+                >
+                    ულიმიტო ბარათის დამატება
+                </Button>
+                {/* <StatisticCard
                 icon={<HiOutlineUsers />}
                 avatarClass="!bg-blue-500"
                 label="Active Customers"
@@ -92,7 +106,8 @@ const CustomerStatistic = ({type}) => {
                 growthRate={statisticData?.newCustomers?.growShrink}
                 loading={loading}
             /> */}
-        </div>
+            </div>
+        </>
     )
 }
 

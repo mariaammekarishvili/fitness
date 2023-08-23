@@ -87,6 +87,28 @@ export const updatePauseCustomer = async (token, id, countStopDays) => {
     }
 };
 
+export const addUnlimitedCard = async (token, id) => {
+    try {
+        const response = await fetch(`${apiPrefix}/sales/addCards/${id}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify()
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Error updating pause customer');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 
 // --------------------
 
