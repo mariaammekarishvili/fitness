@@ -5,10 +5,12 @@ import { HiCalendar, HiCash } from 'react-icons/hi'
 import SubmitPopup from './SubmitPopup'
 import { useState } from 'react'
 import { updateFixVisit } from 'services/Sales'
+import { ChangeDatePopup } from './ChangeDatePopup'
 
 const AbonimentsCard = ({ item, token }) => {
     const [visitPopup, setVisitPopup] = useState(false)
     const [feedback, setFeedback] = useState('')
+    const [datePopup, setDatesPopup] = useState(false)
 
     const salesID = item?.salesID
 
@@ -40,9 +42,17 @@ const AbonimentsCard = ({ item, token }) => {
                 SubmitFunction={handleUpdateClick}
                 feedback={feedback}
             />
+            <ChangeDatePopup
+                changeIsOpen={datePopup}
+                setChangeIsOpen={setDatesPopup}
+                id={salesID}
+                token={token}
+                oldStartDate={item?.startDate}
+                oldEndDate={item?.endDate}
+            />
             <Card
                 className={
-                     item?.aboniment?.isActive
+                    item?.aboniment?.isActive
                         ? 'bg-[#ECFDF5] my-card'
                         : 'bg-[#FFF7ED] my-card'
                 }
@@ -88,6 +98,16 @@ const AbonimentsCard = ({ item, token }) => {
                             ))}{' '}
                         </div>
                     </div>
+                    <div className='mb-[1px]'>დაწყების თარიღი: 
+                    {item?.endDate != null ? dayjs(item?.startDate).format(
+                            'MMMM DD YYYY'
+                        ) : ' არ არის მითითებული'}
+                    </div>
+                    <div>დასრულების თარიღი:
+                    {item?.endDate != null ? dayjs(item?.endDate).format(
+                            'MMMM DD YYYY'
+                        ) : ' არ არის მითითებული'}
+                    </div>
                     <div />
                 </div>
                 <div>
@@ -116,7 +136,7 @@ const AbonimentsCard = ({ item, token }) => {
                         <Button
                             variant="twoTone"
                             color="yellow-600"
-                            onClick={null}
+                            onClick={() => setDatesPopup(true)}
                             size="sm"
                             className="w-[49%]"
                         >

@@ -217,7 +217,7 @@ const CustomerProfile = ({ item = {}, isCustomer }) => {
                             <Button
                                 className="mb-2 mt-[-15px] max-w-[97%]"
                                 variant="solid"
-                                color="orange-600"
+                                color="gray-500"
                                 onClick={() => setPause(true)}
                             >
                                 დაპაუზება

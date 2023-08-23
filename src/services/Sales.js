@@ -72,6 +72,28 @@ export const updateFixVisit = async (token, salesID) => {
     }
 };
 
+export const updateSalesDate = async (token, salesID, data) => {
+    try {
+        const response = await fetch(`${apiPrefix}/sales/updateSalesDate/${salesID}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Error updating fix visit');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 
 export const filterByDate = async ({ startDate, endDate, userId},token) => {
     try {
