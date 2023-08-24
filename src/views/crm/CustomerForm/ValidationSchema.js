@@ -9,11 +9,13 @@ export const ValidationSchemaCustomer = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+    idCard: Yup.string()
+        .min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     email: Yup.string().email('მეილის ფორმატი არასწორია'),
-    mobile: Yup.string().max(12, ('ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს'))
+    mobile: Yup.string()
+        .max(12, 'ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს')
         .matches(/^[0-9]{9}$/, 'შეიყვანეთ მხოლოდ ციფრები')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
@@ -23,10 +25,10 @@ export const ValidationSchemaCustomer = Yup.object().shape({
     birthday: Yup.date()
         .transform((value, originalValue) => {
             if (originalValue instanceof Date) {
-                return originalValue;
+                return originalValue
             }
-            const date = new Date(originalValue);
-            return isNaN(date) ? undefined : date;
+            const date = new Date(originalValue)
+            return isNaN(date) ? undefined : date
         })
         .typeError('  ფორმატი არასწორია')
         .required('ინფორმაციის შეყვანა სავალდებულოა')
@@ -37,8 +39,11 @@ export const ValidationSchemaCustomer = Yup.object().shape({
     status: Yup.string()
         .oneOf(['silver', 'gold', 'platinium'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    turniketCode: Yup.string()
+        .min(7, 'ინფორმაცია ძალიან მცირეა!')
+        .max(20, 'ინფორმაცია ზედმეტად დიდია')
+        .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
-
 
 export const ValidationSchemaTrainer = Yup.object().shape({
     firstname: Yup.string()
@@ -49,10 +54,12 @@ export const ValidationSchemaTrainer = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+    idCard: Yup.string()
+        .min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    mobile: Yup.string().max(12, ('ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს'))
+    mobile: Yup.string()
+        .max(12, 'ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს')
         .matches(/^[0-9]{9}$/, 'შეიყვანეთ მხოლოდ ციფრები')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
@@ -62,10 +69,10 @@ export const ValidationSchemaTrainer = Yup.object().shape({
     birthday: Yup.date()
         .transform((value, originalValue) => {
             if (originalValue instanceof Date) {
-                return originalValue;
+                return originalValue
             }
-            const date = new Date(originalValue);
-            return isNaN(date) ? undefined : date;
+            const date = new Date(originalValue)
+            return isNaN(date) ? undefined : date
         })
         .typeError('  ფორმატი არასწორია')
         .required('ინფორმაციის შეყვანა სავალდებულოა')
@@ -73,7 +80,8 @@ export const ValidationSchemaTrainer = Yup.object().shape({
     gander: Yup.string()
         .oneOf(['male', 'female'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    price: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
@@ -87,10 +95,12 @@ export const ValidationSchemaUser = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+    idCard: Yup.string()
+        .min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    mobile: Yup.string().max(12, ('ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს'))
+    mobile: Yup.string()
+        .max(12, 'ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს')
         .matches(/^[0-9]{9}$/, 'შეიყვანეთ მხოლოდ ციფრები')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     email: Yup.string().email('მეილის ფორმატი არასწორია'),
@@ -101,10 +111,10 @@ export const ValidationSchemaUser = Yup.object().shape({
     birthday: Yup.date()
         .transform((value, originalValue) => {
             if (originalValue instanceof Date) {
-                return originalValue;
+                return originalValue
             }
-            const date = new Date(originalValue);
-            return isNaN(date) ? undefined : date;
+            const date = new Date(originalValue)
+            return isNaN(date) ? undefined : date
         })
         .typeError('ფორმატი არასწორია')
         .required('ინფორმაციის შეყვანა სავალდებულოა')
@@ -115,8 +125,9 @@ export const ValidationSchemaUser = Yup.object().shape({
     role: Yup.string()
         .oneOf(['basic', 'admin'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    password: Yup.string().min(6, 'ინფორმაცია ძალიან მცირეა')
-        .required('პაროლის დაყენება სავალდებულოა')
+    password: Yup.string()
+        .min(6, 'ინფორმაცია ძალიან მცირეა')
+        .required('პაროლის დაყენება სავალდებულოა'),
 })
 
 export const ValidationSchemaAboniment = Yup.object().shape({
@@ -124,13 +135,16 @@ export const ValidationSchemaAboniment = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    price: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    maxEntries: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    maxEntries: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    countStartsDays: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    countStartsDays: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
@@ -140,14 +154,20 @@ export const ValidationSchemaWorkout = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    price: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    price: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    capacity: Yup.string().min(1, 'ინფორმაცია ძალიან მცირეა')
+    capacity: Yup.string()
+        .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    timeOfTheDay: Yup.string().required('Time is required').matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'ფორმატი არასწორია, (მაგალითად: 22:00)'),
-    weekDays: Yup.array()
-        .min(1, 'მონიშნეთ მინიმუმ 1 დღე'),
+    timeOfTheDay: Yup.string()
+        .required('Time is required')
+        .matches(
+            /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+            'ფორმატი არასწორია, (მაგალითად: 22:00)'
+        ),
+    weekDays: Yup.array().min(1, 'მონიშნეთ მინიმუმ 1 დღე'),
     // .required('ერთი დღე მაინც უნდა იყოს მონიშნული'),
 })

@@ -10,14 +10,15 @@ import {
     HiCash,
     HiKey,
     HiEye,
-    HiEyeOff
+    HiEyeOff,
+    HiPencilAlt,
 } from 'react-icons/hi'
 import { Field } from 'formik'
 
 const PersonalInfoForm = (props) => {
     const { touched, errors, type } = props
 
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false)
 
     return (
         <>
@@ -46,7 +47,6 @@ const PersonalInfoForm = (props) => {
                     name="lastname"
                     placeholder="გვარი"
                     component={Input}
-
                 />
             </FormItem>
             <FormItem
@@ -61,10 +61,23 @@ const PersonalInfoForm = (props) => {
                     placeholder="პირადი ნომერი"
                     component={Input}
                     prefix={<HiIdentification className="text-xl" />}
-
                 />
             </FormItem>
-            {type === 'customer' &&
+            <FormItem
+                label="ბარათის ID"
+                invalid={errors.turniketCode && touched.turniketCode}
+                errorMessage={errors.turniketCode}
+            >
+                <Field
+                    type="string"
+                    autoComplete="off"
+                    name="turniketCode"
+                    placeholder="შეიყვანეთ კოდი"
+                    component={Input}
+                    prefix={<HiPencilAlt className="text-xl" />}
+                />
+            </FormItem>
+            {type === 'customer' && (
                 <FormItem
                     label="სტატუსი"
                     invalid={errors.status && touched.status}
@@ -73,31 +86,33 @@ const PersonalInfoForm = (props) => {
                     <Field
                         type="radio"
                         name="status"
-                        id='silver'
-                        value='silver'
+                        id="silver"
+                        value="silver"
                         component={Radio}
                         check={'true'}
                     />
-                    <label style={{ margin: '5px 20px 5px 5px' }} >ვერცხლი</label>
+                    <label style={{ margin: '5px 20px 5px 5px' }}>
+                        ვერცხლი
+                    </label>
                     <Field
                         type="radio"
                         name="status"
-                        id='gold'
-                        value='gold'
+                        id="gold"
+                        value="gold"
                         component={Radio}
                     />
                     <label style={{ margin: '5px 20px 5px 5px' }}>ოქრო</label>
                     <Field
                         type="radio"
                         name="status"
-                        id='platinium'
-                        value='platinium'
+                        id="platinium"
+                        value="platinium"
                         component={Radio}
                     />
                     <label style={{ marginLeft: '5px' }}>პლატინა</label>
                 </FormItem>
-            }
-            {!(type === 'trainer') &&
+            )}
+            {!(type === 'trainer') && (
                 <FormItem
                     label="Email"
                     invalid={errors.email && touched.email}
@@ -110,33 +125,38 @@ const PersonalInfoForm = (props) => {
                         placeholder="Email"
                         component={Input}
                         prefix={<HiMail className="text-xl" />}
-
                     />
                 </FormItem>
-            }
-            {type === 'user' && <FormItem
-                label="პაროლი"
-                invalid={errors.email && touched.email}
-                errorMessage={errors.email}
-            >
-                <div className="flex items-center relative">
-                    <Field
-                        type={showPassword ? 'text' : 'password'}
-                        autoComplete="off"
-                        name="password"
-                        placeholder="შეიყვანეთ პაროლი"
-                        component={Input}
-                        prefix={<HiKey className="text-xl" />}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="ml-2 focus:outline-none absolute right-3"
-                    >
-                        {showPassword ? <HiEyeOff className="text-xl" /> : <HiEye className="text-xl" />}
-                    </button>
-                </div>
-            </FormItem>}
+            )}
+            {type === 'user' && (
+                <FormItem
+                    label="პაროლი"
+                    invalid={errors.email && touched.email}
+                    errorMessage={errors.email}
+                >
+                    <div className="flex items-center relative">
+                        <Field
+                            type={showPassword ? 'text' : 'password'}
+                            autoComplete="off"
+                            name="password"
+                            placeholder="შეიყვანეთ პაროლი"
+                            component={Input}
+                            prefix={<HiKey className="text-xl" />}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="ml-2 focus:outline-none absolute right-3"
+                        >
+                            {showPassword ? (
+                                <HiEyeOff className="text-xl" />
+                            ) : (
+                                <HiEye className="text-xl" />
+                            )}
+                        </button>
+                    </div>
+                </FormItem>
+            )}
             <FormItem
                 label="ტელეფონის ნომერი"
                 invalid={errors.mobile && touched.mobile}
@@ -149,7 +169,6 @@ const PersonalInfoForm = (props) => {
                     placeholder="ტელეფონის ნომერი"
                     component={Input}
                     prefix={<HiPhone className="text-xl" />}
-
                 />
             </FormItem>
             {type === 'trainer' && (
@@ -165,7 +184,6 @@ const PersonalInfoForm = (props) => {
                         placeholder="შეიყვანეთ თანხა"
                         component={Input}
                         prefix={<HiCash className="text-xl" />}
-
                     />
                 </FormItem>
             )}
@@ -181,7 +199,6 @@ const PersonalInfoForm = (props) => {
                     placeholder="მისამართი"
                     component={Input}
                     prefix={<HiLocationMarker className="text-xl" />}
-
                 />
             </FormItem>
             <FormItem
@@ -195,7 +212,6 @@ const PersonalInfoForm = (props) => {
                     name="birthday"
                     component={Input}
                     prefix={<HiCalendar className="text-xl" />}
-
                 />
             </FormItem>
             <FormItem
@@ -206,21 +222,20 @@ const PersonalInfoForm = (props) => {
                 <Field
                     type="radio"
                     name="gander"
-                    id='male'
-                    value='male'
+                    id="male"
+                    value="male"
                     check={'true'}
                     component={Radio}
                 />
-                <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
+                <label style={{ margin: '5px 20px 5px 5px' }}>კაცი</label>
                 <Field
                     type="radio"
                     name="gander"
-                    id='female'
-                    value='female'
+                    id="female"
+                    value="female"
                     component={Radio}
                 />
                 <label style={{ marginLeft: '5px' }}>ქალი</label>
-
             </FormItem>
         </>
     )

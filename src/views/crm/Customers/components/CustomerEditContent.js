@@ -25,7 +25,8 @@ const CustomerEditContent = forwardRef((_, ref) => {
             address,
             birthday,
             gander,
-            status
+            status,
+            turniketCode
         } = values
 
         const basicInfo = {
@@ -37,7 +38,8 @@ const CustomerEditContent = forwardRef((_, ref) => {
             address,
             birthday,
             gander,
-            status
+            status,
+            turniketCode
         }
         const personalInfo = {}
         let newData = cloneDeep(data)

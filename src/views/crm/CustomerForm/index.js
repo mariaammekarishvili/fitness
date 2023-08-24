@@ -32,7 +32,8 @@ const CustomerForm = forwardRef((props, ref) => {
         countStartsDays: customer.countStartsDays || 0,
         weekDays: customer.weekDays || [],
         timeOfTheDay: customer.timeOfTheDay || '',
-        capacity: customer.capacity || ''
+        capacity: customer.capacity || '',
+        turniketCode: customer.turniketCode || ''
     }
 
     const [validationSchema, setValidationSchema] = useState()

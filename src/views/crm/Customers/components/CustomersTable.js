@@ -88,6 +88,10 @@ const columns = [
         accessorKey: 'idCard',
     },
     {
+        header: 'ბარათის ID',
+        accessorKey: 'turniketCode',
+    },
+    {
         header: 'მობილური',
         accessorKey: 'mobile',
         cell: (props) => {

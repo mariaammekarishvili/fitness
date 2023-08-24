@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
     gander: Yup.string()
         .oneOf(['male', 'female', 'non-binary', 'other'])
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-        turniketCode: Yup.string()
+    turniketCode: Yup.string()
         .min(7, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
@@ -79,7 +79,7 @@ const CustomerCreateForm = ({
     }
 
     return (
-        <div className='max-h-[490px] overflow-y-auto'>
+        <div className="max-h-[490px] overflow-y-auto">
             <h3 className="mb-[15px]">ახალი მომხმარებლის დამატება</h3>
             <Formik
                 initialValues={{
@@ -91,7 +91,7 @@ const CustomerCreateForm = ({
                     address: '',
                     birthday: '',
                     gander: 'male',
-                    turniketCode: ''
+                    turniketCode: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
