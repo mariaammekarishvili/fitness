@@ -85,6 +85,10 @@ const columns = [
         },
     },
     {
+        header: 'ბარათის ID',
+        accessorKey: 'customer.turniketCode',
+    },
+    {
         header: 'აბონიმენტი',
         accessorKey: 'aboniment.name',
     },

@@ -14,7 +14,7 @@ export const CostumerPausePopup = ({
     }
 
     const [feedback, setFeedback] = useState('')
-    const [stopDate, setStopDate] = useState()
+    const [stopDate, setStopDate] = useState('')
 
     const handlePauseUpdateClick = async () => {
         try {
@@ -65,7 +65,7 @@ export const CostumerPausePopup = ({
                             შეიყვანეთ დასაპაუზებელი დღეების რაოდენობა
                         </h5>
                         <input
-                            type="number"
+                            type="string"
                             className="border rounded py-2 px-3 focus:outline-none focus:ring w-[90%] focus:border-blue-600"
                             placeholder="შეიყვანეთ რიცხვი"
                             value={stopDate}
