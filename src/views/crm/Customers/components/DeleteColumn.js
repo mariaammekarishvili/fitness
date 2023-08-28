@@ -36,7 +36,7 @@ export const DeleteColumn = ({ row }) => {
 
     const userRole = useSelector((state) => state.auth.user.authority)
 
-    if(userRole[0] === 'user') return
+    // if(userRole[0] === 'user') return
 
     return (
         <>
