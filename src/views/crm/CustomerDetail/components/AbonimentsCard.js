@@ -67,7 +67,7 @@ const AbonimentsCard = ({ item, token }) => {
                     <Tag
                         className="mr-2 rtl:ml-2 mb-2"
                         prefixClass={
-                            item?.aboniment?.isActive
+                            item?.isActive
                                 ? 'bg-green-500'
                                 : 'bg-red-500'
                         }
@@ -122,7 +122,7 @@ const AbonimentsCard = ({ item, token }) => {
                         </div>
                     </div>
                     <div className="mt-[20px] flex justify-between">
-                        {item?.aboniment?.isActive && (
+                        {item?.isActive && (
                             <Button
                                 color="green-600"
                                 variant="solid"

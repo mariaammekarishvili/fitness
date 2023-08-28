@@ -87,6 +87,14 @@ const columns = [
     {
         header: 'ბარათის ID',
         accessorKey: 'customer.turniketCode',
+        cell: (props) => {
+            const row = props.row.original
+            return (
+                <div className="flex items-center">
+                    {row?.customer?.turniketCode || row?.turniketCode} 
+                </div>
+            )
+        },
     },
     {
         header: 'აბონიმენტი',
