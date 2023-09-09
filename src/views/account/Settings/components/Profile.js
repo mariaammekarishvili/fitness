@@ -5,7 +5,7 @@ import {
     Notification,
     toast,
     FormContainer,
-    Radio
+    Radio,
 } from 'components/ui'
 import FormDesription from './FormDesription'
 import FormRow from './FormRow'
@@ -34,11 +34,13 @@ const validationSchema = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+    idCard: Yup.string()
+        .min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     email: Yup.string().email('მეილის ფორმატი არასწორია'),
-    mobile: Yup.string().max(12, ('ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს'))
+    mobile: Yup.string()
+        .max(12, 'ციფრების რაოდენობა არ უნდა აღემატებოდეს 12-ს')
         .matches(/^[0-9]{9}$/, 'შეიყვანეთ მხოლოდ ციფრები')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
@@ -48,10 +50,10 @@ const validationSchema = Yup.object().shape({
     birthday: Yup.date()
         .transform((value, originalValue) => {
             if (originalValue instanceof Date) {
-                return originalValue;
+                return originalValue
             }
-            const date = new Date(originalValue);
-            return isNaN(date) ? undefined : date;
+            const date = new Date(originalValue)
+            return isNaN(date) ? undefined : date
         })
         .typeError('  ფორმატი არასწორია')
         .required('ინფორმაციის შეყვანა სავალდებულოა')
@@ -67,9 +69,12 @@ const Profile = ({ data, userId }) => {
     const onFormSubmit = (values, setSubmitting) => {
         dispatch(putCustomer({ data: values, customerID: userId }))
 
-        toast.push(<Notification title={'მონაცემები განახლდა'} type="success" />, {
-            placement: 'top-center',
-        })
+        toast.push(
+            <Notification title={'მონაცემები განახლდა'} type="success" />,
+            {
+                placement: 'top-center',
+            }
+        )
         setSubmitting(false)
     }
     return (
@@ -104,10 +109,12 @@ const Profile = ({ data, userId }) => {
                                     name="firstname"
                                     placeholder="სახელი"
                                     component={Input}
-                                    prefix={<HiUserCircle className="text-xl" />}
+                                    prefix={
+                                        <HiUserCircle className="text-xl" />
+                                    }
                                 />
-
-                            </FormRow> <FormRow
+                            </FormRow>{' '}
+                            <FormRow
                                 name="lastname"
                                 label="გვარი"
                                 {...validatorProps}
@@ -118,7 +125,6 @@ const Profile = ({ data, userId }) => {
                                     name="lastname"
                                     placeholder="გვარი"
                                     component={Input}
-
                                 />
                             </FormRow>
                             <FormRow
@@ -132,8 +138,9 @@ const Profile = ({ data, userId }) => {
                                     name="idCard"
                                     placeholder="პირადი ნომერი"
                                     component={Input}
-                                    prefix={<HiIdentification className="text-xl" />}
-
+                                    prefix={
+                                        <HiIdentification className="text-xl" />
+                                    }
                                 />
                             </FormRow>
                             <FormRow
@@ -164,7 +171,6 @@ const Profile = ({ data, userId }) => {
                                     placeholder="ტელეფონის ნომერი"
                                     component={Input}
                                     prefix={<HiPhone className="text-xl" />}
-
                                 />
                             </FormRow>
                             <FormRow
@@ -179,8 +185,9 @@ const Profile = ({ data, userId }) => {
                                     name="address"
                                     placeholder="მისამართი"
                                     component={Input}
-                                    prefix={<HiLocationMarker className="text-xl" />}
-
+                                    prefix={
+                                        <HiLocationMarker className="text-xl" />
+                                    }
                                 />
                             </FormRow>
                             <FormRow
@@ -195,7 +202,6 @@ const Profile = ({ data, userId }) => {
                                     name="birthday"
                                     component={Input}
                                     prefix={<HiCalendar className="text-xl" />}
-
                                 />
                             </FormRow>
                             <FormRow
@@ -207,22 +213,25 @@ const Profile = ({ data, userId }) => {
                                 <Field
                                     type="radio"
                                     name="gander"
-                                    id='male'
-                                    value='male'
+                                    id="male"
+                                    value="male"
                                     check={'true'}
                                     component={Radio}
                                 />
-                                <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
+                                <label style={{ margin: '5px 20px 5px 5px' }}>
+                                    კაცი
+                                </label>
                                 <Field
                                     type="radio"
                                     name="gander"
-                                    id='female'
-                                    value='female'
+                                    id="female"
+                                    value="female"
                                     component={Radio}
                                 />
-                                <label style={{ marginLeft: '5px' }}>ქალი</label>
+                                <label style={{ marginLeft: '5px' }}>
+                                    ქალი
+                                </label>
                             </FormRow>
-
                             <div className="mt-4 ltr:text-right">
                                 <Button
                                     className="ltr:mr-2 rtl:ml-2 px-4 important"
@@ -236,7 +245,9 @@ const Profile = ({ data, userId }) => {
                                     loading={isSubmitting}
                                     type="submit"
                                 >
-                                    {isSubmitting ? 'მიმდინარეობს განახლება' : 'შენახვა'}
+                                    {isSubmitting
+                                        ? 'მიმდინარეობს განახლება'
+                                        : 'შენახვა'}
                                 </Button>
                             </div>
                         </FormContainer>

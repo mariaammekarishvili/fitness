@@ -3,7 +3,8 @@ import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
-import { createNewUser } from 'services/AbonimentService'
+// import { createNewUser } from 'services/AbonimentService'
+import { createNewCard } from 'services/CardService'
 
 import {
     HiUserCircle,
@@ -21,23 +22,23 @@ const validationSchema = Yup.object().shape({
         .min(1, 'ინფორმაცია ძალიან მცირეა')
         .max(8, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    maxEntries: Yup.string()
-        .min(1, 'ინფორმაცია ძალიან მცირეა')
-        .max(8, 'ინფორმაცია ზედმეტად დიდია')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    countStartsDays: Yup.string()
-        .min(1, 'ინფორმაცია ძალიან მცირეა')
-        .max(8, 'ინფორმაცია ზედმეტად დიდია')
-        .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    // maxEntries: Yup.string()
+    //     .min(1, 'ინფორმაცია ძალიან მცირეა')
+    //     .max(8, 'ინფორმაცია ზედმეტად დიდია')
+    //     .required('ინფორმაციის შეყვანა სავალდებულოა'),
+    // countStartsDays: Yup.string()
+    //     .min(1, 'ინფორმაცია ძალიან მცირეა')
+    //     .max(8, 'ინფორმაცია ზედმეტად დიდია')
+    //     .required('ინფორმაციის შეყვანა სავალდებულოა'),
 })
 
 const CreateForm = ({ setMessage, message }) => {
     const companyId = useSelector((state) => state.auth.user.companyId)
     const token = useSelector((state) => state.auth.session.token)
 
-    async function handleCreateNewCustomer(data) {
+    async function handleCreateNewCard(data) {
         try {
-            const response = await createNewUser({ data, companyId }, token)
+            const response = await createNewCard({ data, companyId }, token)
             setMessage('success')
         } catch (error) {
             setMessage(error?.message)
@@ -50,13 +51,9 @@ const CreateForm = ({ setMessage, message }) => {
                 initialValues={{
                     name: '',
                     price: 0,
-                    maxEntries: 0,
-                    countStartsDays: 0,
-                    //todo ჩემი დამატებული დროებითია სატესტო
-                    personalDays: 0,
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(value) => handleCreateNewCustomer(value)}
+                onSubmit={(value) => handleCreateNewCard(value)}
             >
                 {({ touched, errors, resetForm }) => (
                     <Form>
@@ -91,11 +88,9 @@ const CreateForm = ({ setMessage, message }) => {
                                     prefix={<HiCash className="text-xl" />}
                                 />
                             </FormItem>
-                            <FormItem
+                            {/* <FormItem
                                 label="ვიზიტების რაოდენობა"
-                                invalid={
-                                    errors.maxEntries && touched.maxEntries
-                                }
+                                invalid={errors.maxEntries && touched.maxEntries}
                                 errorMessage={errors.maxEntries}
                             >
                                 <Field
@@ -104,17 +99,13 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="maxEntries"
                                     placeholder="შეიყვანეთ"
                                     component={Input}
-                                    prefix={
-                                        <HiCollection className="text-xl" />
-                                    }
+                                    prefix={<HiCollection className="text-xl" />}
+
                                 />
-                            </FormItem>
-                            <FormItem
+                            </FormItem> */}
+                            {/* <FormItem
                                 label="საშეღავათო პერიოდი"
-                                invalid={
-                                    errors.countStartsDays &&
-                                    touched.countStartsDays
-                                }
+                                invalid={errors.countStartsDays && touched.countStartsDays}
                                 errorMessage={errors.countStartsDays}
                             >
                                 <Field
@@ -123,30 +114,10 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="countStartsDays"
                                     placeholder="შეიყვანეთ"
                                     component={Input}
-                                    prefix={
-                                        <HiOutlineBell className="text-xl" />
-                                    }
+                                    prefix={<HiOutlineBell className="text-xl" />}
+
                                 />
-                            </FormItem>
-                            {/* todo ჩემი დამატებული სატესტო */}
-                            <FormItem
-                                label="პერსონალური დღეების რაოდენობა"
-                                invalid={
-                                    errors.personalDays && touched.personalDays
-                                }
-                                errorMessage={errors.personalDays}
-                            >
-                                <Field
-                                    type="number"
-                                    autoComplete="off"
-                                    name="personalDays"
-                                    placeholder="შეიყვანეთ"
-                                    component={Input}
-                                    prefix={
-                                        <HiOutlineBell className="text-xl" />
-                                    }
-                                />
-                            </FormItem>
+                            </FormItem> */}
                             <FormItem>
                                 {!message && (
                                     <Button variant="solid" type="submit">

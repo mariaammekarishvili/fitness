@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Input, Button, FormItem, FormContainer, Radio } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
@@ -24,11 +23,13 @@ const validationSchema = Yup.object().shape({
         .min(2, 'ინფორმაცია ძალიან მცირეა!')
         .max(20, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
-    idCard: Yup.string().min(9, 'ინფორმაცია ძალიან მცირეა')
+    idCard: Yup.string()
+        .min(9, 'ინფორმაცია ძალიან მცირეა')
         .max(16, 'ინფორმაცია ზედმეტად დიდია')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     email: Yup.string().email('Invalid email').required('Email Required'),
-    mobile: Yup.string().max(12, ('too much!'))
+    mobile: Yup.string()
+        .max(12, 'too much!')
         .matches(/^[0-9]{9}$/, 'Mobile number must be exactly 9 digits')
         .required('ინფორმაციის შეყვანა სავალდებულოა'),
     address: Yup.string()
@@ -38,10 +39,10 @@ const validationSchema = Yup.object().shape({
     birthday: Yup.date()
         .transform((value, originalValue) => {
             if (originalValue instanceof Date) {
-                return originalValue;
+                return originalValue
             }
-            const date = new Date(originalValue);
-            return isNaN(date) ? undefined : date;
+            const date = new Date(originalValue)
+            return isNaN(date) ? undefined : date
         })
         .typeError('Invalid date')
         .required('ინფორმაციის შეყვანა სავალდებულოა')
@@ -52,12 +53,12 @@ const validationSchema = Yup.object().shape({
 })
 
 const CreateForm = ({ setMessage, message }) => {
-    const companyId = useSelector(state => state.auth.user.companyId)
+    const companyId = useSelector((state) => state.auth.user.companyId)
     const token = useSelector((state) => state.auth.session.token)
 
     async function handleCreateNewCustomer(data) {
         try {
-            const response = await createNewCustomer({ data, companyId }, token);
+            const response = await createNewCustomer({ data, companyId }, token)
             setMessage('success')
         } catch (error) {
             setMessage(error?.message)
@@ -69,6 +70,7 @@ const CreateForm = ({ setMessage, message }) => {
             <Formik
                 initialValues={{
                     firstname: '',
+                    // nickname: '',
                     lastname: '',
                     idCard: '',
                     email: '',
@@ -94,9 +96,27 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="firstname"
                                     placeholder="სახელი"
                                     component={Input}
-                                    prefix={<HiUserCircle className="text-xl" />}
+                                    prefix={
+                                        <HiUserCircle className="text-xl" />
+                                    }
                                 />
                             </FormItem>
+                            {/* <FormItem
+                                label="კლიჩკა"
+                                invalid={errors.nickname && touched.nickname}
+                                errorMessage={errors.nickname}
+                            >
+                                <Field
+                                    type="text"
+                                    autoComplete="off"
+                                    name="nickname"
+                                    placeholder="კლიჩკა"
+                                    component={Input}
+                                    prefix={
+                                        <HiUserCircle className="text-xl" />
+                                    }
+                                />
+                            </FormItem> */}
                             <FormItem
                                 label="გვარი"
                                 invalid={errors.lastname && touched.lastname}
@@ -108,7 +128,6 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="lastname"
                                     placeholder="გავრი"
                                     component={Input}
-
                                 />
                             </FormItem>
                             <FormItem
@@ -122,8 +141,9 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="idCard"
                                     placeholder="პირადი ნომერი"
                                     component={Input}
-                                    prefix={<HiIdentification className="text-xl" />}
-
+                                    prefix={
+                                        <HiIdentification className="text-xl" />
+                                    }
                                 />
                             </FormItem>
 
@@ -139,7 +159,6 @@ const CreateForm = ({ setMessage, message }) => {
                                     placeholder="Email"
                                     component={Input}
                                     prefix={<HiMail className="text-xl" />}
-
                                 />
                             </FormItem>
                             <FormItem
@@ -154,7 +173,6 @@ const CreateForm = ({ setMessage, message }) => {
                                     placeholder="ტელეფონის ნომერი"
                                     component={Input}
                                     prefix={<HiPhone className="text-xl" />}
-
                                 />
                             </FormItem>
                             <FormItem
@@ -168,8 +186,9 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="address"
                                     placeholder="მისამართი"
                                     component={Input}
-                                    prefix={<HiLocationMarker className="text-xl" />}
-
+                                    prefix={
+                                        <HiLocationMarker className="text-xl" />
+                                    }
                                 />
                             </FormItem>
                             <FormItem
@@ -183,7 +202,6 @@ const CreateForm = ({ setMessage, message }) => {
                                     name="birthday"
                                     component={Input}
                                     prefix={<HiCalendar className="text-xl" />}
-
                                 />
                             </FormItem>
                             <FormItem
@@ -194,30 +212,33 @@ const CreateForm = ({ setMessage, message }) => {
                                 <Field
                                     type="radio"
                                     name="gander"
-                                    id='male'
-                                    value='male'
+                                    id="male"
+                                    value="male"
                                     check={'true'}
                                     component={Radio}
                                     placeholder={'xe'}
                                 />
-                                <label style={{ margin: '5px 20px 5px 5px' }} >კაცი</label>
+                                <label style={{ margin: '5px 20px 5px 5px' }}>
+                                    კაცი
+                                </label>
                                 <Field
                                     type="radio"
                                     name="gander"
-                                    id='female'
-                                    value='female'
+                                    id="female"
+                                    value="female"
                                     component={Radio}
                                 />
-                                <label style={{ marginLeft: '5px' }}>ქალი</label>
-
+                                <label style={{ marginLeft: '5px' }}>
+                                    ქალი
+                                </label>
                             </FormItem>
 
                             <FormItem>
-                                {!message &&
+                                {!message && (
                                     <Button variant="solid" type="submit">
                                         Submit
                                     </Button>
-                                }
+                                )}
                             </FormItem>
                         </FormContainer>
                     </Form>
@@ -228,4 +249,3 @@ const CreateForm = ({ setMessage, message }) => {
 }
 
 export default CreateForm
-

@@ -4,10 +4,7 @@ import { HiOutlinePencil } from 'react-icons/hi'
 import { DataTable } from 'components/shared'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTableData } from '../store/dataSlice'
-import {
-    setSelectedCustomer,
-    setDrawerOpen,
-} from '../store/stateSlice'
+import { setSelectedCustomer, setDrawerOpen } from '../store/stateSlice'
 import useThemeClass from 'utils/hooks/useThemeClass'
 import CustomerEditDialog from './UserEditDialog'
 import { Link } from 'react-router-dom'
@@ -23,11 +20,16 @@ const ActionColumn = ({ row }) => {
         dispatch(setSelectedCustomer(row))
     }
     const userRole = useSelector((state) => state.auth.user.authority)
-    
-    if(userRole[0] === 'user') return
+
+    if (userRole[0] === 'user') return
 
     return (
-        <Button className={`mb-[7px]`} size={'sm'} onClick={onEdit} icon={<HiOutlinePencil />}>
+        <Button
+            className={`mb-[7px]`}
+            size={'sm'}
+            onClick={onEdit}
+            icon={<HiOutlinePencil />}
+        >
             <span>რედაქტირება</span>
         </Button>
     )
@@ -38,7 +40,13 @@ const NameColumn = ({ row }) => {
 
     return (
         <div className="flex items-center">
-            <Avatar size={28} shape="circle" src={'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'} />
+            <Avatar
+                size={28}
+                shape="circle"
+                src={
+                    'https://img.myloview.com/stickers/default-avatar-profile-icon-vector-social-media-user-photo-700-205577532.jpg'
+                }
+            />
             <Link
                 className={`hover:${textTheme} ml-2 rtl:mr-2 font-semibold`}
                 to={`/app/crm/customer-details?id=${row.id}`}
@@ -50,27 +58,36 @@ const NameColumn = ({ row }) => {
 }
 
 const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = String(phoneNumber)?.replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{3})$/);
+    const cleaned = String(phoneNumber)?.replace(/\D/g, '')
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{3})$/)
     if (match) {
-        return `(${match[1]}) ${match[2]} - ${match[3]}`;
+        return `(${match[1]}) ${match[2]} - ${match[3]}`
     }
-    return phoneNumber;
-};
+    return phoneNumber
+}
 
 const formatDate = (dateString) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
     const formattedDate = date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
-    });
-    return formattedDate;
-};
+        day: 'numeric',
+    })
+    return formattedDate
+}
 
 const columns = [
     {
         header: 'სახელი',
+        accessorKey: 'firstName',
+        cell: (props) => {
+            const row = props.row.original
+            return <NameColumn row={row} />
+        },
+    },
+    //  todo თეიბლზე რამე ველის ჩამატება
+    {
+        header: 'ნიკნეიმი',
         accessorKey: 'firstName',
         cell: (props) => {
             const row = props.row.original
@@ -82,11 +99,7 @@ const columns = [
         accessorKey: 'price',
         cell: (props) => {
             const row = props.row.original
-            return (
-                <div className="flex items-center">
-                    {row.price}₾ 
-                </div>
-            )
+            return <div className="flex items-center">{row.price}₾</div>
         },
     },
     {
@@ -94,11 +107,7 @@ const columns = [
         accessorKey: 'maxEntries',
         cell: (props) => {
             const row = props.row.original
-            return (
-                <div className="flex items-center">
-                    {row.maxEntries}
-                </div>
-            )
+            return <div className="flex items-center">{row.maxEntries}</div>
         },
     },
     {

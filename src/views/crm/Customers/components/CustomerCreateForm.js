@@ -92,6 +92,7 @@ const CustomerCreateForm = ({
                     birthday: '',
                     gander: 'male',
                     turniketCode: '',
+                    // nickname: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(value) => handleCreateNewCustomer(value)}
@@ -115,6 +116,22 @@ const CustomerCreateForm = ({
                                     }
                                 />
                             </FormItem>
+                            {/* <FormItem
+                                label="ნიკნეიმი"
+                                invalid={errors.nickname && touched.nickname}
+                                errorMessage={errors.nickname}
+                            >
+                                <Field
+                                    type="text"
+                                    autoComplete="off"
+                                    name="nickname"
+                                    placeholder="ნიკნეიმი"
+                                    component={Input}
+                                    prefix={
+                                        <HiUserCircle className="text-xl" />
+                                    }
+                                />
+                            </FormItem> */}
                             <FormItem
                                 label="გვარი"
                                 invalid={errors.lastname && touched.lastname}
